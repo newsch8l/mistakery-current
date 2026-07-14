@@ -1477,7 +1477,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     &quot;founder_high&quot;: { &quot;type&quot;: &quot;loss&quot;, &quot;title&quot;: &quot;MESSIAH MODE&quot;, &quot;text&quot;: &quot;You deleted the product and announced that purchasing itself had been disrupted.&quot; }
   }
 };
-  var translations={};
+  var translations={cards:{},crises:{},endings:{}};
   var keys=[&#x27;cash&#x27;,&#x27;team&#x27;,&#x27;customers&#x27;,&#x27;founder&#x27;];
   var ru={cash:&#x27;Деньги&#x27;,team:&#x27;Команда&#x27;,customers:&#x27;Клиенты&#x27;,founder:&#x27;Фаундер&#x27;};
   var packageA=[&#x27;PAYROLL_RESTRICTED_AI_SEED&#x27;,&#x27;PAYROLL_RESTRICTED_AI_CALLBACK&#x27;,&#x27;DEV_HOSTAGE_SEED&#x27;,&#x27;DEV_HOSTAGE_CALLBACK&#x27;,&#x27;MOM_INVESTOR_SEED&#x27;,&#x27;MOM_INVESTOR_CALLBACK&#x27;,&#x27;COMA_SEED&#x27;,&#x27;COMA_CALLBACK_AUTHORIZED&#x27;,&#x27;COMA_CALLBACK_BLOCKED&#x27;,&#x27;MOM_FLYERS&#x27;];
@@ -1765,7 +1765,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     if(c.kind===&#x27;pressure&#x27;)return c.callbackOnly?&#x27;отложенное последствие конкретного решения&#x27;:&#x27;случайная проблема · равный шанс среди подходящих проблем&#x27;;
     return category(c)+&#x27; · &#x27;+role(c)+(c.weight?&#x27; · weight &#x27;+c.weight:&#x27;&#x27;);
   }
-  function translated(c){return translations[c.id]||null;}
+  function translated(c){return translations.cards&amp;&amp;translations.cards[c.id]||null;}
   function translationMessageHtml(c){
     if(!showTranslation)return &#x27;&#x27;;
     var t=translated(c);
@@ -1778,6 +1778,25 @@ html&gt;body{padding:0}&lt;/style&gt;
     var t=translated(c);
     if(!t||!t.approved)return &#x27;&#x27;;
     return &#x27;&lt;span class=&quot;&#x27;+className+&#x27;&quot; data-translation=&quot;&#x27;+side+&#x27;&quot; lang=&quot;ru&quot;&gt;&#x27;+esc(t.choices[side].label)+&#x27;&lt;/span&gt;&#x27;;
+  }
+  function crisisTranslation(id){return translations.crises&amp;&amp;translations.crises[id]||null;}
+  function crisisTranslationMessageHtml(id){
+    if(!showTranslation)return &#x27;&#x27;;
+    var t=crisisTranslation(id);
+    if(!t)return &#x27;&#x27;;
+    return &#x27;&lt;div class=&quot;ms-translation&quot; data-translation=&quot;message&quot; lang=&quot;ru&quot;&gt;&#x27;+esc(t.text)+&#x27;&lt;/div&gt;&#x27;;
+  }
+  function crisisTranslationChoiceHtml(id,side,className){
+    if(!showTranslation)return &#x27;&#x27;;
+    var t=crisisTranslation(id);
+    if(!t||!t[side])return &#x27;&#x27;;
+    return &#x27;&lt;span class=&quot;&#x27;+className+&#x27;&quot; data-translation=&quot;&#x27;+side+&#x27;&quot; lang=&quot;ru&quot;&gt;&#x27;+esc(t[side].label)+&#x27;&lt;/span&gt;&#x27;;
+  }
+  function endingTranslationHtml(id){
+    if(!showTranslation)return &#x27;&#x27;;
+    var t=translations.endings&amp;&amp;translations.endings[id];
+    if(!t)return &#x27;&#x27;;
+    return &#x27;&lt;div class=&quot;ms-translation&quot; lang=&quot;ru&quot;&gt;&lt;strong data-translation=&quot;title&quot;&gt;&#x27;+esc(t.title)+&#x27;&lt;/strong&gt;&lt;div data-translation=&quot;message&quot;&gt;&#x27;+esc(t.text)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;;
   }
   function choiceHtml(c,side){
     var ch=c.choices[side];
@@ -1797,11 +1816,13 @@ html&gt;body{padding:0}&lt;/style&gt;
     var n=allNodes.find(function(x){return x.id===selectedId;})||allNodes[0];
     if(n.kind===&#x27;crisis&#x27;){
       var s=deck.sources[n.source]||{};
-      box.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;кризис&lt;/span&gt; &lt;strong&gt;&#x27;+esc(n.id.replace(&#x27;crisis:&#x27;,&#x27;&#x27;))+&#x27;&lt;/strong&gt; · &#x27;+esc(s.role+&#x27; &#x27;+s.name)+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(n.text)+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-choice-grid&quot;&gt;&lt;div class=&quot;ms-choice left&quot;&gt;&lt;strong&gt;Спасти: &#x27;+esc(n.data.rescueLabel)+&#x27;&lt;/strong&gt;&lt;p&gt;rebound &#x27;+esc(n.data.resource)+&#x27; → &#x27;+esc(n.data.rebound)+&#x27;&lt;/p&gt;&lt;/div&gt;&lt;div class=&quot;ms-choice right&quot;&gt;&lt;strong&gt;Сдаться: &#x27;+esc(n.data.giveupLabel)+&#x27;&lt;/strong&gt;&lt;p&gt;ending:&#x27;+esc(n.id.replace(&#x27;crisis:&#x27;,&#x27;&#x27;))+&#x27;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;
+      var crisisId=n.id.replace(&#x27;crisis:&#x27;,&#x27;&#x27;);
+      box.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;кризис&lt;/span&gt; &lt;strong&gt;&#x27;+esc(crisisId)+&#x27;&lt;/strong&gt; · &#x27;+esc(s.role+&#x27; &#x27;+s.name)+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(n.text)+&#x27;&lt;/div&gt;&#x27;+crisisTranslationMessageHtml(crisisId)+&#x27;&lt;div class=&quot;ms-choice-grid&quot;&gt;&lt;div class=&quot;ms-choice left&quot;&gt;&lt;strong&gt;Спасти: &#x27;+esc(n.data.rescueLabel)+&#x27;&lt;/strong&gt;&#x27;+crisisTranslationChoiceHtml(crisisId,&#x27;rescue&#x27;,&#x27;ms-choice-translation&#x27;)+&#x27;&lt;p&gt;rebound &#x27;+esc(n.data.resource)+&#x27; → &#x27;+esc(n.data.rebound)+&#x27;&lt;/p&gt;&lt;/div&gt;&lt;div class=&quot;ms-choice right&quot;&gt;&lt;strong&gt;Сдаться: &#x27;+esc(n.data.giveupLabel)+&#x27;&lt;/strong&gt;&#x27;+crisisTranslationChoiceHtml(crisisId,&#x27;giveup&#x27;,&#x27;ms-choice-translation&#x27;)+&#x27;&lt;p&gt;ending:&#x27;+esc(crisisId)+&#x27;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;
       return;
     }
     if(n.kind===&#x27;ending&#x27;){
-      box.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;финал · &#x27;+esc(n.data.type)+&#x27;&lt;/span&gt; &lt;strong&gt;&#x27;+esc(n.data.title)+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(n.text)+&#x27;&lt;/div&gt;&#x27;;
+      var endingId=n.id.replace(&#x27;ending:&#x27;,&#x27;&#x27;);
+      box.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;финал · &#x27;+esc(n.data.type)+&#x27;&lt;/span&gt; &lt;strong&gt;&#x27;+esc(n.data.title)+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(n.text)+&#x27;&lt;/div&gt;&#x27;+endingTranslationHtml(endingId);
       return;
     }
     var flags=[];
@@ -2037,13 +2058,13 @@ html&gt;body{padding:0}&lt;/style&gt;
     if(state.activeCrisisId){
       var cr=deck.crises[state.activeCrisisId],s=deck.sources[cr.source]||{};
       cur.className=&#x27;card ms-current ms-crisis&#x27;;
-      cur.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;кризис&lt;/span&gt; &lt;strong&gt;&#x27;+esc(state.activeCrisisId)+&#x27;&lt;/strong&gt; · &#x27;+esc((s.role||&#x27;&#x27;)+&#x27; &#x27;+(s.name||&#x27;&#x27;))+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(cr.text)+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-sim-actions&quot;&gt;&lt;button class=&quot;btn btn-primary&quot; id=&quot;ms-rescue&quot; type=&quot;button&quot;&gt;&#x27;+esc(cr.rescueLabel)+&#x27;&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;ms-giveup&quot; type=&quot;button&quot;&gt;&#x27;+esc(cr.giveupLabel)+&#x27;&lt;/button&gt;&lt;/div&gt;&#x27;;
+      cur.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;кризис&lt;/span&gt; &lt;strong&gt;&#x27;+esc(state.activeCrisisId)+&#x27;&lt;/strong&gt; · &#x27;+esc((s.role||&#x27;&#x27;)+&#x27; &#x27;+(s.name||&#x27;&#x27;))+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(cr.text)+&#x27;&lt;/div&gt;&#x27;+crisisTranslationMessageHtml(state.activeCrisisId)+&#x27;&lt;div class=&quot;ms-sim-actions&quot;&gt;&lt;button class=&quot;btn btn-primary&quot; id=&quot;ms-rescue&quot; type=&quot;button&quot;&gt;&lt;span class=&quot;ms-button-copy&quot;&gt;&lt;span data-language=&quot;en&quot;&gt;&#x27;+esc(cr.rescueLabel)+&#x27;&lt;/span&gt;&#x27;+crisisTranslationChoiceHtml(state.activeCrisisId,&#x27;rescue&#x27;,&#x27;ms-button-translation&#x27;)+&#x27;&lt;/span&gt;&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;ms-giveup&quot; type=&quot;button&quot;&gt;&lt;span class=&quot;ms-button-copy&quot;&gt;&lt;span data-language=&quot;en&quot;&gt;&#x27;+esc(cr.giveupLabel)+&#x27;&lt;/span&gt;&#x27;+crisisTranslationChoiceHtml(state.activeCrisisId,&#x27;giveup&#x27;,&#x27;ms-button-translation&#x27;)+&#x27;&lt;/span&gt;&lt;/button&gt;&lt;/div&gt;&#x27;;
       root.querySelector(&#x27;#ms-rescue&#x27;).onclick=function(){resolveCrisis(&#x27;rescue&#x27;);};
       root.querySelector(&#x27;#ms-giveup&#x27;).onclick=function(){resolveCrisis(&#x27;giveup&#x27;);};
     }else if(state.gameOver){
       var en=deck.endings[state.endingId]||deck.endings.no_proof;
       cur.className=&#x27;card ms-current ms-ending&#x27;;
-      cur.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;финал · &#x27;+esc(en.type)+&#x27;&lt;/span&gt; &lt;strong&gt;&#x27;+esc(en.title)+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(en.text)+&#x27;&lt;/div&gt;&lt;button class=&quot;btn btn-primary&quot; id=&quot;ms-again&quot; type=&quot;button&quot;&gt;Начать заново&lt;/button&gt;&#x27;;
+      cur.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;финал · &#x27;+esc(en.type)+&#x27;&lt;/span&gt; &lt;strong&gt;&#x27;+esc(en.title)+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(en.text)+&#x27;&lt;/div&gt;&#x27;+endingTranslationHtml(state.endingId)+&#x27;&lt;button class=&quot;btn btn-primary&quot; id=&quot;ms-again&quot; type=&quot;button&quot;&gt;Начать заново&lt;/button&gt;&#x27;;
       root.querySelector(&#x27;#ms-again&#x27;).onclick=restart;
     }else{
       var c=card(state.currentCardId),s=deck.sources[c.source]||{};

@@ -60,17 +60,27 @@ function parseCatalog(markdown, deck) {
   return { meta: { language: 'ru', source: 'MISTAKERY_CARDS_EN_RU.md' }, cards };
 }
 
+function mergeNonCardTranslations(nextCards, existing) {
+  return {
+    ...nextCards,
+    crises: existing.crises || {},
+    endings: existing.endings || {},
+  };
+}
+
 function main() {
   const root = path.resolve(__dirname, '..');
   const source = process.argv[2];
   if (!source) throw new Error('Usage: node scripts/sync-translations.cjs /absolute/path/to/MISTAKERY_CARDS_EN_RU.md');
   const deck = JSON.parse(fs.readFileSync(path.join(root, 'cards.json'), 'utf8'));
   const catalog = fs.readFileSync(path.resolve(source), 'utf8');
-  const translations = parseCatalog(catalog, deck);
-  fs.writeFileSync(path.join(root, 'translations.ru.json'), `${JSON.stringify(translations, null, 2)}\n`);
+  const translationsPath = path.join(root, 'translations.ru.json');
+  const existing = fs.existsSync(translationsPath) ? JSON.parse(fs.readFileSync(translationsPath, 'utf8')) : {};
+  const translations = mergeNonCardTranslations(parseCatalog(catalog, deck), existing);
+  fs.writeFileSync(translationsPath, `${JSON.stringify(translations, null, 2)}\n`);
   console.log(`Synced Russian text for ${Object.keys(translations.cards).length} production cards.`);
 }
 
 if (require.main === module) main();
 
-module.exports = { parseCatalog };
+module.exports = { parseCatalog, mergeNonCardTranslations };

@@ -33,7 +33,7 @@ test('builds the current game and interactive map from canonical cards.json', ()
   assert.deepEqual(JSON.parse(embedded[1]), sourceDeck);
   const embeddedTranslations = map.match(/var translations=(\{[\s\S]*?\});\n  var keys=/);
   assert.ok(embeddedTranslations, 'map does not contain embedded Russian translations');
-  assert.deepEqual(JSON.parse(embeddedTranslations[1]), translations.cards);
+  assert.deepEqual(JSON.parse(embeddedTranslations[1]), translations);
   assert.equal(map.includes('<iframe'), false, 'published map must not use a nested scrolling iframe');
   assert.match(map, /data-mode="sim"/);
   assert.match(map, /id="ms-undo"/);
@@ -66,4 +66,27 @@ test('builds the current game and interactive map from canonical cards.json', ()
       for (const id of next) assert.equal(ids.has(id), true, `${card.id}:${side} points to missing ${id}`);
     }
   }
+
+  assert.deepEqual(Object.keys(translations.crises).sort(), Object.keys(sourceDeck.crises).sort(), 'translations must cover every crisis exactly once');
+  for (const [id, crisis] of Object.entries(sourceDeck.crises)) {
+    const translated = translations.crises[id];
+    assert.equal(translated.approved, true, `${id} crisis translation is not approved`);
+    assert.equal(translated.sourceText, crisis.text, `${id} crisis English message drifted`);
+    assert.equal(translated.rescue.sourceLabel, crisis.rescueLabel, `${id} rescue label drifted`);
+    assert.equal(translated.giveup.sourceLabel, crisis.giveupLabel, `${id} give-up label drifted`);
+    assert.ok(translated.text.trim() && translated.rescue.label.trim() && translated.giveup.label.trim(), `${id} crisis translation is incomplete`);
+  }
+
+  assert.deepEqual(Object.keys(translations.endings).sort(), Object.keys(sourceDeck.endings).sort(), 'translations must cover every ending exactly once');
+  for (const [id, ending] of Object.entries(sourceDeck.endings)) {
+    const translated = translations.endings[id];
+    assert.equal(translated.approved, true, `${id} ending translation is not approved`);
+    assert.equal(translated.sourceTitle, ending.title, `${id} ending English title drifted`);
+    assert.equal(translated.sourceText, ending.text, `${id} ending English message drifted`);
+    assert.ok(translated.title.trim() && translated.text.trim(), `${id} ending translation is incomplete`);
+  }
+
+  assert.equal(translations.crises.freedom_sale.text, 'ТЫ ВЫСТАВИЛ СВОБОДУ В СЧЁТЕ.\nКЛИЕНТ ЗАПЛАТИЛ. ИНТЕРНЕТ НАЗЫВАЕТ ТЕБЯ РАБОТОРГОВЦЕМ.');
+  assert.equal(translations.endings.founder_high.title, 'РЕЖИМ МЕССИИ');
+  assert.equal(translations.endings.founder_high.text, 'Ты удалил продукт и объявил, что задизраптил саму идею покупки.');
 });

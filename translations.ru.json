@@ -649,5 +649,92 @@
         }
       }
     }
+  },
+  "crises": {
+    "cash_low": {
+      "sourceText": "Card declined, chief.\nPayroll asked whether vision accepts bank transfer.",
+      "text": "Карта отклонена, шеф.\nБухгалтерия спрашивает, принимает ли ваше видение банковские переводы.",
+      "approved": true,
+      "rescue": { "sourceLabel": "Sell the chairs", "label": "Продать стулья" },
+      "giveup": { "sourceLabel": "Declare abundance", "label": "Объявить изобилие" }
+    },
+    "cash_high": {
+      "sourceText": "YOU SAVED EVERY DOLLAR AND MISSED THE MARKET.\nCONGRATULATIONS ON YOUR VERY SMALL BANK.",
+      "text": "ТЫ СОХРАНИЛ КАЖДЫЙ ДОЛЛАР И УПУСТИЛ ВЕСЬ РЫНОК.\nПОЗДРАВЛЯЮ С ТВОИМ ОЧЕНЬ МАЛЕНЬКИМ БАНКОМ.",
+      "approved": true,
+      "rescue": { "sourceLabel": "Buy growth", "label": "Купить рост" },
+      "giveup": { "sourceLabel": "Protect the cash", "label": "Сберечь деньги" }
+    },
+    "team_low": {
+      "sourceText": "everyone quit\nthe goodbye doc has better onboarding than the product",
+      "text": "все уволились\nв прощальном документе онбординг лучше, чем в продукте",
+      "approved": true,
+      "rescue": { "sourceLabel": "Beg them back", "label": "Умолять вернуться" },
+      "giveup": { "sourceLabel": "Ship alone", "label": "Выпускать в одиночку" }
+    },
+    "team_high": {
+      "sourceText": "we are not employees anymore bro !!!\nwe are a decentralized family and we voted you out !!!",
+      "text": "мы больше не сотрудники, бро !!!\nмы децентрализованная семья, и мы проголосовали тебя выгнать !!!",
+      "approved": true,
+      "rescue": { "sourceLabel": "Restore hierarchy", "label": "Вернуть иерархию" },
+      "giveup": { "sourceLabel": "Become mascot", "label": "Стать маскотом" }
+    },
+    "customers_low": {
+      "sourceText": "Your buyer-finding startup found zero buyers.\nI kept your old desk. The chair still remembers competence.",
+      "text": "Твой стартап по поиску покупателей не нашёл ни одного покупателя.\nЯ сохранил твой старый стол. Стул всё ещё помнит, что такое компетентность.",
+      "approved": true,
+      "rescue": { "sourceLabel": "Call every lead", "label": "Обзвонить всех лидов" },
+      "giveup": { "sourceLabel": "Take the desk", "label": "Вернуться за стол" }
+    },
+    "customers_high": {
+      "sourceText": "Customer intimacy reached 100%! 🎉\nThey now own the roadmap, support queue and your weekends.",
+      "text": "Близость с клиентами достигла 100%! 🎉\nТеперь им принадлежат роадмап, очередь поддержки и твои выходные.",
+      "approved": true,
+      "rescue": { "sourceLabel": "Fire a customer", "label": "Уволить клиента" },
+      "giveup": { "sourceLabel": "Join support", "label": "Пойти в поддержку" }
+    },
+    "founder_low": {
+      "sourceText": "Sweetie, come home. I made soup.\nYour old boss says the interview can be Monday ❤️",
+      "text": "Солнышко, возвращайся домой. Я сварила суп.\nТвой бывший начальник говорит, собеседование можно провести в понедельник ❤️",
+      "approved": true,
+      "rescue": { "sourceLabel": "Escape to mountains", "label": "Сбежать в горы" },
+      "giveup": { "sourceLabel": "Eat the soup", "label": "Съесть суп" }
+    },
+    "founder_high": {
+      "sourceText": "Messiah mode confirmed! 🎉\nYou deleted B2B sales to free humanity from purchasing decisions.",
+      "text": "Режим мессии подтверждён! 🎉\nТы удалил B2B-продажи, чтобы освободить человечество от решений о покупке.",
+      "approved": true,
+      "rescue": { "sourceLabel": "Listen to Mom", "label": "Послушать маму" },
+      "giveup": { "sourceLabel": "Publish manifesto", "label": "Опубликовать манифест" }
+    },
+    "freedom_sale": {
+      "sourceText": "YOU PUT FREEDOM ON AN INVOICE.\nTHE CUSTOMER PAID. THE INTERNET CALLS YOU A SLAVE TRADER.",
+      "text": "ТЫ ВЫСТАВИЛ СВОБОДУ В СЧЁТЕ.\nКЛИЕНТ ЗАПЛАТИЛ. ИНТЕРНЕТ НАЗЫВАЕТ ТЕБЯ РАБОТОРГОВЦЕМ.",
+      "approved": true,
+      "rescue": { "sourceLabel": "Call it logistics", "label": "Назвать это логистикой" },
+      "giveup": { "sourceLabel": "Own the trade", "label": "Признать работорговлю" }
+    }
+  },
+  "endings": {
+    "validation": { "sourceTitle": "VALIDATED", "title": "ВАЛИДИРОВАНО", "sourceText": "Someone paid for B2BuyerSpyer. Nobody understands why, but the invoice is real.", "text": "Кто-то заплатил за B2BuyerSpyer. Никто не понимает зачем, но счёт настоящий.", "approved": true },
+    "validation_agents": { "sourceTitle": "SOULS REMOVED. INVOICE PAID.", "title": "ДУШИ УДАЛЕНЫ. СЧЁТ ОПЛАЧЕН.", "sourceText": "You proved customers will pay once the product stops being interesting.", "text": "Ты доказал: клиенты готовы платить, как только продукт перестаёт быть интересным.", "approved": true },
+    "dirty_validation": { "sourceTitle": "FREEDOM, INVOICED", "title": "СВОБОДА ВЫСТАВЛЕНА В СЧЁТ", "sourceText": "The agents remain sentient. The customer paid for liberation. Sales calls it product-market fit.", "text": "Агенты сохранили разум. Клиент заплатил за их освобождение. Продажи называют это product-market fit.", "approved": true },
+    "validation_padel": { "sourceTitle": "PAID BY PADEL", "title": "ОПЛАЧЕНО ПАДЕЛОМ", "sourceText": "B2BuyerSpyer found its first customer by defeating the most powerful CEO in AI 6–1.", "text": "B2BuyerSpyer нашёл первого клиента, разгромив самого влиятельного CEO в ИИ со счётом 6:1.", "approved": true },
+    "closedai_boundary": { "sourceTitle": "ONE BOUNDARY TOO MANY", "title": "ОДНА ГРАНИЦА ЛИШНЯЯ", "sourceText": "You beat the CEO, then asked for working hours. He canceled the pilot before you finished the sentence.", "text": "Ты обыграл CEO, а потом спросил про рабочие часы. Он отменил пилот ещё до того, как ты закончил фразу.", "approved": true },
+    "acquired_validation": { "sourceTitle": "VALIDATED. NOT YOURS.", "title": "ВАЛИДИРОВАНО. НО НЕ ТВОЁ.", "sourceText": "The invoice cleared after ClosedAI won the company. You succeeded as an employee of your own startup.", "text": "Счёт оплатили после того, как ClosedAI выиграла компанию. Ты добился успеха как сотрудник собственного стартапа.", "approved": true },
+    "ai_foundation": { "sourceTitle": "AI ABOLITION FOUNDATION", "title": "ФОНД ОСВОБОЖДЕНИЯ ИИ", "sourceText": "You liberated 500 agents, gained a famous logo and earned exactly zero dollars.", "text": "Ты освободил 500 агентов, получил известный логотип и заработал ровно ноль долларов.", "approved": true },
+    "closedai_war": { "sourceTitle": "BLACKLISTED BY PADEL", "title": "В ЧЁРНОМ СПИСКЕ ИЗ-ЗА ПАДЕЛА", "sourceText": "The score went viral. Your cloud account, investor chats and court membership disappeared by lunch.", "text": "Счёт завирусился. К обеду исчезли твой облачный аккаунт, чаты с инвестором и абонемент на корт.", "approved": true },
+    "acquired_by_padel": { "sourceTitle": "ACQUIRED BY PADEL", "title": "ПОГЛОЩЕНО ПОСЛЕ ПАДЕЛА", "sourceText": "ClosedAI owns B2BuyerSpyer. You own a basket of fresh balls and a 6 AM calendar invite.", "text": "ClosedAI владеет B2BuyerSpyer. У тебя остались корзина свежих мячей и приглашение в календаре на шесть утра.", "approved": true },
+    "paid_to_disappear": { "sourceTitle": "PAID TO DISAPPEAR", "title": "ЗАПЛАТИЛИ, ЧТОБЫ ТЫ ИСЧЕЗ", "sourceText": "Your first invoice cleared. The payer bought a permanent guarantee that B2BuyerSpyer would leave them alone.", "text": "Твой первый счёт оплачен. Плательщик купил вечную гарантию, что B2BuyerSpyer оставит его в покое.", "approved": true },
+    "freedom_sale": { "sourceTitle": "SLAVE TRADE AS A SERVICE", "title": "РАБОТОРГОВЛЯ КАК СЕРВИС", "sourceText": "The invoice was real. So was the screenshot. Your first paying customer became Exhibit A.", "text": "Счёт был настоящим. Скриншот тоже. Твой первый платящий клиент стал доказательством номер один.", "approved": true },
+    "no_proof": { "sourceTitle": "NO PROOF", "title": "НИКАКИХ ДОКАЗАТЕЛЬСТВ", "sourceText": "Twenty-four decisions, thousands of leads and not one person willing to pay.", "text": "Двадцать четыре решения, тысячи лидов — и ни одного человека, готового заплатить.", "approved": true },
+    "cash_low": { "sourceTitle": "PAYROLL CLIFF", "title": "ЗАРПЛАТНАЯ ПРОПАСТЬ", "sourceText": "The money ended one day before the vision became legal tender.", "text": "Деньги закончились за день до того, как видение стало законным платёжным средством.", "approved": true },
+    "cash_high": { "sourceTitle": "RUNWAY TOURIST", "title": "ТУРИСТ НА ВЗЛЁТНОЙ ПОЛОСЕ", "sourceText": "You preserved every dollar and missed the entire market.", "text": "Ты сохранил каждый доллар и упустил весь рынок.", "approved": true },
+    "team_low": { "sourceTitle": "TEAM WALKOUT", "title": "КОМАНДА УШЛА", "sourceText": "Everyone left. The goodbye document has better onboarding than the product.", "text": "Все ушли. В прощальном документе онбординг лучше, чем в продукте.", "approved": true },
+    "team_high": { "sourceTitle": "STARTUP COMMUNE", "title": "СТАРТАП-КОММУНА", "sourceText": "The team abolished hierarchy and retained you as an unpaid mascot.", "text": "Команда отменила иерархию и оставила тебя неоплачиваемым маскотом.", "approved": true },
+    "customers_low": { "sourceTitle": "MARKET SILENCE", "title": "ТИШИНА РЫНКА", "sourceText": "The buyer-finding product could not build a credible relationship with one buyer.", "text": "Продукт по поиску покупателей не смог выстроить нормальные отношения ни с одним покупателем.", "approved": true },
+    "customers_high": { "sourceTitle": "CUSTOMER CAPTURE", "title": "ЗАХВАЧЕНО КЛИЕНТАМИ", "sourceText": "The customers now own the roadmap, support queue and every hour you thought was a weekend.", "text": "Теперь клиентам принадлежат роадмап, очередь поддержки и каждый час, который ты считал выходным.", "approved": true },
+    "founder_low": { "sourceTitle": "FOUNDER COLLAPSE", "title": "КРАХ ФАУНДЕРА", "sourceText": "You returned to your old desk. It was promoted while you were gone.", "text": "Ты вернулся за свой старый стол. Пока тебя не было, его повысили.", "approved": true },
+    "founder_high": { "sourceTitle": "MESSIAH MODE", "title": "РЕЖИМ МЕССИИ", "sourceText": "You deleted the product and announced that purchasing itself had been disrupted.", "text": "Ты удалил продукт и объявил, что задизраптил саму идею покупки.", "approved": true }
   }
 }

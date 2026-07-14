@@ -141,6 +141,23 @@ test('published game and map remain interactive from desktop to mobile', async (
         assert.match(payrollCallbackDetail, /давай деньги, или я прямо сейчас всё вырублю/);
         assert.match(payrollCallbackDetail, /Promise payroll/);
         assert.match(payrollCallbackDetail, /Pay out of pocket/);
+
+        await map.locator('[data-node="crisis:cash_low"]').click();
+        const crisisDetail = await map.locator('#ms-detail').textContent();
+        assert.match(crisisDetail, /Бухгалтерия спрашивает, принимает ли ваше видение банковские переводы/);
+        assert.match(crisisDetail, /Продать стулья/);
+        assert.match(crisisDetail, /Объявить изобилие/);
+        if (process.env.PAGES_SCREENSHOT_DIR) {
+          await map.locator('#ms-detail').screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, 'translated-crisis-736.png') });
+        }
+
+        await map.locator('[data-node="ending:validation"]').click();
+        const endingDetail = await map.locator('#ms-detail').textContent();
+        assert.match(endingDetail, /ВАЛИДИРОВАНО/);
+        assert.match(endingDetail, /Никто не понимает зачем, но счёт настоящий/);
+        if (process.env.PAGES_SCREENSHOT_DIR) {
+          await map.locator('#ms-detail').screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, 'translated-ending-736.png') });
+        }
       }
 
       await map.locator('[data-node="OPEN_02"]').click();
@@ -187,6 +204,38 @@ test('published game and map remain interactive from desktop to mobile', async (
 
       await map.locator('#ms-restart').click();
       assert.match(await map.locator('#ms-current').textContent(), /OPEN_01/);
+      if (width === 736) {
+        const preferredSide = {
+          OPEN_01: 'left', OPEN_02: 'left', OPEN_03_AUDIT: 'right', OPEN_03_INVOICES: 'right',
+          OPEN_04: 'left', OPEN_05: 'left', OPEN_06: 'left',
+          MOM_INVESTOR_SEED: 'left', MOM_INVESTOR_CALLBACK: 'left', COMA_SEED: 'right',
+          COMA_CALLBACK_AUTHORIZED: 'left', COMA_CALLBACK_BLOCKED: 'left', MOM_FLYERS: 'left',
+          PAYROLL_RESTRICTED_AI_SEED: 'left', PAYROLL_RESTRICTED_AI_CALLBACK: 'left',
+          DEV_HOSTAGE_SEED: 'left', DEV_HOSTAGE_CALLBACK: 'left',
+          B3_SALES_PRESSURE_SEED: 'right', B3_PAID_OPTOUT_CALLBACK: 'right',
+          AGENT_01: 'left', AGENT_02_DEV: 'right', AGENT_03_HYPE: 'left', AGENT_04_LEAD: 'left',
+          AGENT_05_ORDER: 'right', AGENT_06_LEGAL: 'left', AGENT_07_INVOICE: 'left', AGENT_07_DONATE: 'left',
+          PRESS_FRIDGE: 'right', PRESS_MOM: 'right', PRESS_FONT: 'right', PRESS_FIGHT: 'right',
+          PRESS_FAMILY: 'right', PRESS_RIVAL: 'right', PRESS_CAPITALISM: 'right',
+        };
+        let sawCrisis = false;
+        for (let step = 0; step < 40 && !(await map.locator('#ms-again').count()); step += 1) {
+          if (await map.locator('#ms-giveup').count()) {
+            sawCrisis = true;
+            assert.equal(await map.locator('#ms-current [data-translation="message"]').count(), 1, 'simulator crisis has no Russian message');
+            assert.equal(await map.locator('#ms-current [data-translation="rescue"]').count(), 1, 'simulator crisis has no Russian rescue label');
+            assert.equal(await map.locator('#ms-current [data-translation="giveup"]').count(), 1, 'simulator crisis has no Russian give-up label');
+            await map.locator('#ms-giveup').click();
+            break;
+          }
+          const currentId = (await map.locator('#ms-current strong').first().textContent()).trim();
+          const side = preferredSide[currentId] || 'left';
+          await map.locator(side === 'right' ? '#ms-right' : '#ms-left').click();
+        }
+        assert.equal(await map.locator('#ms-again').count(), 1, `simulator did not reach an ending${sawCrisis ? ' after crisis' : ''}`);
+        assert.equal(await map.locator('#ms-current [data-translation="title"]').count(), 1, 'simulator ending has no Russian title');
+        assert.equal(await map.locator('#ms-current [data-translation="message"]').count(), 1, 'simulator ending has no Russian message');
+      }
       await map.locator('#ms-back-map').click();
       assert.equal(await map.locator('#ms-map').isVisible(), true);
       await map.close();

@@ -727,7 +727,7 @@
     "founder_high": { "type": "loss", "title": "MESSIAH MODE", "text": "You deleted the product and announced that purchasing itself had been disrupted." }
   }
 };
-  var translations={};
+  var translations={cards:{},crises:{},endings:{}};
   var keys=['cash','team','customers','founder'];
   var ru={cash:'Деньги',team:'Команда',customers:'Клиенты',founder:'Фаундер'};
   var packageA=['PAYROLL_RESTRICTED_AI_SEED','PAYROLL_RESTRICTED_AI_CALLBACK','DEV_HOSTAGE_SEED','DEV_HOSTAGE_CALLBACK','MOM_INVESTOR_SEED','MOM_INVESTOR_CALLBACK','COMA_SEED','COMA_CALLBACK_AUTHORIZED','COMA_CALLBACK_BLOCKED','MOM_FLYERS'];
@@ -1015,7 +1015,7 @@
     if(c.kind==='pressure')return c.callbackOnly?'отложенное последствие конкретного решения':'случайная проблема · равный шанс среди подходящих проблем';
     return category(c)+' · '+role(c)+(c.weight?' · weight '+c.weight:'');
   }
-  function translated(c){return translations[c.id]||null;}
+  function translated(c){return translations.cards&&translations.cards[c.id]||null;}
   function translationMessageHtml(c){
     if(!showTranslation)return '';
     var t=translated(c);
@@ -1028,6 +1028,25 @@
     var t=translated(c);
     if(!t||!t.approved)return '';
     return '<span class="'+className+'" data-translation="'+side+'" lang="ru">'+esc(t.choices[side].label)+'</span>';
+  }
+  function crisisTranslation(id){return translations.crises&&translations.crises[id]||null;}
+  function crisisTranslationMessageHtml(id){
+    if(!showTranslation)return '';
+    var t=crisisTranslation(id);
+    if(!t)return '';
+    return '<div class="ms-translation" data-translation="message" lang="ru">'+esc(t.text)+'</div>';
+  }
+  function crisisTranslationChoiceHtml(id,side,className){
+    if(!showTranslation)return '';
+    var t=crisisTranslation(id);
+    if(!t||!t[side])return '';
+    return '<span class="'+className+'" data-translation="'+side+'" lang="ru">'+esc(t[side].label)+'</span>';
+  }
+  function endingTranslationHtml(id){
+    if(!showTranslation)return '';
+    var t=translations.endings&&translations.endings[id];
+    if(!t)return '';
+    return '<div class="ms-translation" lang="ru"><strong data-translation="title">'+esc(t.title)+'</strong><div data-translation="message">'+esc(t.text)+'</div></div>';
   }
   function choiceHtml(c,side){
     var ch=c.choices[side];
@@ -1047,11 +1066,13 @@
     var n=allNodes.find(function(x){return x.id===selectedId;})||allNodes[0];
     if(n.kind==='crisis'){
       var s=deck.sources[n.source]||{};
-      box.innerHTML='<div><span class="viz-badge">кризис</span> <strong>'+esc(n.id.replace('crisis:',''))+'</strong> · '+esc(s.role+' '+s.name)+'</div><div class="ms-message">'+esc(n.text)+'</div><div class="ms-choice-grid"><div class="ms-choice left"><strong>Спасти: '+esc(n.data.rescueLabel)+'</strong><p>rebound '+esc(n.data.resource)+' → '+esc(n.data.rebound)+'</p></div><div class="ms-choice right"><strong>Сдаться: '+esc(n.data.giveupLabel)+'</strong><p>ending:'+esc(n.id.replace('crisis:',''))+'</p></div></div>';
+      var crisisId=n.id.replace('crisis:','');
+      box.innerHTML='<div><span class="viz-badge">кризис</span> <strong>'+esc(crisisId)+'</strong> · '+esc(s.role+' '+s.name)+'</div><div class="ms-message">'+esc(n.text)+'</div>'+crisisTranslationMessageHtml(crisisId)+'<div class="ms-choice-grid"><div class="ms-choice left"><strong>Спасти: '+esc(n.data.rescueLabel)+'</strong>'+crisisTranslationChoiceHtml(crisisId,'rescue','ms-choice-translation')+'<p>rebound '+esc(n.data.resource)+' → '+esc(n.data.rebound)+'</p></div><div class="ms-choice right"><strong>Сдаться: '+esc(n.data.giveupLabel)+'</strong>'+crisisTranslationChoiceHtml(crisisId,'giveup','ms-choice-translation')+'<p>ending:'+esc(crisisId)+'</p></div></div>';
       return;
     }
     if(n.kind==='ending'){
-      box.innerHTML='<div><span class="viz-badge">финал · '+esc(n.data.type)+'</span> <strong>'+esc(n.data.title)+'</strong></div><div class="ms-message">'+esc(n.text)+'</div>';
+      var endingId=n.id.replace('ending:','');
+      box.innerHTML='<div><span class="viz-badge">финал · '+esc(n.data.type)+'</span> <strong>'+esc(n.data.title)+'</strong></div><div class="ms-message">'+esc(n.text)+'</div>'+endingTranslationHtml(endingId);
       return;
     }
     var flags=[];
@@ -1287,13 +1308,13 @@
     if(state.activeCrisisId){
       var cr=deck.crises[state.activeCrisisId],s=deck.sources[cr.source]||{};
       cur.className='card ms-current ms-crisis';
-      cur.innerHTML='<div><span class="viz-badge">кризис</span> <strong>'+esc(state.activeCrisisId)+'</strong> · '+esc((s.role||'')+' '+(s.name||''))+'</div><div class="ms-message">'+esc(cr.text)+'</div><div class="ms-sim-actions"><button class="btn btn-primary" id="ms-rescue" type="button">'+esc(cr.rescueLabel)+'</button><button class="btn" id="ms-giveup" type="button">'+esc(cr.giveupLabel)+'</button></div>';
+      cur.innerHTML='<div><span class="viz-badge">кризис</span> <strong>'+esc(state.activeCrisisId)+'</strong> · '+esc((s.role||'')+' '+(s.name||''))+'</div><div class="ms-message">'+esc(cr.text)+'</div>'+crisisTranslationMessageHtml(state.activeCrisisId)+'<div class="ms-sim-actions"><button class="btn btn-primary" id="ms-rescue" type="button"><span class="ms-button-copy"><span data-language="en">'+esc(cr.rescueLabel)+'</span>'+crisisTranslationChoiceHtml(state.activeCrisisId,'rescue','ms-button-translation')+'</span></button><button class="btn" id="ms-giveup" type="button"><span class="ms-button-copy"><span data-language="en">'+esc(cr.giveupLabel)+'</span>'+crisisTranslationChoiceHtml(state.activeCrisisId,'giveup','ms-button-translation')+'</span></button></div>';
       root.querySelector('#ms-rescue').onclick=function(){resolveCrisis('rescue');};
       root.querySelector('#ms-giveup').onclick=function(){resolveCrisis('giveup');};
     }else if(state.gameOver){
       var en=deck.endings[state.endingId]||deck.endings.no_proof;
       cur.className='card ms-current ms-ending';
-      cur.innerHTML='<div><span class="viz-badge">финал · '+esc(en.type)+'</span> <strong>'+esc(en.title)+'</strong></div><div class="ms-message">'+esc(en.text)+'</div><button class="btn btn-primary" id="ms-again" type="button">Начать заново</button>';
+      cur.innerHTML='<div><span class="viz-badge">финал · '+esc(en.type)+'</span> <strong>'+esc(en.title)+'</strong></div><div class="ms-message">'+esc(en.text)+'</div>'+endingTranslationHtml(state.endingId)+'<button class="btn btn-primary" id="ms-again" type="button">Начать заново</button>';
       root.querySelector('#ms-again').onclick=restart;
     }else{
       var c=card(state.currentCardId),s=deck.sources[c.source]||{};

@@ -41,7 +41,7 @@ function buildMap() {
   );
   const serialized = JSON.stringify(deck, null, 2);
   html = html.replace(/var deck=\{[\s\S]*?\};\n  var translations=/, `var deck=${serialized};\n  var translations=`);
-  html = html.replace(/var translations=\{[\s\S]*?\};\n  var keys=/, `var translations=${JSON.stringify(translations.cards)};\n  var keys=`);
+  html = html.replace(/var translations=\{[\s\S]*?\};\n  var keys=/, `var translations=${JSON.stringify(translations)};\n  var keys=`);
   html = html.replace(
     "if(b3.indexOf(c.id)>=0)return 'b3';\n    if(c.kind==='pressure')",
     "if(b3.indexOf(c.id)>=0)return 'b3';\n    if((c.id||'').indexOf('B3_')===0||(c.scheduler&&c.scheduler.moduleId==='b3'))return 'b3';\n    if(c.kind==='sideStory')return 'packageA';\n    if(c.kind==='pressure')",
