@@ -62,6 +62,48 @@ test('published game and map remain interactive from desktop to mobile', async (
       assert.ok(spacing.bodyPaddingBottom >= 32 && spacing.bottomSpace >= 31, `${width}px page has no bottom breathing room: ${JSON.stringify(spacing)}`);
       assert.ok(spacing.groupPaddingTop >= 16 && spacing.groupBorderTop >= 1, `map groups visually run together: ${JSON.stringify(spacing)}`);
 
+      if (width === 736) {
+        assert.equal(await map.locator('[data-window]').count(), 4, 'opening and Agents insertion windows are missing');
+        await map.locator('[data-window="opening_shared_seed"]').click();
+        assert.equal(await map.locator('[data-node="MOM_INVESTOR_SEED"]').getAttribute('data-window-match'), 'true');
+        assert.equal(await map.locator('[data-node="COMA_SEED"]').getAttribute('data-window-match'), 'true');
+        assert.equal(await map.locator('[data-node="MOM_FLYERS"]').getAttribute('data-window-match'), 'false');
+
+        for (const id of ['OPEN_06', 'AGENT_01', 'AGENT_04_LEAD']) {
+          assert.match(await map.locator(`[data-node="${id}"]`).textContent(), /↩/, `${id} has no memory-reader icon`);
+        }
+
+        await map.locator('[data-node="OPEN_06"]').click();
+        const open06Detail = await map.locator('#ms-detail').textContent();
+        assert.match(open06Detail, /Мама против инвестора/);
+        assert.match(open06Detail, /История о коме/);
+        assert.match(open06Detail, /Мамины листовки/);
+        assert.doesNotMatch(open06Detail, /control_seed_mom/);
+        await map.locator('#ms-detail details summary').first().click();
+        assert.equal(await map.locator('#ms-detail .ms-memory-result').first().isVisible(), true);
+        assert.match(await map.locator('#ms-detail .ms-memory-result').first().textContent(), /Команда \+3.*Фаундер -4/);
+        if (process.env.PAGES_SCREENSHOT_DIR) {
+          await map.screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, 'detail-open06.png') });
+        }
+
+        await map.locator('[data-node="AGENT_04_LEAD"]').click();
+        const leadDetail = await map.locator('#ms-detail').textContent();
+        assert.match(leadDetail, /Зарплата и облачные кредиты/);
+        assert.match(leadDetail, /Конфликт с разработчиком/);
+        assert.match(leadDetail, /Навязчивые продажи/);
+        assert.doesNotMatch(leadDetail, /payroll_offer_compute_only/);
+        await map.locator('#ms-detail details summary').first().click();
+        assert.equal(await map.locator('#ms-detail .ms-memory-result').first().isVisible(), true);
+        if (process.env.PAGES_SCREENSHOT_DIR) {
+          await map.screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, 'detail-agent04.png') });
+        }
+
+        await map.locator('[data-node="AGENT_01"]').click();
+        const agent01Detail = await map.locator('#ms-detail').textContent();
+        assert.match(agent01Detail, /Приняли облачные кредиты/);
+        assert.doesNotMatch(agent01Detail, /payroll_offer_compute_only/);
+      }
+
       await map.locator('[data-node="OPEN_02"]').click();
       assert.match(await map.locator('#ms-detail').textContent(), /OPEN_02/);
 

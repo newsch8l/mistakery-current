@@ -69,6 +69,8 @@
 #mistakery-structure-v1 .ms-group-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:7px}
 #mistakery-structure-v1 .ms-group-head h3{margin:0}
 #mistakery-structure-v1 .ms-pool-rule{margin-bottom:8px}
+#mistakery-structure-v1 .ms-window-list{display:flex;flex-wrap:wrap;gap:8px;margin-block:0 12px}
+#mistakery-structure-v1 .ms-window{min-width:0;white-space:normal;text-align:left;overflow-wrap:anywhere}
 #mistakery-structure-v1 .ms-node-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(205px,100%),1fr));gap:7px}
 #mistakery-structure-v1 .ms-node{min-width:0;white-space:normal;text-align:left;overflow-wrap:anywhere}
 #mistakery-structure-v1 .ms-condition{display:block;margin-top:5px}
@@ -76,6 +78,7 @@
 #mistakery-structure-v1 .ms-node[data-linked="right"]{background:color-mix(in srgb,var(--viz-series-3) 12%,transparent);border-color:var(--viz-series-3)}
 #mistakery-structure-v1 .ms-node[data-linked="both"]{background:color-mix(in srgb,var(--viz-series-5) 12%,transparent);border-color:var(--viz-series-5)}
 #mistakery-structure-v1 .ms-node[data-between="true"]{background:color-mix(in srgb,var(--viz-series-6) 12%,transparent);border-color:var(--viz-series-6)}
+#mistakery-structure-v1 .ms-node[data-window-match="true"]{background:color-mix(in srgb,var(--viz-series-6) 12%,transparent);border-color:var(--viz-series-6)}
 #mistakery-structure-v1 .ms-pair-list{display:grid;gap:10px}
 #mistakery-structure-v1 .ms-pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:center;min-width:0}
 #mistakery-structure-v1 .ms-pair-callbacks{display:grid;gap:7px;min-width:0}
@@ -94,6 +97,11 @@
 #mistakery-structure-v1 .ms-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px}
 #mistakery-structure-v1 .ms-facts div{min-width:0;overflow-wrap:anywhere}
 #mistakery-structure-v1 .ms-tags{display:flex;flex-wrap:wrap;gap:5px}
+#mistakery-structure-v1 .ms-memory{display:grid;gap:8px}
+#mistakery-structure-v1 .ms-memory details{padding-block-start:8px;border-block-start:1px solid var(--border)}
+#mistakery-structure-v1 .ms-memory summary{cursor:pointer;font-weight:500}
+#mistakery-structure-v1 .ms-memory-results{display:grid;gap:2px;margin-block-start:8px}
+#mistakery-structure-v1 .ms-memory-result{display:flex;justify-content:space-between;gap:12px;padding-block:5px;border-block-end:1px solid var(--border)}
 #mistakery-structure-v1 .ms-resources{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0}
 #mistakery-structure-v1 .ms-resource{min-width:0}
 #mistakery-structure-v1 .ms-resource-head{display:flex;justify-content:space-between;gap:5px}
@@ -115,6 +123,7 @@
   #mistakery-structure-v1 .ms-node-grid{grid-template-columns:1fr}
   #mistakery-structure-v1 .ms-pair{grid-template-columns:1fr}
   #mistakery-structure-v1 .ms-pair-toggle{justify-self:center}
+  #mistakery-structure-v1 .ms-memory-result{display:grid;gap:2px}
 }
 @media(max-width:360px){
   #mistakery-structure-v1 .ms-node-grid{grid-template-columns:1fr}
@@ -724,9 +733,57 @@
     {id:'fake_coma',group:'packageA',seed:'COMA_SEED',callbacks:['COMA_CALLBACK_AUTHORIZED','COMA_CALLBACK_BLOCKED'],steps:['OPEN_05'],condition:'Вторая карточка зависит от ответа в первой.'},
     {id:'b3',group:'b3',seed:'B3_SALES_PRESSURE_SEED',callbacks:['B3_PAID_OPTOUT_CALLBACK'],steps:['AGENT_01','AGENT_02_DEV','AGENT_03_HYPE'],condition:'Последствие появится только после выбора «Send three more».'}
   ];
+  var insertionWindows=[
+    {id:'opening_shared_seed',group:'opening',label:'🎲 OPEN_04 → одна из 2 мини-историй → OPEN_05',candidates:['MOM_INVESTOR_SEED','COMA_SEED']},
+    {id:'opening_health_resolution',group:'opening',label:'↩ OPEN_05 → результат истории → OPEN_06',candidates:['MOM_INVESTOR_CALLBACK','COMA_CALLBACK_AUTHORIZED','COMA_CALLBACK_BLOCKED','MOM_FLYERS']},
+    {id:'agents_entry_seed',group:'agents',label:'🎲 Перед AGENT_01 → одна из 3 мини-историй',candidates:['PAYROLL_RESTRICTED_AI_SEED','DEV_HOSTAGE_SEED','B3_SALES_PRESSURE_SEED']},
+    {id:'agents_pre_serious_lead',group:'agents',label:'↩ AGENT_03_HYPE → результат истории → AGENT_04_LEAD',candidates:['PAYROLL_RESTRICTED_AI_CALLBACK','DEV_HOSTAGE_CALLBACK','B3_PAID_OPTOUT_CALLBACK']}
+  ];
+  var memoryReaders={
+    OPEN_06:{intro:'↩ Здесь применяется один результат одной вступительной мини-истории.',groups:[
+      {title:'👩 Мама против инвестора',outcomes:[
+        {requires:['control_seed_mom','route_control_mom_boundary','mom_investor_clash_resolved'],label:'Позволили маме позвонить → затем выбрали отдых'},
+        {requires:['control_seed_mom','route_control_investor_directive','mom_investor_clash_resolved'],label:'Позволили маме позвонить → продолжили работать'},
+        {requires:['control_seed_investor','route_control_mom_boundary','mom_investor_clash_resolved'],label:'Сами ответили инвестору → затем выбрали отдых'},
+        {requires:['control_seed_investor','route_control_investor_directive','mom_investor_clash_resolved'],label:'Сами ответили инвестору → продолжили работать'}
+      ]},
+      {title:'😴 История о коме',outcomes:[
+        {requires:['coma_campaign_authorized','coma_callback_public'],label:'Разрешили пост → оставили его'},
+        {requires:['coma_campaign_authorized','coma_callback_retracted'],label:'Разрешили пост → удалили его'},
+        {requires:['coma_campaign_blocked','coma_callback_rest'],label:'Запретили пост → ушли отдыхать'},
+        {requires:['coma_campaign_blocked','coma_callback_denied'],label:'Запретили пост → продолжили работать'}
+      ]},
+      {title:'📄 Мамины листовки',outcomes:[
+        {requires:['mom_flyers_removed'],label:'Сняли листовки'},
+        {requires:['mom_flyers_public'],label:'Оставили листовки'}
+      ]}
+    ]},
+    AGENT_01:{intro:'↩ Небольшое последствие решения перед началом пути AI-агентов.',compact:true,groups:[
+      {title:'☁️ Зарплата и облачные кредиты',outcomes:[
+        {requires:['payroll_offer_compute_only'],label:'Приняли облачные кредиты'}
+      ]}
+    ]},
+    AGENT_04_LEAD:{intro:'↩ Здесь применяются результаты мини-историй, которые успели пройти раньше.',groups:[
+      {title:'☁️ Зарплата и облачные кредиты',outcomes:[
+        {requires:['payroll_offer_compute_only','payroll_priority_machines','cloud_credits_resolved'],label:'Приняли кредиты → оставили AI работать'},
+        {requires:['payroll_offer_ordinary_compute','payroll_priority_machines','cloud_credits_resolved'],label:'Потребовали зарплату → оставили AI работать'},
+        {requires:['payroll_offer_compute_only','payroll_priority_people','cloud_credits_resolved'],label:'Приняли кредиты → сократили часы AI'},
+        {requires:['payroll_offer_ordinary_compute','payroll_priority_people','cloud_credits_resolved'],label:'Потребовали зарплату → сократили часы AI'}
+      ]},
+      {title:'💻 Конфликт с разработчиком',outcomes:[
+        {requires:['dev_conflict_public','dev_access_protected','dev_updates_restored'],label:'Защитили разработчика → ввели правила доступа'},
+        {requires:['dev_conflict_public','dev_access_contested','dev_updates_restored'],label:'Защитили разработчика → выбрали короткий путь'},
+        {requires:['dev_conflict_bypassed','dev_access_protected','dev_updates_restored'],label:'Обошли разработчика → ввели правила доступа'},
+        {requires:['dev_conflict_bypassed','dev_access_contested','dev_updates_restored'],label:'Обошли разработчика → снова выбрали короткий путь'}
+      ]},
+      {title:'📨 Навязчивые продажи',outcomes:[
+        {requires:['b3_free_optout_granted'],label:'Отказались брать плату за отписку'}
+      ]}
+    ]}
+  };
   var convergence=['OPEN_01','OPEN_03_AUDIT','OPEN_04','AGENT_01','AGENT_03_HYPE','AGENT_04_LEAD','AGENT_05_ORDER','PADEL_03_TEAM'];
   var protectedPairs=deck.meta.scheduler.protectedPairs;
-  var scope='all',showVariable=true,showTerminals=true,selectedId='OPEN_01',selectedPair=null;
+  var scope='all',showVariable=true,showTerminals=true,selectedId='OPEN_01',selectedPair=null,selectedWindow=null;
   var mapCandidates=[];
   function arr(v){return v==null?[]:(Array.isArray(v)?v:[v]);}
   function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -791,6 +848,7 @@
     var schedulerType=n.scheduler&&n.scheduler.role;
     if((schedulerType==='seed'||schedulerType==='reaction')||(n.kind==='pressure'&&!n.callbackOnly))icons.push(['🎲','может появиться случайно']);
     if(schedulerType==='callback'||n.callbackOnly)icons.push(['↩','возвращает прошлое решение']);
+    if(arr(n.stateEffects).length)icons.push(['↩','применяет последствия прошлых решений']);
     if(protectedPairs.some(function(pair){return pair[0]===n.id||pair[1]===n.id;}))icons.push(['⛓','входит в неразрывную пару']);
     if(n.id==='MOM_INVESTOR_SEED'||n.id==='COMA_SEED')icons.push(['⊘','исключает другую мини-историю']);
     if(n.id==='PADEL_01')icons.push(['🔒','дальше без случайных вставок']);
@@ -849,15 +907,24 @@
   function activePair(){
     return modulePairs.find(function(pair){return pair.id===selectedPair;})||null;
   }
+  function activeWindow(){
+    return insertionWindows.find(function(windowItem){return windowItem.id===selectedWindow;})||null;
+  }
+  function windowHtml(windowItem){
+    var active=selectedWindow===windowItem.id;
+    return '<button class="btn ms-window" type="button" data-window="'+esc(windowItem.id)+'" aria-pressed="'+active+'">'+esc(windowItem.label)+'</button>';
+  }
   function nodeHtml(n,links){
     var l=links.left.indexOf(n.id)>=0,r=links.right.indexOf(n.id)>=0;
     var link=l&&r?'both':(l?'left':(r?'right':''));
     var pair=activePair();
     var between=Boolean(pair&&pair.steps.indexOf(n.id)>=0);
+    var windowItem=activeWindow();
+    var windowMatch=Boolean(windowItem&&windowItem.candidates.indexOf(n.id)>=0);
     var label=n.kind==='ending'?(n.data.title||n.id.replace('ending:','')):n.id;
     var sub=n.kind==='ending'?(n.data.type||'финал'):(n.kind==='crisis'?'кризис · '+(deck.sources[n.source]||{}).role:sourceName(n)+' · '+role(n));
     var condition=pressureConditionShort(n);
-    return '<button class="btn ms-node" type="button" data-node="'+esc(n.id)+'" aria-pressed="'+(n.id===selectedId?'true':'false')+'" data-linked="'+link+'" data-between="'+between+'"><span><strong>'+esc(label)+nodeIcons(n)+'</strong><br><span class="text-small">'+esc(sub)+'</span>'+(condition?'<span class="ms-condition text-small">'+esc(condition)+'</span>':'')+'</span></button>';
+    return '<button class="btn ms-node" type="button" data-node="'+esc(n.id)+'" aria-pressed="'+(n.id===selectedId?'true':'false')+'" data-linked="'+link+'" data-between="'+between+'" data-window-match="'+windowMatch+'"><span><strong>'+esc(label)+nodeIcons(n)+'</strong><br><span class="text-small">'+esc(sub)+'</span>'+(condition?'<span class="ms-condition text-small">'+esc(condition)+'</span>':'')+'</span></button>';
   }
   function pairRouteHtml(pair){
     var ids=[pair.seed].concat(pair.steps);
@@ -888,6 +955,8 @@
       if(!visibleGroup(g))return;
       var nodes=allNodes.filter(function(n){return nodeCategory(n)===g.id;});
       html+='<section class="ms-group" data-group="'+g.id+'"><div class="ms-group-head"><h3>'+esc(g.name)+'</h3><span class="text-small text-muted">'+esc(g.note)+'</span></div>';
+      var windows=showVariable?insertionWindows.filter(function(windowItem){return windowItem.group===g.id;}):[];
+      if(windows.length)html+='<div class="ms-window-list" aria-label="Окна вариативных вставок">'+windows.map(windowHtml).join('')+'</div>';
       if(g.id==='pressure')html+='<div class="ms-pool-rule text-small">Между некоторыми сюжетными карточками игра случайно выбирает одну подходящую проблему. Каждая появляется максимум один раз; за прохождение — не более четырёх. Случайные проблемы не появляются во время Падела.</div>';
       var pairs=modulePairs.filter(function(pair){return pair.group===g.id;});
       if(pairs.length){
@@ -902,12 +971,28 @@
     root.querySelector('#ms-groups').innerHTML=html;
     root.querySelectorAll('[data-node]').forEach(function(btn){btn.addEventListener('click',function(){selectedId=btn.getAttribute('data-node');renderMap();renderDetail();});});
     root.querySelectorAll('[data-pair-toggle]').forEach(function(btn){btn.addEventListener('click',function(){var id=btn.getAttribute('data-pair-toggle');selectedPair=selectedPair===id?null:id;renderMap();});});
+    root.querySelectorAll('[data-window]').forEach(function(btn){btn.addEventListener('click',function(){var id=btn.getAttribute('data-window');selectedWindow=selectedWindow===id?null:id;selectedPair=null;renderMap();});});
     renderDetail();
   }
   function effectsText(e){
     var parts=[];
     keys.forEach(function(k){var v=Number((e||{})[k]||0);if(v)parts.push(ru[k]+' '+(v>0?'+':'')+v);});
     return parts.length?parts.join(' · '):'без немедленного изменения ресурсов';
+  }
+  function flagsKey(flags){return arr(flags).slice().sort().join('|');}
+  function memoryHtml(n){
+    var def=memoryReaders[n.id];
+    if(!def)return '';
+    function outcomeHtml(outcome){
+      var effect=arr(n.stateEffects).find(function(item){return flagsKey(item.requires)===flagsKey(outcome.requires);});
+      return '<div class="ms-memory-result"><span>'+esc(outcome.label)+'</span><strong>'+esc(effectsText(effect&&effect.effects))+'</strong></div>';
+    }
+    var groups=def.groups.map(function(group){
+      var results='<div class="ms-memory-results">'+group.outcomes.map(outcomeHtml).join('')+'</div>';
+      if(def.compact)return '<div><strong>'+esc(group.title)+'</strong>'+results+'</div>';
+      return '<details><summary>'+esc(group.title)+' <span class="text-small text-muted">· '+group.outcomes.length+' '+(group.outcomes.length===1?'результат':'результата')+'</span></summary>'+results+'</details>';
+    }).join('');
+    return '<section class="ms-memory" aria-label="Последствия прошлых решений"><strong>'+esc(def.intro)+'</strong>'+groups+'</section>';
   }
   function conditionText(c){
     if(c.kind==='pressure')return pressureConditionDetail(c);
@@ -951,8 +1036,7 @@
     if(n.scheduler&&n.scheduler.role==='callback')flags.push('↺ последствие прошлого решения');
     var leftNext=arr(n.choices.left.next),rightNext=arr(n.choices.right.next);
     if(leftNext.length===1&&rightNext.length===1&&leftNext[0]===rightNext[0])flags.push('▬ обе кнопки ведут к одной следующей карточке → '+leftNext[0]);
-    var readers=arr(n.stateEffects).map(function(e){return arr(e.requires).join(' + ');}).filter(Boolean);
-    box.innerHTML='<div><span class="viz-badge">'+esc(role(n))+'</span> <strong>'+esc(n.id)+'</strong> · '+esc(sourceName(n))+'</div><div class="ms-message">'+esc(n.text)+'</div><div class="ms-choice-grid">'+choiceHtml(n.choices.left,'left')+choiceHtml(n.choices.right,'right')+'</div><div class="ms-facts"><div><b>Когда может появиться</b><br><span class="text-small">'+esc(conditionText(n))+'</span></div><div><b>Как работает эта карточка</b><br><span class="text-small">'+esc(mechanicsText(n))+'</span></div></div>'+(readers.length?'<div><b>Учитывает прошлые решения</b><div class="ms-tags">'+readers.map(function(x){return '<span class="viz-badge">'+esc(x)+'</span>';}).join('')+'</div></div>':'')+(flags.length?'<div class="ms-tags">'+flags.map(function(x){return '<span class="viz-badge">'+esc(x)+'</span>';}).join('')+'</div>':'');
+    box.innerHTML='<div><span class="viz-badge">'+esc(role(n))+'</span> <strong>'+esc(n.id)+'</strong> · '+esc(sourceName(n))+'</div><div class="ms-message">'+esc(n.text)+'</div><div class="ms-choice-grid">'+choiceHtml(n.choices.left,'left')+choiceHtml(n.choices.right,'right')+'</div><div class="ms-facts"><div><b>Когда может появиться</b><br><span class="text-small">'+esc(conditionText(n))+'</span></div><div><b>Как работает эта карточка</b><br><span class="text-small">'+esc(mechanicsText(n))+'</span></div></div>'+memoryHtml(n)+(flags.length?'<div class="ms-tags">'+flags.map(function(x){return '<span class="viz-badge">'+esc(x)+'</span>';}).join('')+'</div>':'');
   }
 
   var rngState=24681357;
