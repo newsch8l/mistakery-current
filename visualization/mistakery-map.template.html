@@ -752,6 +752,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   &lt;div class=&quot;viz-controls&quot; aria-label=&quot;Режим визуализации&quot;&gt;
     &lt;button class=&quot;btn btn-primary&quot; type=&quot;button&quot; data-mode=&quot;map&quot; aria-pressed=&quot;true&quot;&gt;&lt;i data-lucide=&quot;git-branch&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; Карта игры&lt;/button&gt;
     &lt;button class=&quot;btn&quot; type=&quot;button&quot; data-mode=&quot;sim&quot; aria-pressed=&quot;false&quot;&gt;&lt;i data-lucide=&quot;play&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; Симулятор&lt;/button&gt;
+    &lt;label class=&quot;form-check form-switch&quot;&gt;&lt;input class=&quot;form-check-input&quot; id=&quot;ms-translation&quot; type=&quot;checkbox&quot;&gt;&lt;span class=&quot;form-check-label&quot;&gt;Русский перевод&lt;/span&gt;&lt;/label&gt;
   &lt;/div&gt;
 
   &lt;section id=&quot;ms-map&quot; aria-label=&quot;Карта игры&quot;&gt;
@@ -840,6 +841,9 @@ html&gt;body{padding:0}&lt;/style&gt;
 #mistakery-structure-v1 .ms-detail{margin-block:0 12px;display:grid;gap:12px;min-width:0}
 #mistakery-structure-v1 .ms-detail h3,#mistakery-structure-v1 .ms-current h3{margin:0}
 #mistakery-structure-v1 .ms-message{white-space:pre-line;overflow-wrap:anywhere}
+#mistakery-structure-v1 .ms-translation{padding-inline-start:10px;border-inline-start:2px solid var(--border);white-space:pre-line;overflow-wrap:anywhere}
+#mistakery-structure-v1 .ms-choice-translation,#mistakery-structure-v1 .ms-button-translation{display:block;margin-block-start:5px;font-weight:400;overflow-wrap:anywhere}
+#mistakery-structure-v1 .ms-button-copy{display:grid;gap:4px;text-align:left}
 #mistakery-structure-v1 .ms-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 #mistakery-structure-v1 .ms-choice{min-width:0;padding-inline-start:10px;border-inline-start:3px solid var(--border)}
 #mistakery-structure-v1 .ms-choice.left{border-color:var(--viz-series-2)}
@@ -1473,6 +1477,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     &quot;founder_high&quot;: { &quot;type&quot;: &quot;loss&quot;, &quot;title&quot;: &quot;MESSIAH MODE&quot;, &quot;text&quot;: &quot;You deleted the product and announced that purchasing itself had been disrupted.&quot; }
   }
 };
+  var translations={};
   var keys=[&#x27;cash&#x27;,&#x27;team&#x27;,&#x27;customers&#x27;,&#x27;founder&#x27;];
   var ru={cash:&#x27;Деньги&#x27;,team:&#x27;Команда&#x27;,customers:&#x27;Клиенты&#x27;,founder:&#x27;Фаундер&#x27;};
   var packageA=[&#x27;PAYROLL_RESTRICTED_AI_SEED&#x27;,&#x27;PAYROLL_RESTRICTED_AI_CALLBACK&#x27;,&#x27;DEV_HOSTAGE_SEED&#x27;,&#x27;DEV_HOSTAGE_CALLBACK&#x27;,&#x27;MOM_INVESTOR_SEED&#x27;,&#x27;MOM_INVESTOR_CALLBACK&#x27;,&#x27;COMA_SEED&#x27;,&#x27;COMA_CALLBACK_AUTHORIZED&#x27;,&#x27;COMA_CALLBACK_BLOCKED&#x27;,&#x27;MOM_FLYERS&#x27;];
@@ -1534,7 +1539,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   };
   var convergence=[&#x27;OPEN_01&#x27;,&#x27;OPEN_03_AUDIT&#x27;,&#x27;OPEN_04&#x27;,&#x27;AGENT_01&#x27;,&#x27;AGENT_03_HYPE&#x27;,&#x27;AGENT_04_LEAD&#x27;,&#x27;AGENT_05_ORDER&#x27;,&#x27;PADEL_03_TEAM&#x27;];
   var protectedPairs=deck.meta.scheduler.protectedPairs;
-  var scope=&#x27;all&#x27;,showVariable=true,showTerminals=true,selectedId=&#x27;OPEN_01&#x27;,selectedPair=null,selectedWindow=null;
+  var scope=&#x27;all&#x27;,showVariable=true,showTerminals=true,showTranslation=false,selectedId=&#x27;OPEN_01&#x27;,selectedPair=null,selectedWindow=null;
   var mapCandidates=[];
   function arr(v){return v==null?[]:(Array.isArray(v)?v:[v]);}
   function esc(v){return String(v==null?&#x27;&#x27;:v).replace(/[&amp;&lt;&gt;&quot;&#x27;]/g,function(c){return {&#x27;&amp;&#x27;:&#x27;&amp;amp;&#x27;,&#x27;&lt;&#x27;:&#x27;&amp;lt;&#x27;,&#x27;&gt;&#x27;:&#x27;&amp;gt;&#x27;,&#x27;&quot;&#x27;:&#x27;&amp;quot;&#x27;,&quot;&#x27;&quot;:&#x27;&amp;#39;&#x27;}[c];});}
@@ -1760,12 +1765,27 @@ html&gt;body{padding:0}&lt;/style&gt;
     if(c.kind===&#x27;pressure&#x27;)return c.callbackOnly?&#x27;отложенное последствие конкретного решения&#x27;:&#x27;случайная проблема · равный шанс среди подходящих проблем&#x27;;
     return category(c)+&#x27; · &#x27;+role(c)+(c.weight?&#x27; · weight &#x27;+c.weight:&#x27;&#x27;);
   }
-  function choiceHtml(ch,side){
+  function translated(c){return translations[c.id]||null;}
+  function translationMessageHtml(c){
+    if(!showTranslation)return &#x27;&#x27;;
+    var t=translated(c);
+    if(!t)return &#x27;&#x27;;
+    if(!t.approved)return &#x27;&lt;div class=&quot;ms-translation&quot; data-translation=&quot;message&quot;&gt;Перевод пока не утверждён.&lt;/div&gt;&#x27;;
+    return &#x27;&lt;div class=&quot;ms-translation&quot; data-translation=&quot;message&quot; lang=&quot;ru&quot;&gt;&#x27;+esc(t.text)+&#x27;&lt;/div&gt;&#x27;;
+  }
+  function translationChoiceHtml(c,side,className){
+    if(!showTranslation)return &#x27;&#x27;;
+    var t=translated(c);
+    if(!t||!t.approved)return &#x27;&#x27;;
+    return &#x27;&lt;span class=&quot;&#x27;+className+&#x27;&quot; data-translation=&quot;&#x27;+side+&#x27;&quot; lang=&quot;ru&quot;&gt;&#x27;+esc(t.choices[side].label)+&#x27;&lt;/span&gt;&#x27;;
+  }
+  function choiceHtml(c,side){
+    var ch=c.choices[side];
     var next=arr(ch.next);
     var direct=next.length?next.join(&#x27;, &#x27;):(ch.ending?&#x27;финал: &#x27;+ch.ending:(ch.crisis?&#x27;кризис: &#x27;+ch.crisis:&#x27;возврат к основной истории&#x27;));
     var state=arr(ch.setFlags);
     var cb=ch.reserveCallback?(&#x27;Вернётся карточка &#x27;+ch.reserveCallback.callbackId+&#x27; через &#x27;+ch.reserveCallback.spineSteps+&#x27; основных решений&#x27;):(ch.delay?(&#x27;Вернётся карточка &#x27;+ch.delay.card+&#x27; через &#x27;+ch.delay.storyDecisions+&#x27; основных решений&#x27;):&#x27;&#x27;);
-    return &#x27;&lt;div class=&quot;ms-choice &#x27;+side+&#x27;&quot;&gt;&lt;strong&gt;&#x27;+(side===&#x27;left&#x27;?&#x27;Левая&#x27;:&#x27;Правая&#x27;)+&#x27;: &#x27;+esc(ch.label)+&#x27;&lt;/strong&gt;&lt;p&gt;&#x27;+esc(effectsText(ch.effects))+&#x27;&lt;/p&gt;&lt;p class=&quot;text-small&quot;&gt;&lt;b&gt;Дальше:&lt;/b&gt; &#x27;+esc(direct)+&#x27;&lt;/p&gt;&#x27;+(state.length?&#x27;&lt;p class=&quot;text-small&quot;&gt;&lt;b&gt;Запоминает:&lt;/b&gt; &#x27;+esc(state.join(&#x27;, &#x27;))+&#x27;&lt;/p&gt;&#x27;:&#x27;&#x27;)+(cb?&#x27;&lt;p class=&quot;text-small&quot;&gt;&lt;b&gt;Будущее последствие:&lt;/b&gt; &#x27;+esc(cb)+&#x27;&lt;/p&gt;&#x27;:&#x27;&#x27;)+(ch.startArc||ch.switchArc?&#x27;&lt;p class=&quot;text-small&quot;&gt;&lt;b&gt;Выбранный путь:&lt;/b&gt; &#x27;+esc(ch.startArc||ch.switchArc)+&#x27;&lt;/p&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+    return &#x27;&lt;div class=&quot;ms-choice &#x27;+side+&#x27;&quot;&gt;&lt;strong&gt;&#x27;+(side===&#x27;left&#x27;?&#x27;Левая&#x27;:&#x27;Правая&#x27;)+&#x27;: &#x27;+esc(ch.label)+&#x27;&lt;/strong&gt;&#x27;+translationChoiceHtml(c,side,&#x27;ms-choice-translation&#x27;)+&#x27;&lt;p&gt;&#x27;+esc(effectsText(ch.effects))+&#x27;&lt;/p&gt;&lt;p class=&quot;text-small&quot;&gt;&lt;b&gt;Дальше:&lt;/b&gt; &#x27;+esc(direct)+&#x27;&lt;/p&gt;&#x27;+(state.length?&#x27;&lt;p class=&quot;text-small&quot;&gt;&lt;b&gt;Запоминает:&lt;/b&gt; &#x27;+esc(state.join(&#x27;, &#x27;))+&#x27;&lt;/p&gt;&#x27;:&#x27;&#x27;)+(cb?&#x27;&lt;p class=&quot;text-small&quot;&gt;&lt;b&gt;Будущее последствие:&lt;/b&gt; &#x27;+esc(cb)+&#x27;&lt;/p&gt;&#x27;:&#x27;&#x27;)+(ch.startArc||ch.switchArc?&#x27;&lt;p class=&quot;text-small&quot;&gt;&lt;b&gt;Выбранный путь:&lt;/b&gt; &#x27;+esc(ch.startArc||ch.switchArc)+&#x27;&lt;/p&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
   }
   function renderDetail(){
     var box=root.querySelector(&#x27;#ms-detail&#x27;);
@@ -1792,7 +1812,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     if(n.scheduler&amp;&amp;n.scheduler.role===&#x27;callback&#x27;)flags.push(&#x27;↩ отдельная карточка-последствие&#x27;);
     var leftNext=arr(n.choices.left.next),rightNext=arr(n.choices.right.next);
     if(leftNext.length===1&amp;&amp;rightNext.length===1&amp;&amp;leftNext[0]===rightNext[0])flags.push(&#x27;▬ обе кнопки ведут к одной следующей карточке → &#x27;+leftNext[0]);
-    box.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(role(n))+&#x27;&lt;/span&gt; &lt;strong&gt;&#x27;+esc(n.id)+&#x27;&lt;/strong&gt; · &#x27;+esc(sourceName(n))+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(n.text)+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-choice-grid&quot;&gt;&#x27;+choiceHtml(n.choices.left,&#x27;left&#x27;)+choiceHtml(n.choices.right,&#x27;right&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-facts&quot;&gt;&lt;div&gt;&lt;b&gt;Когда может появиться&lt;/b&gt;&lt;br&gt;&lt;span class=&quot;text-small&quot;&gt;&#x27;+esc(conditionText(n))+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Как работает эта карточка&lt;/b&gt;&lt;br&gt;&lt;span class=&quot;text-small&quot;&gt;&#x27;+esc(mechanicsText(n))+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#x27;+memoryHtml(n)+(flags.length?&#x27;&lt;div class=&quot;ms-tags&quot;&gt;&#x27;+flags.map(function(x){return &#x27;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(x)+&#x27;&lt;/span&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;:&#x27;&#x27;);
+    box.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(role(n))+&#x27;&lt;/span&gt; &lt;strong&gt;&#x27;+esc(n.id)+&#x27;&lt;/strong&gt; · &#x27;+esc(sourceName(n))+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(n.text)+&#x27;&lt;/div&gt;&#x27;+translationMessageHtml(n)+&#x27;&lt;div class=&quot;ms-choice-grid&quot;&gt;&#x27;+choiceHtml(n,&#x27;left&#x27;)+choiceHtml(n,&#x27;right&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-facts&quot;&gt;&lt;div&gt;&lt;b&gt;Когда может появиться&lt;/b&gt;&lt;br&gt;&lt;span class=&quot;text-small&quot;&gt;&#x27;+esc(conditionText(n))+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Как работает эта карточка&lt;/b&gt;&lt;br&gt;&lt;span class=&quot;text-small&quot;&gt;&#x27;+esc(mechanicsText(n))+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#x27;+memoryHtml(n)+(flags.length?&#x27;&lt;div class=&quot;ms-tags&quot;&gt;&#x27;+flags.map(function(x){return &#x27;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(x)+&#x27;&lt;/span&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;:&#x27;&#x27;);
   }
 
   var rngState=24681357;
@@ -2028,7 +2048,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     }else{
       var c=card(state.currentCardId),s=deck.sources[c.source]||{};
       cur.className=&#x27;card ms-current&#x27;;
-      cur.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(role(c))+&#x27;&lt;/span&gt; &lt;strong&gt;&#x27;+esc(c.id)+&#x27;&lt;/strong&gt; · &#x27;+esc((s.role||&#x27;&#x27;)+&#x27; &#x27;+(s.name||&#x27;&#x27;))+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(c.text)+&#x27;&lt;/div&gt;&#x27;+deltasHtml()+&#x27;&lt;div class=&quot;ms-sim-actions&quot;&gt;&lt;button class=&quot;btn btn-primary&quot; id=&quot;ms-left&quot; type=&quot;button&quot;&gt;&#x27;+esc(c.choices.left.label)+&#x27;&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;ms-right&quot; type=&quot;button&quot;&gt;&#x27;+esc(c.choices.right.label)+&#x27;&lt;/button&gt;&lt;/div&gt;&#x27;;
+      cur.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(role(c))+&#x27;&lt;/span&gt; &lt;strong&gt;&#x27;+esc(c.id)+&#x27;&lt;/strong&gt; · &#x27;+esc((s.role||&#x27;&#x27;)+&#x27; &#x27;+(s.name||&#x27;&#x27;))+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(c.text)+&#x27;&lt;/div&gt;&#x27;+translationMessageHtml(c)+deltasHtml()+&#x27;&lt;div class=&quot;ms-sim-actions&quot;&gt;&lt;button class=&quot;btn btn-primary&quot; id=&quot;ms-left&quot; type=&quot;button&quot;&gt;&lt;span class=&quot;ms-button-copy&quot;&gt;&lt;span data-language=&quot;en&quot;&gt;&#x27;+esc(c.choices.left.label)+&#x27;&lt;/span&gt;&#x27;+translationChoiceHtml(c,&#x27;left&#x27;,&#x27;ms-button-translation&#x27;)+&#x27;&lt;/span&gt;&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;ms-right&quot; type=&quot;button&quot;&gt;&lt;span class=&quot;ms-button-copy&quot;&gt;&lt;span data-language=&quot;en&quot;&gt;&#x27;+esc(c.choices.right.label)+&#x27;&lt;/span&gt;&#x27;+translationChoiceHtml(c,&#x27;right&#x27;,&#x27;ms-button-translation&#x27;)+&#x27;&lt;/span&gt;&lt;/button&gt;&lt;/div&gt;&#x27;;
       root.querySelector(&#x27;#ms-left&#x27;).onclick=function(){resolve(&#x27;left&#x27;);};
       root.querySelector(&#x27;#ms-right&#x27;).onclick=function(){resolve(&#x27;right&#x27;);};
     }
@@ -2053,6 +2073,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   root.querySelectorAll(&#x27;[data-scope]&#x27;).forEach(function(b){b.addEventListener(&#x27;click&#x27;,function(){scope=b.getAttribute(&#x27;data-scope&#x27;);root.querySelectorAll(&#x27;[data-scope]&#x27;).forEach(function(x){var a=x===b;x.setAttribute(&#x27;aria-pressed&#x27;,String(a));x.classList.toggle(&#x27;btn-primary&#x27;,a);});renderMap();});});
   root.querySelector(&#x27;#ms-variable&#x27;).addEventListener(&#x27;change&#x27;,function(e){showVariable=e.target.checked;if(!showVariable&amp;&amp;selectedWindow){selectedWindow=null;selectedId=state.currentCardId||&#x27;OPEN_01&#x27;;}renderMap();});
   root.querySelector(&#x27;#ms-terminals&#x27;).addEventListener(&#x27;change&#x27;,function(e){showTerminals=e.target.checked;renderMap();});
+  root.querySelector(&#x27;#ms-translation&#x27;).addEventListener(&#x27;change&#x27;,function(e){showTranslation=e.target.checked;renderDetail();renderSim();});
   root.querySelector(&#x27;#ms-restart&#x27;).onclick=restart;
   root.querySelector(&#x27;#ms-undo&#x27;).onclick=undoTurn;
   root.querySelector(&#x27;#ms-back-map&#x27;).onclick=function(){setMode(&#x27;map&#x27;);};

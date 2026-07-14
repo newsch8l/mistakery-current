@@ -4,6 +4,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const dist = path.join(root, '.pages-dist');
 const deck = JSON.parse(fs.readFileSync(path.join(root, 'cards.json'), 'utf8'));
+const translations = JSON.parse(fs.readFileSync(path.join(root, 'translations.ru.json'), 'utf8'));
 
 function bundleDeck(value) {
   return `(function(root, factory) {\n  const deck = factory();\n  if (typeof module === 'object' && module.exports) module.exports = deck;\n  root.MISTAKERY_DECK = deck;\n})(typeof globalThis !== 'undefined' ? globalThis : window, function() {\n  return ${JSON.stringify(value)};\n});\n`;
@@ -39,7 +40,8 @@ function buildMap() {
     '<style id="standalone-layout">html>body{padding:24px 16px 56px}#mistakery-structure-v1{width:100%;max-width:736px;margin-inline:auto}@media(max-width:560px){html>body{padding:12px 8px 32px}}</style>\n</head>',
   );
   const serialized = JSON.stringify(deck, null, 2);
-  html = html.replace(/var deck=\{[\s\S]*?\};\n  var keys=/, `var deck=${serialized};\n  var keys=`);
+  html = html.replace(/var deck=\{[\s\S]*?\};\n  var translations=/, `var deck=${serialized};\n  var translations=`);
+  html = html.replace(/var translations=\{[\s\S]*?\};\n  var keys=/, `var translations=${JSON.stringify(translations.cards)};\n  var keys=`);
   html = html.replace(
     "if(b3.indexOf(c.id)>=0)return 'b3';\n    if(c.kind==='pressure')",
     "if(b3.indexOf(c.id)>=0)return 'b3';\n    if((c.id||'').indexOf('B3_')===0||(c.scheduler&&c.scheduler.moduleId==='b3'))return 'b3';\n    if(c.kind==='sideStory')return 'packageA';\n    if(c.kind==='pressure')",

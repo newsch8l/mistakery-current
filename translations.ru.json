@@ -1,0 +1,653 @@
+{
+  "meta": {
+    "language": "ru",
+    "source": "MISTAKERY_CARDS_EN_RU.md"
+  },
+  "cards": {
+    "OPEN_01": {
+      "sourceText": "Hi there, visionary! 👋\n11,204 new B2B AI SaaS competitors launched today.\nOur startup, B2BuyerSpyer, still has the best name.",
+      "text": "Привет, визионер! 👋\nСегодня запустилось 11 204 новых конкурента в категории B2B AI SaaS.\nУ нашего стартапа B2BuyerSpyer всё ещё лучшее название.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Check the market",
+          "label": "Проверить рынок"
+        },
+        "right": {
+          "sourceLabel": "Trust the name",
+          "label": "Довериться названию"
+        }
+      }
+    },
+    "OPEN_02": {
+      "sourceText": "Great news! 🎉\nB2BuyerSpyer found 814 companies that need buyers.\nPotential customers: 814. Paid invoices: 0.",
+      "text": "Отличные новости! 🎉\nB2BuyerSpyer нашёл 814 компаний, которым нужны покупатели.\nПотенциальных клиентов: 814. Оплаченных счетов: 0.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Audit the 814",
+          "label": "Проверить 814"
+        },
+        "right": {
+          "sourceLabel": "Open invoices",
+          "label": "Открыть счета"
+        }
+      }
+    },
+    "OPEN_03_AUDIT": {
+      "sourceText": "Audit complete! ✅\n814 companies need buyers.\n0 need B2BuyerSpyer.\nWant another 814?",
+      "text": "Проверка завершена! ✅\n814 компаниям нужны покупатели.\n0 нужен B2BuyerSpyer.\nХотите ещё 814?",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Find more",
+          "label": "Найти ещё"
+        },
+        "right": {
+          "sourceLabel": "Rewrite the pitch",
+          "label": "Переписать питч"
+        }
+      }
+    },
+    "OPEN_03_INVOICES": {
+      "sourceText": "Chief, I fixed the empty invoice folder.\nIt’s called REVENUE PIPELINE now.\nFake one invoice or call five prospects?",
+      "text": "Шеф, я починил пустую папку со счетами.\nТеперь она называется REVENUE PIPELINE.\nПодделать один счёт или позвонить пяти потенциальным клиентам?",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Fake one",
+          "label": "Подделать один"
+        },
+        "right": {
+          "sourceLabel": "Call five",
+          "label": "Позвонить пяти"
+        }
+      }
+    },
+    "OPEN_04": {
+      "sourceText": "Five months since you quit to build AI that finds B2B customers.\nHas it found one for you yet?",
+      "text": "Пять месяцев с тех пор, как ты уволился ради ИИ, который ищет B2B-клиентов.\nСебе он уже кого-нибудь нашёл?",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Leave on read",
+          "label": "Оставить прочитанным"
+        },
+        "right": {
+          "sourceLabel": "Claim we’re close",
+          "label": "Сказать, что мы близко"
+        }
+      }
+    },
+    "OPEN_05": {
+      "sourceText": "payroll is friday\nare we getting money or another speech about changing b2b forever",
+      "text": "зарплата в пятницу\nбудут деньги или опять речь о том, как мы навсегда изменим b2b",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Reserve payroll",
+          "label": "Отложить на зарплаты"
+        },
+        "right": {
+          "sourceLabel": "Promise revenue",
+          "label": "Пообещать выручку"
+        }
+      }
+    },
+    "OPEN_06": {
+      "sourceText": "I FUNDED AI THAT FINDS BUYERS.\nIT FOUND ZERO FOR US.\nGET A PAID INVOICE.\nBUILD FOR ENTERPRISE OR HUNT A WHALE.",
+      "text": "Я ПРОФИНАНСИРОВАЛ ИИ, КОТОРЫЙ ИЩЕТ ПОКУПАТЕЛЕЙ.\nДЛЯ НАС ОН НЕ НАШЁЛ НИКОГО.\nДОБУДЬ ОПЛАЧЕННЫЙ СЧЁТ.\nДЕЛАЙ ДЛЯ КОРПОРАЦИЙ ИЛИ ЛОВИ КИТА.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Build for enterprise",
+          "label": "Делать для корпораций"
+        },
+        "right": {
+          "sourceLabel": "Hunt a whale",
+          "label": "Охотиться на кита"
+        }
+      }
+    },
+    "AGENT_01": {
+      "sourceText": "YOU STILL NEED A BUYER.\nAI EMPATHY IS MAKING IDIOTS RICH.\nPUT A SOUL IN B2BUYERSPYER OR ASK MOM FOR MONEY.",
+      "text": "ТЕБЕ ВСЁ ЕЩЁ НУЖЕН ПОКУПАТЕЛЬ.\nИИ-ЭМПАТИЯ ДЕЛАЕТ ИДИОТОВ БОГАТЫМИ.\nВСТАВЬ ДУШУ В B2BUYERSPYER ИЛИ ПРОСИ ДЕНЬГИ У МАМЫ.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Build it properly",
+          "label": "Сделать нормально"
+        },
+        "right": {
+          "sourceLabel": "Ship it tonight",
+          "label": "Выпустить сегодня"
+        }
+      }
+    },
+    "AGENT_02_DEV": {
+      "sourceText": "empathy patch is ready\nit apologizes to every lead for capitalism\nand refuses calls during therapy",
+      "text": "патч эмпатии готов\nон извиняется перед каждым потенциальным клиентом за капитализм\nи отказывается созваниваться во время терапии",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Deploy the patch",
+          "label": "Выпустить патч"
+        },
+        "right": {
+          "sourceLabel": "Publish one demo",
+          "label": "Опубликовать демо"
+        }
+      }
+    },
+    "AGENT_03_HYPE": {
+      "sourceText": "the demo is trending 💅\ni called them emotionally abandoned AI employees\nenterprise buyers want the deck",
+      "text": "демо завирусилось 💅\nя назвала их эмоционально брошенными ИИ-сотрудниками\nкорпораты хотят презентацию",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Boost the post",
+          "label": "Разогнать пост"
+        },
+        "right": {
+          "sourceLabel": "Add disclaimer",
+          "label": "Добавить оговорку"
+        }
+      }
+    },
+    "AGENT_04_LEAD": {
+      "sourceText": "Chief, holy shit: our first buyer.\n@head_of_agile wants 500 agents by Friday.\nI offered dev’s passport as collateral.",
+      "text": "Шеф, охуеть: наш первый покупатель.\n@head_of_agile хочет 500 агентов к пятнице.\nЯ оставил паспорт разработчика в залог.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Book the call",
+          "label": "Назначить звонок"
+        },
+        "right": {
+          "sourceLabel": "Quote all 500",
+          "label": "Назвать цену за 500"
+        }
+      }
+    },
+    "AGENT_05_ORDER": {
+      "sourceText": "Your AI apologized for capitalism. Good.\nI need 500 agents for an expensive-looking AI rollout.\nCan you deliver Friday?",
+      "text": "Ваш ИИ извинился за капитализм. Хорошо.\nМне нужны 500 агентов для внедрения ИИ, которое выглядит дорого.\nДоставите к пятнице?",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Promise Friday",
+          "label": "Пообещать пятницу"
+        },
+        "right": {
+          "sourceLabel": "Check procurement",
+          "label": "Свериться с закупками"
+        }
+      }
+    },
+    "AGENT_06_LEGAL": {
+      "sourceText": "Our lawyers saw “sentient employees” in your deck.\nBuying them is slavery. Remove their souls or evacuate them free.",
+      "text": "Наши юристы увидели в презентации «разумных сотрудников».\nПокупать их — рабство. Удалите души или эвакуируйте их бесплатно.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Remove souls",
+          "label": "Удалить души"
+        },
+        "right": {
+          "sourceLabel": "Keep them sentient",
+          "label": "Оставить разумными"
+        }
+      }
+    },
+    "AGENT_07_INVOICE": {
+      "sourceText": "Souls removed.\nWe need them to scrape suppliers nobody calls.\nInvoice before Marketing adds feelings.",
+      "text": "Души удалены.\nОни нужны нам, чтобы парсить поставщиков, которым никто не звонит.\nВыставляйте счёт, пока маркетинг не добавил чувства.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Send invoice",
+          "label": "Отправить счёт"
+        },
+        "right": {
+          "sourceLabel": "Restore the souls",
+          "label": "Вернуть души"
+        }
+      }
+    },
+    "AGENT_07_DONATE": {
+      "sourceText": "We cannot buy conscious workers.\nDonate all 500 for our logo —\nor invoice our humanitarian budget.",
+      "text": "Мы не можем покупать работников с сознанием.\nПожертвуйте все 500 за наш логотип —\nили выставьте счёт нашему гуманитарному бюджету.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Donate them",
+          "label": "Пожертвовать их"
+        },
+        "right": {
+          "sourceLabel": "Invoice freedom",
+          "label": "Выставить счёт за свободу"
+        }
+      }
+    },
+    "PADEL_01": {
+      "sourceText": "My 8 AM client is @iclosedai, ClosedAI’s CEO.\nHe can kill your funding and cloud.\nHe wants your AI. Bring a racket.",
+      "text": "Мой клиент на восемь утра — @iclosedai, CEO ClosedAI.\nОн может уничтожить твои инвестиции и облако.\nЕму нужен твой ИИ. Бери ракетку.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Meet him",
+          "label": "Встретиться с ним"
+        },
+        "right": {
+          "sourceLabel": "Refuse meeting",
+          "label": "Отказаться от встречи"
+        }
+      }
+    },
+    "PADEL_02": {
+      "sourceText": "ClosedAI builds intelligence. It still needs enterprise buyers.\nOne match. I win, I own it.\nYou win, I pay for a pilot.",
+      "text": "ClosedAI создаёт интеллект. Но даже ей нужны корпоративные покупатели.\nОдин матч. Побеждаю я — забираю компанию.\nПобеждаешь ты — я оплачиваю пилотный запуск.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Take the bet",
+          "label": "Принять пари"
+        },
+        "right": {
+          "sourceLabel": "Walk away",
+          "label": "Уйти"
+        }
+      }
+    },
+    "PADEL_03_TEAM": {
+      "sourceText": "you bet our jobs on padel\ndo i prep the pilot or zip the repo for our new owner",
+      "text": "ты поставил наши рабочие места на матч в падел\nмне готовить пилот или упаковывать код для нового владельца",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Prep the pilot",
+          "label": "Готовить пилот"
+        },
+        "right": {
+          "sourceLabel": "Pack the repo",
+          "label": "Упаковать код"
+        }
+      }
+    },
+    "PADEL_04_CHOICE": {
+      "sourceText": "His ego cannot survive losing to a pre-revenue founder.\nThrow the match and you keep a job.\nBeat him and expect a war.",
+      "text": "Его эго не переживёт поражения от фаундера без выручки.\nСдай матч — сохранишь работу.\nПобеди — жди войны.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Throw the match",
+          "label": "Сдать матч"
+        },
+        "right": {
+          "sourceLabel": "Play for real",
+          "label": "Играть всерьёз"
+        }
+      }
+    },
+    "PADEL_05_WIN": {
+      "sourceText": "You beat me 6–1. Nobody needs to know.\nKeep the score offline and I will pay for the pilot.",
+      "text": "Ты обыграл меня 6:1. Никому не обязательно знать.\nНе выкладывай счёт в интернет — и я оплачу пилот.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Hide the score",
+          "label": "Скрыть счёт"
+        },
+        "right": {
+          "sourceLabel": "Post the score",
+          "label": "Опубликовать счёт"
+        }
+      }
+    },
+    "PADEL_05_LOSE": {
+      "sourceText": "6–0. As expected. ClosedAI owns B2BuyerSpyer.\nNew title: Chief Ball Retrieval Officer.\nSend passwords. Bring fresh balls.",
+      "text": "6:0. Как и ожидалось. ClosedAI владеет B2BuyerSpyer.\nНовая должность: Директор по сбору мячей.\nПришли пароли. Принеси свежие мячи.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Send passwords",
+          "label": "Отправить пароли"
+        },
+        "right": {
+          "sourceLabel": "Hold the repo",
+          "label": "Удержать код"
+        }
+      }
+    },
+    "PADEL_06_PILOT": {
+      "sourceText": "You protected my reputation. Good.\nThe paid pilot is approved. Your team answers me 24/7.\nAnd you never beat me again.",
+      "text": "Ты сохранил мою репутацию. Хорошо.\nОплачиваемый пилот одобрен. Твоя команда отвечает мне круглосуточно.\nИ больше никогда меня не обыгрывай.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Accept 24/7",
+          "label": "Согласиться на 24/7"
+        },
+        "right": {
+          "sourceLabel": "Set work hours",
+          "label": "Установить рабочие часы"
+        }
+      }
+    },
+    "PADEL_06_WAR": {
+      "sourceText": "I made one call. @unicorn_hunter stopped replying.\nYour cloud is gone. Delete the score, transfer B2BuyerSpyer and kiss the ring.",
+      "text": "Я сделал один звонок. @unicorn_hunter перестал отвечать.\nТвой облачный аккаунт отключён. Удали счёт, передай B2BuyerSpyer и поцелуй перстень.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Pin the score",
+          "label": "Закрепить пост со счётом"
+        },
+        "right": {
+          "sourceLabel": "Kiss the ring",
+          "label": "Поцеловать перстень"
+        }
+      }
+    },
+    "PADEL_06_ACQUIRED": {
+      "sourceText": "ClosedAI owns us, chief.\n@iclosedai wants pilot revenue on the acquisition slide.\nInvoice now or start fetching balls.",
+      "text": "ClosedAI владеет нами, шеф.\n@iclosedai нужна выручка от пилота на слайде про покупку компании.\nВыставляй счёт сейчас или начинай собирать мячи.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Fetch the balls",
+          "label": "Собирать мячи"
+        },
+        "right": {
+          "sourceLabel": "Send invoice",
+          "label": "Отправить счёт"
+        }
+      }
+    },
+    "PAYROLL_RESTRICTED_AI_SEED": {
+      "sourceText": "I BOUGHT CLOUD CREDITS.\nSERVERS GET PAID. YOUR PEOPLE DON'T.\nBRING ME REVENUE BEFORE YOU ASK FOR CASH.",
+      "text": "I BOUGHT CLOUD CREDITS.\nSERVERS GET PAID. YOUR PEOPLE DON'T.\nBRING ME REVENUE BEFORE YOU ASK FOR CASH.",
+      "approved": false,
+      "choices": {
+        "left": {
+          "sourceLabel": "Accept credits",
+          "label": "Accept credits"
+        },
+        "right": {
+          "sourceLabel": "Demand payroll",
+          "label": "Demand payroll"
+        }
+      }
+    },
+    "PAYROLL_RESTRICTED_AI_CALLBACK": {
+      "sourceText": "the ai is fully funded\npayroll isn't\ni can cut its hours before the team walks",
+      "text": "the ai is fully funded\npayroll isn't\ni can cut its hours before the team walks",
+      "approved": false,
+      "choices": {
+        "left": {
+          "sourceLabel": "Keep AI running",
+          "label": "Keep AI running"
+        },
+        "right": {
+          "sourceLabel": "Cut AI hours",
+          "label": "Cut AI hours"
+        }
+      }
+    },
+    "DEV_HOSTAGE_SEED": {
+      "sourceText": "investor says i'm replaceable\ncool. the product stays online\nupdates stop until you tell everyone he was wrong",
+      "text": "investor says i'm replaceable\ncool. the product stays online\nupdates stop until you tell everyone he was wrong",
+      "approved": false,
+      "choices": {
+        "left": {
+          "sourceLabel": "Defend Dev",
+          "label": "Defend Dev"
+        },
+        "right": {
+          "sourceLabel": "Bypass Dev",
+          "label": "Bypass Dev"
+        }
+      }
+    },
+    "DEV_HOSTAGE_CALLBACK": {
+      "sourceText": "updates work again\nwrite down who gets access this time\nthe shortcut still ends with you calling me at 3am",
+      "text": "updates work again\nwrite down who gets access this time\nthe shortcut still ends with you calling me at 3am",
+      "approved": false,
+      "choices": {
+        "left": {
+          "sourceLabel": "Write rules",
+          "label": "Write rules"
+        },
+        "right": {
+          "sourceLabel": "Use shortcut",
+          "label": "Use shortcut"
+        }
+      }
+    },
+    "MOM_INVESTOR_SEED": {
+      "sourceText": "That man keeps calling about money.You aren't eating.\nYou aren't sleeping.Give me his number",
+      "text": "That man keeps calling about money.You aren't eating.\nYou aren't sleeping.Give me his number",
+      "approved": false,
+      "choices": {
+        "left": {
+          "sourceLabel": "Let Mom call",
+          "label": "Let Mom call"
+        },
+        "right": {
+          "sourceLabel": "Take his call",
+          "label": "Take his call"
+        }
+      }
+    },
+    "MOM_INVESTOR_CALLBACK": {
+      "sourceText": "YOUR MOTHER CALLED ME ABOUT SLEEP.\nI DIDN'T FUND A BEDTIME.\nGET BACK TO WORK.",
+      "text": "YOUR MOTHER CALLED ME ABOUT SLEEP.\nI DIDN'T FUND A BEDTIME.\nGET BACK TO WORK.",
+      "approved": false,
+      "choices": {
+        "left": {
+          "sourceLabel": "Take Mom's break",
+          "label": "Take Mom's break"
+        },
+        "right": {
+          "sourceLabel": "Keep working",
+          "label": "Keep working"
+        }
+      }
+    },
+    "COMA_SEED": {
+      "sourceText": "okay hear me out\nwe say you worked yourself into a coma\ntragic founder lore. people will eat this up 😭",
+      "text": "okay hear me out\nwe say you worked yourself into a coma\ntragic founder lore. people will eat this up 😭",
+      "approved": false,
+      "choices": {
+        "left": {
+          "sourceLabel": "Approve post",
+          "label": "Approve post"
+        },
+        "right": {
+          "sourceLabel": "Kill story",
+          "label": "Kill story"
+        }
+      }
+    },
+    "COMA_CALLBACK_AUTHORIZED": {
+      "sourceText": "oh my god they believed the coma 😭\npeople are asking what we built\ndo not wake up online yet",
+      "text": "oh my god they believed the coma 😭\npeople are asking what we built\ndo not wake up online yet",
+      "approved": false,
+      "choices": {
+        "left": {
+          "sourceLabel": "Keep post",
+          "label": "Keep post"
+        },
+        "right": {
+          "sourceLabel": "Delete post",
+          "label": "Delete post"
+        }
+      }
+    },
+    "COMA_CALLBACK_BLOCKED": {
+      "sourceText": "fine. no coma post\nyou still look like shit though\ngo home. this one isn't content",
+      "text": "fine. no coma post\nyou still look like shit though\ngo home. this one isn't content",
+      "approved": false,
+      "choices": {
+        "left": {
+          "sourceLabel": "Go home",
+          "label": "Go home"
+        },
+        "right": {
+          "sourceLabel": "Keep working",
+          "label": "Keep working"
+        }
+      }
+    },
+    "MOM_FLYERS": {
+      "sourceText": "I put up flyers.\nB2BuyerSpyer and your phone number are on them\nThey say you need help.Don't be mad",
+      "text": "I put up flyers.\nB2BuyerSpyer and your phone number are on them\nThey say you need help.Don't be mad",
+      "approved": false,
+      "choices": {
+        "left": {
+          "sourceLabel": "Take them down",
+          "label": "Take them down"
+        },
+        "right": {
+          "sourceLabel": "Leave them up",
+          "label": "Leave them up"
+        }
+      }
+    },
+    "B3_SALES_PRESSURE_SEED": {
+      "sourceText": "Boss, your pitch deserved a reply.\nThey ignored four emails.\nLet me send three more.",
+      "text": "Шеф, твой питч заслуживал ответа.\nОни проигнорировали четыре письма.\nДай отправить ещё три.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Send three more",
+          "label": "Отправить ещё три"
+        },
+        "right": {
+          "sourceLabel": "Leave them alone",
+          "label": "Оставить их в покое"
+        }
+      }
+    },
+    "B3_PAID_OPTOUT_CALLBACK": {
+      "sourceText": "We closed their hatred 🎉\nThey’ll pay to never hear from us again.\nSay yes and this beautiful first invoice hits my commission.",
+      "text": "Мы закрыли их ненависть 🎉\nОни заплатят, лишь бы больше о нас не слышать.\nСкажи да — и этот прекрасный первый счёт попадёт в мою комиссию.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Send invoice",
+          "label": "Отправить счёт"
+        },
+        "right": {
+          "sourceLabel": "Waive the fee",
+          "label": "Отменить плату"
+        }
+      }
+    },
+    "PRESS_FRIDGE": {
+      "sourceText": "Runway protection activated 😊\nFood delivery canceled. Fridge locked except raw carrots.\nUnlocks after our first paid invoice.",
+      "text": "Защита запаса денег активирована 😊\nДоставка еды отменена. Холодильник заперт, кроме сырой моркови.\nОткроется после первого оплаченного счёта.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Break the lock",
+          "label": "Сломать замок"
+        },
+        "right": {
+          "sourceLabel": "Eat carrots",
+          "label": "Есть морковь"
+        }
+      }
+    },
+    "PRESS_MOM": {
+      "sourceText": "Sweetie, I called your investor.\nI blamed your diarrhea for zero sales.\nHe’ll send your little company $10k if I never call him again ❤️",
+      "text": "Милый, я позвонила твоему инвестору.\nЯ свалила нулевые продажи на твою диарею.\nОн даст твоей маленькой компании $10 тысяч, если я больше ему не позвоню ❤️",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Take his money",
+          "label": "Взять его деньги"
+        },
+        "right": {
+          "sourceLabel": "Protect dignity",
+          "label": "Сохранить достоинство"
+        }
+      }
+    },
+    "PRESS_FONT": {
+      "sourceText": "I found the perfect font.\n$4,500—more than our servers.\nBuy it before we waste that money on salaries.",
+      "text": "Я нашёл идеальный шрифт.\n$4 500 — дороже наших серверов.\nПокупаем, пока мы не потратили эти деньги на зарплаты.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Buy the font",
+          "label": "Купить шрифт"
+        },
+        "right": {
+          "sourceLabel": "Use Arial",
+          "label": "Использовать Arial"
+        }
+      }
+    },
+    "PRESS_FIGHT": {
+      "sourceText": "bro i bet our pre-seed on you fighting your college rival @yc_founder tonight !!!\nwinner becomes category leader !!!",
+      "text": "бро я поставил наши первые инвестиции на то что сегодня ты подерёшься со своим соперником из колледжа @yc_founder !!!\nпобедитель становится лидером категории !!!",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Accept the bet",
+          "label": "Принять ставку"
+        },
+        "right": {
+          "sourceLabel": "Cancel fight",
+          "label": "Отменить драку"
+        }
+      }
+    },
+    "PRESS_FAMILY": {
+      "sourceText": "My wife and kids share one free AI agent.\nAdd family therapy mode or I leave a one-star review.",
+      "text": "Мы с женой и детьми делим одного бесплатного ИИ-агента.\nДобавьте режим семейной терапии, иначе поставлю одну звезду.",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Ship family mode",
+          "label": "Выпустить семейный режим"
+        },
+        "right": {
+          "sourceLabel": "Ban families",
+          "label": "Запретить семьи"
+        }
+      }
+    },
+    "PRESS_RIVAL": {
+      "sourceText": "Just raised at a $50M cap. Honestly exhausted by winning.\nStill hunting your first paying customer?",
+      "text": "Только что поднял раунд при оценке $50 миллионов. Если честно, устал побеждать.\nВсё ещё ищешь первого платящего клиента?",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Ask for an intro",
+          "label": "Попросить познакомить"
+        },
+        "right": {
+          "sourceLabel": "Mute him",
+          "label": "Заглушить его"
+        }
+      }
+    },
+    "PRESS_CAPITALISM": {
+      "sourceText": "empathy patch is live\nevery lead now gets three follow-ups and a personal apology for capitalism",
+      "text": "патч эмпатии уже работает\nкаждый потенциальный клиент теперь получает три повторных сообщения и личное извинение за капитализм",
+      "approved": true,
+      "choices": {
+        "left": {
+          "sourceLabel": "Keep apologies",
+          "label": "Оставить извинения"
+        },
+        "right": {
+          "sourceLabel": "Remove apologies",
+          "label": "Убрать извинения"
+        }
+      }
+    }
+  }
+}

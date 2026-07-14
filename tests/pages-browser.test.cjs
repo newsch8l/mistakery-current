@@ -62,7 +62,23 @@ test('published game and map remain interactive from desktop to mobile', async (
       assert.ok(spacing.bodyPaddingBottom >= 32 && spacing.bottomSpace >= 31, `${width}px page has no bottom breathing room: ${JSON.stringify(spacing)}`);
       assert.ok(spacing.groupPaddingTop >= 16 && spacing.groupBorderTop >= 1, `map groups visually run together: ${JSON.stringify(spacing)}`);
 
+      const translationToggle = map.locator('#ms-translation');
+      assert.equal(await translationToggle.isChecked(), false, 'Russian translation must be off by default');
+      assert.equal(await map.locator('#ms-detail [data-translation="message"]').count(), 0);
+      await translationToggle.check();
+      assert.match(await map.locator('#ms-detail [data-translation="message"]').textContent(), /Привет, визионер/);
+      assert.match(await map.locator('#ms-detail [data-translation="left"]').textContent(), /Проверить рынок/);
+      assert.match(await map.locator('#ms-detail [data-translation="right"]').textContent(), /Довериться названию/);
+      const translatedOverflow = await map.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      assert.ok(translatedOverflow <= 1, `${width}px translated map overflows horizontally by ${translatedOverflow}px`);
+
       if (width === 736) {
+        await map.locator('[data-mode="sim"]').click();
+        assert.match(await map.locator('#ms-current [data-translation="message"]').textContent(), /Привет, визионер/);
+        assert.match(await map.locator('#ms-left [data-translation="left"]').textContent(), /Проверить рынок/);
+        assert.match(await map.locator('#ms-right [data-translation="right"]').textContent(), /Довериться названию/);
+        await map.locator('[data-mode="map"]').click();
+
         assert.equal(await map.locator('[data-window]').count(), 4, 'opening and Agents insertion windows are missing');
         assert.match(await map.locator('.ms-legend').textContent(), /↩ отдельная карточка-последствие/);
         assert.match(await map.locator('.ms-legend').textContent(), /🧠 учитывает прошлое решение/);
@@ -129,6 +145,14 @@ test('published game and map remain interactive from desktop to mobile', async (
 
       await map.locator('[data-mode="sim"]').click();
       assert.match(await map.locator('#ms-current').textContent(), /OPEN_01/);
+      assert.match(await map.locator('#ms-current [data-translation="message"]').textContent(), /Привет, визионер/);
+      assert.equal(await map.locator('#ms-left [data-language="en"]').count(), 1, 'English button label needs its own line');
+      const translatedButtonLayout = await map.locator('#ms-left').evaluate((button) => {
+        const english = button.querySelector('[data-language="en"]').getBoundingClientRect();
+        const russian = button.querySelector('[data-translation="left"]').getBoundingClientRect();
+        return { englishBottom: english.bottom, russianTop: russian.top };
+      });
+      assert.ok(translatedButtonLayout.russianTop >= translatedButtonLayout.englishBottom - 1, `${width}px button translation is not below English: ${JSON.stringify(translatedButtonLayout)}`);
       const simulatorCard = await map.evaluate(() => {
         const root = document.querySelector('#mistakery-structure-v1').getBoundingClientRect();
         const cardNode = document.querySelector('#ms-current');

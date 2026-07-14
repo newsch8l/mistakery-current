@@ -2,6 +2,7 @@
   <div class="viz-controls" aria-label="Режим визуализации">
     <button class="btn btn-primary" type="button" data-mode="map" aria-pressed="true"><i data-lucide="git-branch" aria-hidden="true"></i> Карта игры</button>
     <button class="btn" type="button" data-mode="sim" aria-pressed="false"><i data-lucide="play" aria-hidden="true"></i> Симулятор</button>
+    <label class="form-check form-switch"><input class="form-check-input" id="ms-translation" type="checkbox"><span class="form-check-label">Русский перевод</span></label>
   </div>
 
   <section id="ms-map" aria-label="Карта игры">
@@ -90,6 +91,9 @@
 #mistakery-structure-v1 .ms-detail{margin-block:0 12px;display:grid;gap:12px;min-width:0}
 #mistakery-structure-v1 .ms-detail h3,#mistakery-structure-v1 .ms-current h3{margin:0}
 #mistakery-structure-v1 .ms-message{white-space:pre-line;overflow-wrap:anywhere}
+#mistakery-structure-v1 .ms-translation{padding-inline-start:10px;border-inline-start:2px solid var(--border);white-space:pre-line;overflow-wrap:anywhere}
+#mistakery-structure-v1 .ms-choice-translation,#mistakery-structure-v1 .ms-button-translation{display:block;margin-block-start:5px;font-weight:400;overflow-wrap:anywhere}
+#mistakery-structure-v1 .ms-button-copy{display:grid;gap:4px;text-align:left}
 #mistakery-structure-v1 .ms-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 #mistakery-structure-v1 .ms-choice{min-width:0;padding-inline-start:10px;border-inline-start:3px solid var(--border)}
 #mistakery-structure-v1 .ms-choice.left{border-color:var(--viz-series-2)}
@@ -723,6 +727,7 @@
     "founder_high": { "type": "loss", "title": "MESSIAH MODE", "text": "You deleted the product and announced that purchasing itself had been disrupted." }
   }
 };
+  var translations={};
   var keys=['cash','team','customers','founder'];
   var ru={cash:'Деньги',team:'Команда',customers:'Клиенты',founder:'Фаундер'};
   var packageA=['PAYROLL_RESTRICTED_AI_SEED','PAYROLL_RESTRICTED_AI_CALLBACK','DEV_HOSTAGE_SEED','DEV_HOSTAGE_CALLBACK','MOM_INVESTOR_SEED','MOM_INVESTOR_CALLBACK','COMA_SEED','COMA_CALLBACK_AUTHORIZED','COMA_CALLBACK_BLOCKED','MOM_FLYERS'];
@@ -784,7 +789,7 @@
   };
   var convergence=['OPEN_01','OPEN_03_AUDIT','OPEN_04','AGENT_01','AGENT_03_HYPE','AGENT_04_LEAD','AGENT_05_ORDER','PADEL_03_TEAM'];
   var protectedPairs=deck.meta.scheduler.protectedPairs;
-  var scope='all',showVariable=true,showTerminals=true,selectedId='OPEN_01',selectedPair=null,selectedWindow=null;
+  var scope='all',showVariable=true,showTerminals=true,showTranslation=false,selectedId='OPEN_01',selectedPair=null,selectedWindow=null;
   var mapCandidates=[];
   function arr(v){return v==null?[]:(Array.isArray(v)?v:[v]);}
   function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -1010,12 +1015,27 @@
     if(c.kind==='pressure')return c.callbackOnly?'отложенное последствие конкретного решения':'случайная проблема · равный шанс среди подходящих проблем';
     return category(c)+' · '+role(c)+(c.weight?' · weight '+c.weight:'');
   }
-  function choiceHtml(ch,side){
+  function translated(c){return translations[c.id]||null;}
+  function translationMessageHtml(c){
+    if(!showTranslation)return '';
+    var t=translated(c);
+    if(!t)return '';
+    if(!t.approved)return '<div class="ms-translation" data-translation="message">Перевод пока не утверждён.</div>';
+    return '<div class="ms-translation" data-translation="message" lang="ru">'+esc(t.text)+'</div>';
+  }
+  function translationChoiceHtml(c,side,className){
+    if(!showTranslation)return '';
+    var t=translated(c);
+    if(!t||!t.approved)return '';
+    return '<span class="'+className+'" data-translation="'+side+'" lang="ru">'+esc(t.choices[side].label)+'</span>';
+  }
+  function choiceHtml(c,side){
+    var ch=c.choices[side];
     var next=arr(ch.next);
     var direct=next.length?next.join(', '):(ch.ending?'финал: '+ch.ending:(ch.crisis?'кризис: '+ch.crisis:'возврат к основной истории'));
     var state=arr(ch.setFlags);
     var cb=ch.reserveCallback?('Вернётся карточка '+ch.reserveCallback.callbackId+' через '+ch.reserveCallback.spineSteps+' основных решений'):(ch.delay?('Вернётся карточка '+ch.delay.card+' через '+ch.delay.storyDecisions+' основных решений'):'');
-    return '<div class="ms-choice '+side+'"><strong>'+(side==='left'?'Левая':'Правая')+': '+esc(ch.label)+'</strong><p>'+esc(effectsText(ch.effects))+'</p><p class="text-small"><b>Дальше:</b> '+esc(direct)+'</p>'+(state.length?'<p class="text-small"><b>Запоминает:</b> '+esc(state.join(', '))+'</p>':'')+(cb?'<p class="text-small"><b>Будущее последствие:</b> '+esc(cb)+'</p>':'')+(ch.startArc||ch.switchArc?'<p class="text-small"><b>Выбранный путь:</b> '+esc(ch.startArc||ch.switchArc)+'</p>':'')+'</div>';
+    return '<div class="ms-choice '+side+'"><strong>'+(side==='left'?'Левая':'Правая')+': '+esc(ch.label)+'</strong>'+translationChoiceHtml(c,side,'ms-choice-translation')+'<p>'+esc(effectsText(ch.effects))+'</p><p class="text-small"><b>Дальше:</b> '+esc(direct)+'</p>'+(state.length?'<p class="text-small"><b>Запоминает:</b> '+esc(state.join(', '))+'</p>':'')+(cb?'<p class="text-small"><b>Будущее последствие:</b> '+esc(cb)+'</p>':'')+(ch.startArc||ch.switchArc?'<p class="text-small"><b>Выбранный путь:</b> '+esc(ch.startArc||ch.switchArc)+'</p>':'')+'</div>';
   }
   function renderDetail(){
     var box=root.querySelector('#ms-detail');
@@ -1042,7 +1062,7 @@
     if(n.scheduler&&n.scheduler.role==='callback')flags.push('↩ отдельная карточка-последствие');
     var leftNext=arr(n.choices.left.next),rightNext=arr(n.choices.right.next);
     if(leftNext.length===1&&rightNext.length===1&&leftNext[0]===rightNext[0])flags.push('▬ обе кнопки ведут к одной следующей карточке → '+leftNext[0]);
-    box.innerHTML='<div><span class="viz-badge">'+esc(role(n))+'</span> <strong>'+esc(n.id)+'</strong> · '+esc(sourceName(n))+'</div><div class="ms-message">'+esc(n.text)+'</div><div class="ms-choice-grid">'+choiceHtml(n.choices.left,'left')+choiceHtml(n.choices.right,'right')+'</div><div class="ms-facts"><div><b>Когда может появиться</b><br><span class="text-small">'+esc(conditionText(n))+'</span></div><div><b>Как работает эта карточка</b><br><span class="text-small">'+esc(mechanicsText(n))+'</span></div></div>'+memoryHtml(n)+(flags.length?'<div class="ms-tags">'+flags.map(function(x){return '<span class="viz-badge">'+esc(x)+'</span>';}).join('')+'</div>':'');
+    box.innerHTML='<div><span class="viz-badge">'+esc(role(n))+'</span> <strong>'+esc(n.id)+'</strong> · '+esc(sourceName(n))+'</div><div class="ms-message">'+esc(n.text)+'</div>'+translationMessageHtml(n)+'<div class="ms-choice-grid">'+choiceHtml(n,'left')+choiceHtml(n,'right')+'</div><div class="ms-facts"><div><b>Когда может появиться</b><br><span class="text-small">'+esc(conditionText(n))+'</span></div><div><b>Как работает эта карточка</b><br><span class="text-small">'+esc(mechanicsText(n))+'</span></div></div>'+memoryHtml(n)+(flags.length?'<div class="ms-tags">'+flags.map(function(x){return '<span class="viz-badge">'+esc(x)+'</span>';}).join('')+'</div>':'');
   }
 
   var rngState=24681357;
@@ -1278,7 +1298,7 @@
     }else{
       var c=card(state.currentCardId),s=deck.sources[c.source]||{};
       cur.className='card ms-current';
-      cur.innerHTML='<div><span class="viz-badge">'+esc(role(c))+'</span> <strong>'+esc(c.id)+'</strong> · '+esc((s.role||'')+' '+(s.name||''))+'</div><div class="ms-message">'+esc(c.text)+'</div>'+deltasHtml()+'<div class="ms-sim-actions"><button class="btn btn-primary" id="ms-left" type="button">'+esc(c.choices.left.label)+'</button><button class="btn" id="ms-right" type="button">'+esc(c.choices.right.label)+'</button></div>';
+      cur.innerHTML='<div><span class="viz-badge">'+esc(role(c))+'</span> <strong>'+esc(c.id)+'</strong> · '+esc((s.role||'')+' '+(s.name||''))+'</div><div class="ms-message">'+esc(c.text)+'</div>'+translationMessageHtml(c)+deltasHtml()+'<div class="ms-sim-actions"><button class="btn btn-primary" id="ms-left" type="button"><span class="ms-button-copy"><span data-language="en">'+esc(c.choices.left.label)+'</span>'+translationChoiceHtml(c,'left','ms-button-translation')+'</span></button><button class="btn" id="ms-right" type="button"><span class="ms-button-copy"><span data-language="en">'+esc(c.choices.right.label)+'</span>'+translationChoiceHtml(c,'right','ms-button-translation')+'</span></button></div>';
       root.querySelector('#ms-left').onclick=function(){resolve('left');};
       root.querySelector('#ms-right').onclick=function(){resolve('right');};
     }
@@ -1303,6 +1323,7 @@
   root.querySelectorAll('[data-scope]').forEach(function(b){b.addEventListener('click',function(){scope=b.getAttribute('data-scope');root.querySelectorAll('[data-scope]').forEach(function(x){var a=x===b;x.setAttribute('aria-pressed',String(a));x.classList.toggle('btn-primary',a);});renderMap();});});
   root.querySelector('#ms-variable').addEventListener('change',function(e){showVariable=e.target.checked;if(!showVariable&&selectedWindow){selectedWindow=null;selectedId=state.currentCardId||'OPEN_01';}renderMap();});
   root.querySelector('#ms-terminals').addEventListener('change',function(e){showTerminals=e.target.checked;renderMap();});
+  root.querySelector('#ms-translation').addEventListener('change',function(e){showTranslation=e.target.checked;renderDetail();renderSim();});
   root.querySelector('#ms-restart').onclick=restart;
   root.querySelector('#ms-undo').onclick=undoTurn;
   root.querySelector('#ms-back-map').onclick=function(){setMode('map');};

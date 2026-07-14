@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build-pages.cjs",
+    "translations:sync": "node scripts/sync-translations.cjs",
     "test": "node scripts/build-pages.cjs && node --test tests/*.test.cjs",
     "test:pages": "node scripts/build-pages.cjs && node --test tests/pages-build.test.cjs tests/pages-browser.test.cjs"
   },
