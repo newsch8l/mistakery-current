@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#dfe9f2">
+    <title>Mistakery</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+    <script src="cards.bundle.js" defer></script>
+    <script src="game.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="app" data-app>
+      <section class="phone" data-game aria-label="Mistakery game">
+        <header class="topbar">
+          <h1>Mistakery</h1>
+          <div class="turn">Turn <strong data-turn>1</strong></div>
+        </header>
+
+        <section class="resources" data-resources aria-label="Startup resources"></section>
+
+        <article class="messenger">
+          <header class="threadbar">
+            <div class="avatar" data-avatar aria-hidden="true">B</div>
+            <div class="threadbar__copy">
+              <strong data-sender>Loading…</strong>
+              <span data-status>typing...</span>
+            </div>
+            <span class="threadbar__menu" aria-hidden="true">•••</span>
+          </header>
+
+          <section class="conversation" data-conversation aria-live="polite">
+            <div class="date-chip">Today</div>
+            <div class="message-row">
+              <div class="message-avatar" data-message-avatar aria-hidden="true">B</div>
+              <div class="bubble">
+                <p data-message>Opening the founder chat…</p>
+                <span class="stamp">15:54</span>
+              </div>
+            </div>
+            <span class="card-id" data-card-id></span>
+          </section>
+
+          <footer class="reply-dock" data-reply-dock>
+            <div class="composer">
+              <span>Choose a reply…</span>
+              <span aria-hidden="true">↑</span>
+            </div>
+            <div class="choices" data-choices></div>
+          </footer>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

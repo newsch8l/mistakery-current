@@ -1,0 +1,13 @@
+{
+  "name": "mistakery-current",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-pages.cjs",
+    "test": "node scripts/build-pages.cjs && node --test tests/*.test.cjs",
+    "test:pages": "node scripts/build-pages.cjs && node --test tests/pages-build.test.cjs tests/pages-browser.test.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.61.1"
+  }
+}
