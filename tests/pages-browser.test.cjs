@@ -45,6 +45,22 @@ test('published game and map remain interactive from desktop to mobile', async (
       });
       assert.ok(frame.width <= 736, `${width}px viewport stretches the map to ${frame.width}px`);
       assert.ok(Math.abs(frame.left - (width - frame.width) / 2) <= 1, `${width}px map is not centered: ${JSON.stringify(frame)}`);
+      const spacing = await map.evaluate(() => {
+        const root = document.querySelector('#mistakery-structure-v1').getBoundingClientRect();
+        const bodyStyle = getComputedStyle(document.body);
+        const groupStyle = getComputedStyle(document.querySelector('.ms-group'));
+        return {
+          rootTop: root.top,
+          bottomSpace: document.documentElement.scrollHeight - root.bottom,
+          bodyPaddingTop: parseFloat(bodyStyle.paddingTop),
+          bodyPaddingBottom: parseFloat(bodyStyle.paddingBottom),
+          groupPaddingTop: parseFloat(groupStyle.paddingTop),
+          groupBorderTop: parseFloat(groupStyle.borderTopWidth),
+        };
+      });
+      assert.ok(spacing.bodyPaddingTop >= 12 && spacing.rootTop >= 12, `${width}px page has no top breathing room: ${JSON.stringify(spacing)}`);
+      assert.ok(spacing.bodyPaddingBottom >= 32 && spacing.bottomSpace >= 31, `${width}px page has no bottom breathing room: ${JSON.stringify(spacing)}`);
+      assert.ok(spacing.groupPaddingTop >= 16 && spacing.groupBorderTop >= 1, `map groups visually run together: ${JSON.stringify(spacing)}`);
 
       await map.locator('[data-node="OPEN_02"]').click();
       assert.match(await map.locator('#ms-detail').textContent(), /OPEN_02/);

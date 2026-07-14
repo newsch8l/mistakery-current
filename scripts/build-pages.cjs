@@ -36,7 +36,7 @@ function buildMap() {
   let html = decodeAttribute(match[1]);
   html = html.replace(
     '</head>',
-    '<style id="standalone-layout">#mistakery-structure-v1{width:100%;max-width:736px;margin-inline:auto}</style>\n</head>',
+    '<style id="standalone-layout">html>body{padding:24px 16px 56px}#mistakery-structure-v1{width:100%;max-width:736px;margin-inline:auto}@media(max-width:560px){html>body{padding:12px 8px 32px}}</style>\n</head>',
   );
   const serialized = JSON.stringify(deck, null, 2);
   html = html.replace(/var deck=\{[\s\S]*?\};\n  var keys=/, `var deck=${serialized};\n  var keys=`);
