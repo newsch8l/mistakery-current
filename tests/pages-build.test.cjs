@@ -46,6 +46,10 @@ test('builds the current game and interactive map from canonical cards.json', ()
     'MOM_INVESTOR_SEED', 'MOM_INVESTOR_CALLBACK',
     'COMA_SEED', 'COMA_CALLBACK_AUTHORIZED', 'COMA_CALLBACK_BLOCKED', 'MOM_FLYERS',
   ]);
+  assert.equal(
+    translations.cards.AGENT_06_LEGAL.text,
+    'Наши юристы увидели в вашей презентации «разумных сотрудников».\nПокупать их — это работорговля.',
+  );
   assert.deepEqual(Object.keys(translations.cards).sort(), [...ids].sort(), 'translations must cover every production card exactly once');
   for (const card of sourceDeck.cards) {
     const translated = translations.cards[card.id];

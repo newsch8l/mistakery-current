@@ -185,8 +185,8 @@
       }
     },
     "AGENT_06_LEGAL": {
-      "sourceText": "Our lawyers saw “sentient employees” in your deck.\nBuying them is slavery. Remove their souls or evacuate them free.",
-      "text": "Наши юристы увидели в презентации «разумных сотрудников».\nПокупать их — рабство. Удалите души или эвакуируйте их бесплатно.",
+      "sourceText": "Our lawyers saw “sentient employees” in your deck.\nBuying them is slave trading.",
+      "text": "Наши юристы увидели в вашей презентации «разумных сотрудников».\nПокупать их — это работорговля.",
       "approved": true,
       "choices": {
         "left": {
