@@ -115,15 +115,18 @@ test('published game and map remain interactive from desktop to mobile', async (
       assert.match(await map.locator('#ms-current').textContent(), /OPEN_01/);
       const simulatorCard = await map.evaluate(() => {
         const root = document.querySelector('#mistakery-structure-v1').getBoundingClientRect();
-        const card = document.querySelector('#ms-current').getBoundingClientRect();
+        const cardNode = document.querySelector('#ms-current');
+        const card = cardNode.getBoundingClientRect();
         return {
-          rootCenter: (root.left + root.right) / 2,
-          cardCenter: (card.left + card.right) / 2,
+          rootLeft: root.left,
+          cardLeft: card.left,
           cardWidth: card.width,
+          cardPadding: parseFloat(getComputedStyle(cardNode).paddingLeft),
         };
       });
       assert.ok(simulatorCard.cardWidth <= 560, `${width}px simulator card is too wide: ${JSON.stringify(simulatorCard)}`);
-      assert.ok(Math.abs(simulatorCard.rootCenter - simulatorCard.cardCenter) <= 1, `${width}px simulator card is not centered: ${JSON.stringify(simulatorCard)}`);
+      assert.ok(Math.abs(simulatorCard.rootLeft - simulatorCard.cardLeft) <= 1, `${width}px simulator card is not left-aligned: ${JSON.stringify(simulatorCard)}`);
+      assert.ok(simulatorCard.cardPadding >= 16, `${width}px simulator card needs more inner spacing: ${JSON.stringify(simulatorCard)}`);
       if (process.env.PAGES_SCREENSHOT_DIR) {
         await map.screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, `sim-${width}.png`) });
       }
