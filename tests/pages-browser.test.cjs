@@ -113,6 +113,20 @@ test('published game and map remain interactive from desktop to mobile', async (
 
       await map.locator('[data-mode="sim"]').click();
       assert.match(await map.locator('#ms-current').textContent(), /OPEN_01/);
+      const simulatorCard = await map.evaluate(() => {
+        const root = document.querySelector('#mistakery-structure-v1').getBoundingClientRect();
+        const card = document.querySelector('#ms-current').getBoundingClientRect();
+        return {
+          rootCenter: (root.left + root.right) / 2,
+          cardCenter: (card.left + card.right) / 2,
+          cardWidth: card.width,
+        };
+      });
+      assert.ok(simulatorCard.cardWidth <= 560, `${width}px simulator card is too wide: ${JSON.stringify(simulatorCard)}`);
+      assert.ok(Math.abs(simulatorCard.rootCenter - simulatorCard.cardCenter) <= 1, `${width}px simulator card is not centered: ${JSON.stringify(simulatorCard)}`);
+      if (process.env.PAGES_SCREENSHOT_DIR) {
+        await map.screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, `sim-${width}.png`) });
+      }
       const resourcesBefore = await map.locator('#ms-resources').textContent();
       await map.locator('#ms-left').click();
       assert.match(await map.locator('#ms-current').textContent(), /OPEN_02/);
