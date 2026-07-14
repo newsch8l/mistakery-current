@@ -34,6 +34,10 @@ function buildMap() {
   if (!match) throw new Error('Could not extract the visualization document');
 
   let html = decodeAttribute(match[1]);
+  html = html.replace(
+    '</head>',
+    '<style id="standalone-layout">#mistakery-structure-v1{width:100%;max-width:736px;margin-inline:auto}</style>\n</head>',
+  );
   const serialized = JSON.stringify(deck, null, 2);
   html = html.replace(/var deck=\{[\s\S]*?\};\n  var keys=/, `var deck=${serialized};\n  var keys=`);
   html = html.replace(

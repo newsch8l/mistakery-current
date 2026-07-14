@@ -19,7 +19,7 @@ test('published game and map remain interactive from desktop to mobile', async (
     assert.equal(await game.locator('[data-choice]').count(), 2);
     await game.close();
 
-    for (const width of [736, 320]) {
+    for (const width of [1440, 736, 320]) {
       const map = await browser.newPage({ viewport: { width, height: 900 } });
       await map.goto(pathToFileURL(path.join(dist, 'map/index.html')).href);
       await map.waitForSelector('[data-node="OPEN_01"]');
@@ -39,6 +39,12 @@ test('published game and map remain interactive from desktop to mobile', async (
 
       const overflow = await map.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       assert.ok(overflow <= 1, `${width}px map overflows horizontally by ${overflow}px`);
+      const frame = await map.locator('#mistakery-structure-v1').evaluate((node) => {
+        const rect = node.getBoundingClientRect();
+        return { left: rect.left, right: rect.right, width: rect.width };
+      });
+      assert.ok(frame.width <= 736, `${width}px viewport stretches the map to ${frame.width}px`);
+      assert.ok(Math.abs(frame.left - (width - frame.width) / 2) <= 1, `${width}px map is not centered: ${JSON.stringify(frame)}`);
 
       await map.locator('[data-node="OPEN_02"]').click();
       assert.match(await map.locator('#ms-detail').textContent(), /OPEN_02/);
