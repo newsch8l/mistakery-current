@@ -775,7 +775,8 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;span&gt;&lt;b class=&quot;ms-mark right&quot;&gt;&lt;/b&gt; правый выбор&lt;/span&gt;
       &lt;span&gt;&lt;b class=&quot;ms-mark both&quot;&gt;&lt;/b&gt; обе кнопки ведут сюда&lt;/span&gt;
       &lt;span&gt;&lt;b&gt;🎲&lt;/b&gt; может появиться случайно&lt;/span&gt;
-      &lt;span&gt;&lt;b&gt;↩&lt;/b&gt; возвращает прошлое решение&lt;/span&gt;
+      &lt;span&gt;&lt;b&gt;↩&lt;/b&gt; отдельная карточка-последствие&lt;/span&gt;
+      &lt;span&gt;&lt;b&gt;🧠&lt;/b&gt; учитывает прошлое решение&lt;/span&gt;
       &lt;span&gt;&lt;b&gt;⛓&lt;/b&gt; входит в неразрывную пару&lt;/span&gt;
       &lt;span&gt;&lt;b&gt;⊘&lt;/b&gt; исключает другую мини-историю&lt;/span&gt;
       &lt;span&gt;&lt;b&gt;🔒&lt;/b&gt; дальше без случайных вставок&lt;/span&gt;
@@ -1484,13 +1485,13 @@ html&gt;body{padding:0}&lt;/style&gt;
     {id:&#x27;b3&#x27;,group:&#x27;b3&#x27;,seed:&#x27;B3_SALES_PRESSURE_SEED&#x27;,callbacks:[&#x27;B3_PAID_OPTOUT_CALLBACK&#x27;],steps:[&#x27;AGENT_01&#x27;,&#x27;AGENT_02_DEV&#x27;,&#x27;AGENT_03_HYPE&#x27;],condition:&#x27;Последствие появится только после выбора «Send three more».&#x27;}
   ];
   var insertionWindows=[
-    {id:&#x27;opening_shared_seed&#x27;,group:&#x27;opening&#x27;,label:&#x27;🎲 OPEN_04 → одна из 2 мини-историй → OPEN_05&#x27;,candidates:[&#x27;MOM_INVESTOR_SEED&#x27;,&#x27;COMA_SEED&#x27;]},
-    {id:&#x27;opening_health_resolution&#x27;,group:&#x27;opening&#x27;,label:&#x27;↩ OPEN_05 → результат истории → OPEN_06&#x27;,candidates:[&#x27;MOM_INVESTOR_CALLBACK&#x27;,&#x27;COMA_CALLBACK_AUTHORIZED&#x27;,&#x27;COMA_CALLBACK_BLOCKED&#x27;,&#x27;MOM_FLYERS&#x27;]},
-    {id:&#x27;agents_entry_seed&#x27;,group:&#x27;agents&#x27;,label:&#x27;🎲 Перед AGENT_01 → одна из 3 мини-историй&#x27;,candidates:[&#x27;PAYROLL_RESTRICTED_AI_SEED&#x27;,&#x27;DEV_HOSTAGE_SEED&#x27;,&#x27;B3_SALES_PRESSURE_SEED&#x27;]},
-    {id:&#x27;agents_pre_serious_lead&#x27;,group:&#x27;agents&#x27;,label:&#x27;↩ AGENT_03_HYPE → результат истории → AGENT_04_LEAD&#x27;,candidates:[&#x27;PAYROLL_RESTRICTED_AI_CALLBACK&#x27;,&#x27;DEV_HOSTAGE_CALLBACK&#x27;,&#x27;B3_PAID_OPTOUT_CALLBACK&#x27;]}
+    {id:&#x27;opening_shared_seed&#x27;,group:&#x27;opening&#x27;,label:&#x27;🎲 OPEN_04 → одна из 2 мини-историй → OPEN_05&#x27;,explain:&#x27;После OPEN_04 игра может вставить начало одной из двух мини-историй. Затем обязательный сюжет возвращается к OPEN_05.&#x27;,candidates:[&#x27;MOM_INVESTOR_SEED&#x27;,&#x27;COMA_SEED&#x27;]},
+    {id:&#x27;opening_health_resolution&#x27;,group:&#x27;opening&#x27;,label:&#x27;↩ OPEN_05 → результат истории → OPEN_06&#x27;,explain:&#x27;После OPEN_05 возвращается последствие выбранной мини-истории. Если такая история не началась, могут появиться мамины листовки.&#x27;,candidates:[&#x27;MOM_INVESTOR_CALLBACK&#x27;,&#x27;COMA_CALLBACK_AUTHORIZED&#x27;,&#x27;COMA_CALLBACK_BLOCKED&#x27;,&#x27;MOM_FLYERS&#x27;]},
+    {id:&#x27;agents_entry_seed&#x27;,group:&#x27;agents&#x27;,label:&#x27;🎲 Перед AGENT_01 → одна из 3 мини-историй&#x27;,explain:&#x27;Перед первой карточкой пути AI-агентов игра может вставить начало одной из трёх мини-историй.&#x27;,candidates:[&#x27;PAYROLL_RESTRICTED_AI_SEED&#x27;,&#x27;DEV_HOSTAGE_SEED&#x27;,&#x27;B3_SALES_PRESSURE_SEED&#x27;]},
+    {id:&#x27;agents_pre_serious_lead&#x27;,group:&#x27;agents&#x27;,label:&#x27;↩ AGENT_03_HYPE → результат истории → AGENT_04_LEAD&#x27;,explain:&#x27;Между AGENT_03_HYPE и AGENT_04_LEAD может вернуться отдельная карточка-последствие ранее начатой мини-истории.&#x27;,candidates:[&#x27;PAYROLL_RESTRICTED_AI_CALLBACK&#x27;,&#x27;DEV_HOSTAGE_CALLBACK&#x27;,&#x27;B3_PAID_OPTOUT_CALLBACK&#x27;]}
   ];
   var memoryReaders={
-    OPEN_06:{intro:&#x27;↩ Здесь применяется один результат одной вступительной мини-истории.&#x27;,groups:[
+    OPEN_06:{intro:&#x27;🧠 Здесь применяется один результат одной вступительной мини-истории.&#x27;,groups:[
       {title:&#x27;👩 Мама против инвестора&#x27;,outcomes:[
         {requires:[&#x27;control_seed_mom&#x27;,&#x27;route_control_mom_boundary&#x27;,&#x27;mom_investor_clash_resolved&#x27;],label:&#x27;Позволили маме позвонить → затем выбрали отдых&#x27;},
         {requires:[&#x27;control_seed_mom&#x27;,&#x27;route_control_investor_directive&#x27;,&#x27;mom_investor_clash_resolved&#x27;],label:&#x27;Позволили маме позвонить → продолжили работать&#x27;},
@@ -1508,12 +1509,12 @@ html&gt;body{padding:0}&lt;/style&gt;
         {requires:[&#x27;mom_flyers_public&#x27;],label:&#x27;Оставили листовки&#x27;}
       ]}
     ]},
-    AGENT_01:{intro:&#x27;↩ Небольшое последствие решения перед началом пути AI-агентов.&#x27;,compact:true,groups:[
+    AGENT_01:{intro:&#x27;🧠 Здесь учитывается решение, сделанное перед началом пути AI-агентов.&#x27;,compact:true,groups:[
       {title:&#x27;☁️ Зарплата и облачные кредиты&#x27;,outcomes:[
         {requires:[&#x27;payroll_offer_compute_only&#x27;],label:&#x27;Приняли облачные кредиты&#x27;}
       ]}
     ]},
-    AGENT_04_LEAD:{intro:&#x27;↩ Здесь применяются результаты мини-историй, которые успели пройти раньше.&#x27;,groups:[
+    AGENT_04_LEAD:{intro:&#x27;🧠 Здесь применяются результаты мини-историй, которые успели пройти раньше.&#x27;,groups:[
       {title:&#x27;☁️ Зарплата и облачные кредиты&#x27;,outcomes:[
         {requires:[&#x27;payroll_offer_compute_only&#x27;,&#x27;payroll_priority_machines&#x27;,&#x27;cloud_credits_resolved&#x27;],label:&#x27;Приняли кредиты → оставили AI работать&#x27;},
         {requires:[&#x27;payroll_offer_ordinary_compute&#x27;,&#x27;payroll_priority_machines&#x27;,&#x27;cloud_credits_resolved&#x27;],label:&#x27;Потребовали зарплату → оставили AI работать&#x27;},
@@ -1598,7 +1599,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     var schedulerType=n.scheduler&amp;&amp;n.scheduler.role;
     if((schedulerType===&#x27;seed&#x27;||schedulerType===&#x27;reaction&#x27;)||(n.kind===&#x27;pressure&#x27;&amp;&amp;!n.callbackOnly))icons.push([&#x27;🎲&#x27;,&#x27;может появиться случайно&#x27;]);
     if(schedulerType===&#x27;callback&#x27;||n.callbackOnly)icons.push([&#x27;↩&#x27;,&#x27;возвращает прошлое решение&#x27;]);
-    if(arr(n.stateEffects).length)icons.push([&#x27;↩&#x27;,&#x27;применяет последствия прошлых решений&#x27;]);
+    if(arr(n.stateEffects).length)icons.push([&#x27;🧠&#x27;,&#x27;учитывает прошлые решения&#x27;]);
     if(protectedPairs.some(function(pair){return pair[0]===n.id||pair[1]===n.id;}))icons.push([&#x27;⛓&#x27;,&#x27;входит в неразрывную пару&#x27;]);
     if(n.id===&#x27;MOM_INVESTOR_SEED&#x27;||n.id===&#x27;COMA_SEED&#x27;)icons.push([&#x27;⊘&#x27;,&#x27;исключает другую мини-историю&#x27;]);
     if(n.id===&#x27;PADEL_01&#x27;)icons.push([&#x27;🔒&#x27;,&#x27;дальше без случайных вставок&#x27;]);
@@ -1719,9 +1720,9 @@ html&gt;body{padding:0}&lt;/style&gt;
       html+=&#x27;&lt;/section&gt;&#x27;;
     });
     root.querySelector(&#x27;#ms-groups&#x27;).innerHTML=html;
-    root.querySelectorAll(&#x27;[data-node]&#x27;).forEach(function(btn){btn.addEventListener(&#x27;click&#x27;,function(){selectedId=btn.getAttribute(&#x27;data-node&#x27;);renderMap();renderDetail();});});
+    root.querySelectorAll(&#x27;[data-node]&#x27;).forEach(function(btn){btn.addEventListener(&#x27;click&#x27;,function(){selectedId=btn.getAttribute(&#x27;data-node&#x27;);selectedWindow=null;selectedPair=null;renderMap();renderDetail();});});
     root.querySelectorAll(&#x27;[data-pair-toggle]&#x27;).forEach(function(btn){btn.addEventListener(&#x27;click&#x27;,function(){var id=btn.getAttribute(&#x27;data-pair-toggle&#x27;);selectedPair=selectedPair===id?null:id;renderMap();});});
-    root.querySelectorAll(&#x27;[data-window]&#x27;).forEach(function(btn){btn.addEventListener(&#x27;click&#x27;,function(){var id=btn.getAttribute(&#x27;data-window&#x27;);selectedWindow=selectedWindow===id?null:id;selectedPair=null;renderMap();});});
+    root.querySelectorAll(&#x27;[data-window]&#x27;).forEach(function(btn){btn.addEventListener(&#x27;click&#x27;,function(){selectedWindow=btn.getAttribute(&#x27;data-window&#x27;);selectedId=null;selectedPair=null;renderMap();});});
     renderDetail();
   }
   function effectsText(e){
@@ -1768,6 +1769,11 @@ html&gt;body{padding:0}&lt;/style&gt;
   }
   function renderDetail(){
     var box=root.querySelector(&#x27;#ms-detail&#x27;);
+    var windowItem=activeWindow();
+    if(windowItem&amp;&amp;!selectedId){
+      box.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;Окно вариативной вставки&lt;/span&gt; &lt;strong&gt;&#x27;+esc(windowItem.label)+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;div&gt;&#x27;+esc(windowItem.explain)+&#x27;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Возможные карточки&lt;/b&gt;&lt;div class=&quot;ms-tags&quot;&gt;&#x27;+windowItem.candidates.map(function(id){return &#x27;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(id)+&#x27;&lt;/span&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;;
+      return;
+    }
     var n=allNodes.find(function(x){return x.id===selectedId;})||allNodes[0];
     if(n.kind===&#x27;crisis&#x27;){
       var s=deck.sources[n.source]||{};
@@ -1783,7 +1789,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     if(protectedPairs.some(function(p){return p[0]===n.id||p[1]===n.id;}))flags.push(&#x27;⛓ соседние события нельзя разрывать&#x27;);
     if(n.id===&#x27;PADEL_01&#x27;)flags.push(&#x27;🔒 после согласия на встречу случайных вставок больше нет&#x27;);
     if(n.id===&#x27;MOM_INVESTOR_SEED&#x27;||n.id===&#x27;COMA_SEED&#x27;)flags.push(&#x27;⊘ эта мини-история исключает другую историю о здоровье фаундера&#x27;);
-    if(n.scheduler&amp;&amp;n.scheduler.role===&#x27;callback&#x27;)flags.push(&#x27;↺ последствие прошлого решения&#x27;);
+    if(n.scheduler&amp;&amp;n.scheduler.role===&#x27;callback&#x27;)flags.push(&#x27;↩ отдельная карточка-последствие&#x27;);
     var leftNext=arr(n.choices.left.next),rightNext=arr(n.choices.right.next);
     if(leftNext.length===1&amp;&amp;rightNext.length===1&amp;&amp;leftNext[0]===rightNext[0])flags.push(&#x27;▬ обе кнопки ведут к одной следующей карточке → &#x27;+leftNext[0]);
     box.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(role(n))+&#x27;&lt;/span&gt; &lt;strong&gt;&#x27;+esc(n.id)+&#x27;&lt;/strong&gt; · &#x27;+esc(sourceName(n))+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(n.text)+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-choice-grid&quot;&gt;&#x27;+choiceHtml(n.choices.left,&#x27;left&#x27;)+choiceHtml(n.choices.right,&#x27;right&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-facts&quot;&gt;&lt;div&gt;&lt;b&gt;Когда может появиться&lt;/b&gt;&lt;br&gt;&lt;span class=&quot;text-small&quot;&gt;&#x27;+esc(conditionText(n))+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Как работает эта карточка&lt;/b&gt;&lt;br&gt;&lt;span class=&quot;text-small&quot;&gt;&#x27;+esc(mechanicsText(n))+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#x27;+memoryHtml(n)+(flags.length?&#x27;&lt;div class=&quot;ms-tags&quot;&gt;&#x27;+flags.map(function(x){return &#x27;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(x)+&#x27;&lt;/span&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;:&#x27;&#x27;);
@@ -2036,6 +2042,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     root.querySelector(&#x27;#ms-sim&#x27;).hidden=mode!==&#x27;sim&#x27;;
     root.querySelectorAll(&#x27;[data-mode]&#x27;).forEach(function(b){var active=b.getAttribute(&#x27;data-mode&#x27;)===mode;b.setAttribute(&#x27;aria-pressed&#x27;,String(active));b.classList.toggle(&#x27;btn-primary&#x27;,active);});
     if(mode===&#x27;sim&#x27;)renderSim();else{
+      selectedWindow=null;selectedPair=null;
       if(state.activeCrisisId)selectedId=&#x27;crisis:&#x27;+state.activeCrisisId;
       else if(state.gameOver&amp;&amp;state.endingId)selectedId=&#x27;ending:&#x27;+state.endingId;
       else if(state.currentCardId)selectedId=state.currentCardId;
@@ -2044,7 +2051,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   }
   root.querySelectorAll(&#x27;[data-mode]&#x27;).forEach(function(b){b.addEventListener(&#x27;click&#x27;,function(){setMode(b.getAttribute(&#x27;data-mode&#x27;));});});
   root.querySelectorAll(&#x27;[data-scope]&#x27;).forEach(function(b){b.addEventListener(&#x27;click&#x27;,function(){scope=b.getAttribute(&#x27;data-scope&#x27;);root.querySelectorAll(&#x27;[data-scope]&#x27;).forEach(function(x){var a=x===b;x.setAttribute(&#x27;aria-pressed&#x27;,String(a));x.classList.toggle(&#x27;btn-primary&#x27;,a);});renderMap();});});
-  root.querySelector(&#x27;#ms-variable&#x27;).addEventListener(&#x27;change&#x27;,function(e){showVariable=e.target.checked;renderMap();});
+  root.querySelector(&#x27;#ms-variable&#x27;).addEventListener(&#x27;change&#x27;,function(e){showVariable=e.target.checked;if(!showVariable&amp;&amp;selectedWindow){selectedWindow=null;selectedId=state.currentCardId||&#x27;OPEN_01&#x27;;}renderMap();});
   root.querySelector(&#x27;#ms-terminals&#x27;).addEventListener(&#x27;change&#x27;,function(e){showTerminals=e.target.checked;renderMap();});
   root.querySelector(&#x27;#ms-restart&#x27;).onclick=restart;
   root.querySelector(&#x27;#ms-undo&#x27;).onclick=undoTurn;

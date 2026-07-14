@@ -25,7 +25,8 @@
       <span><b class="ms-mark right"></b> правый выбор</span>
       <span><b class="ms-mark both"></b> обе кнопки ведут сюда</span>
       <span><b>🎲</b> может появиться случайно</span>
-      <span><b>↩</b> возвращает прошлое решение</span>
+      <span><b>↩</b> отдельная карточка-последствие</span>
+      <span><b>🧠</b> учитывает прошлое решение</span>
       <span><b>⛓</b> входит в неразрывную пару</span>
       <span><b>⊘</b> исключает другую мини-историю</span>
       <span><b>🔒</b> дальше без случайных вставок</span>
@@ -734,13 +735,13 @@
     {id:'b3',group:'b3',seed:'B3_SALES_PRESSURE_SEED',callbacks:['B3_PAID_OPTOUT_CALLBACK'],steps:['AGENT_01','AGENT_02_DEV','AGENT_03_HYPE'],condition:'Последствие появится только после выбора «Send three more».'}
   ];
   var insertionWindows=[
-    {id:'opening_shared_seed',group:'opening',label:'🎲 OPEN_04 → одна из 2 мини-историй → OPEN_05',candidates:['MOM_INVESTOR_SEED','COMA_SEED']},
-    {id:'opening_health_resolution',group:'opening',label:'↩ OPEN_05 → результат истории → OPEN_06',candidates:['MOM_INVESTOR_CALLBACK','COMA_CALLBACK_AUTHORIZED','COMA_CALLBACK_BLOCKED','MOM_FLYERS']},
-    {id:'agents_entry_seed',group:'agents',label:'🎲 Перед AGENT_01 → одна из 3 мини-историй',candidates:['PAYROLL_RESTRICTED_AI_SEED','DEV_HOSTAGE_SEED','B3_SALES_PRESSURE_SEED']},
-    {id:'agents_pre_serious_lead',group:'agents',label:'↩ AGENT_03_HYPE → результат истории → AGENT_04_LEAD',candidates:['PAYROLL_RESTRICTED_AI_CALLBACK','DEV_HOSTAGE_CALLBACK','B3_PAID_OPTOUT_CALLBACK']}
+    {id:'opening_shared_seed',group:'opening',label:'🎲 OPEN_04 → одна из 2 мини-историй → OPEN_05',explain:'После OPEN_04 игра может вставить начало одной из двух мини-историй. Затем обязательный сюжет возвращается к OPEN_05.',candidates:['MOM_INVESTOR_SEED','COMA_SEED']},
+    {id:'opening_health_resolution',group:'opening',label:'↩ OPEN_05 → результат истории → OPEN_06',explain:'После OPEN_05 возвращается последствие выбранной мини-истории. Если такая история не началась, могут появиться мамины листовки.',candidates:['MOM_INVESTOR_CALLBACK','COMA_CALLBACK_AUTHORIZED','COMA_CALLBACK_BLOCKED','MOM_FLYERS']},
+    {id:'agents_entry_seed',group:'agents',label:'🎲 Перед AGENT_01 → одна из 3 мини-историй',explain:'Перед первой карточкой пути AI-агентов игра может вставить начало одной из трёх мини-историй.',candidates:['PAYROLL_RESTRICTED_AI_SEED','DEV_HOSTAGE_SEED','B3_SALES_PRESSURE_SEED']},
+    {id:'agents_pre_serious_lead',group:'agents',label:'↩ AGENT_03_HYPE → результат истории → AGENT_04_LEAD',explain:'Между AGENT_03_HYPE и AGENT_04_LEAD может вернуться отдельная карточка-последствие ранее начатой мини-истории.',candidates:['PAYROLL_RESTRICTED_AI_CALLBACK','DEV_HOSTAGE_CALLBACK','B3_PAID_OPTOUT_CALLBACK']}
   ];
   var memoryReaders={
-    OPEN_06:{intro:'↩ Здесь применяется один результат одной вступительной мини-истории.',groups:[
+    OPEN_06:{intro:'🧠 Здесь применяется один результат одной вступительной мини-истории.',groups:[
       {title:'👩 Мама против инвестора',outcomes:[
         {requires:['control_seed_mom','route_control_mom_boundary','mom_investor_clash_resolved'],label:'Позволили маме позвонить → затем выбрали отдых'},
         {requires:['control_seed_mom','route_control_investor_directive','mom_investor_clash_resolved'],label:'Позволили маме позвонить → продолжили работать'},
@@ -758,12 +759,12 @@
         {requires:['mom_flyers_public'],label:'Оставили листовки'}
       ]}
     ]},
-    AGENT_01:{intro:'↩ Небольшое последствие решения перед началом пути AI-агентов.',compact:true,groups:[
+    AGENT_01:{intro:'🧠 Здесь учитывается решение, сделанное перед началом пути AI-агентов.',compact:true,groups:[
       {title:'☁️ Зарплата и облачные кредиты',outcomes:[
         {requires:['payroll_offer_compute_only'],label:'Приняли облачные кредиты'}
       ]}
     ]},
-    AGENT_04_LEAD:{intro:'↩ Здесь применяются результаты мини-историй, которые успели пройти раньше.',groups:[
+    AGENT_04_LEAD:{intro:'🧠 Здесь применяются результаты мини-историй, которые успели пройти раньше.',groups:[
       {title:'☁️ Зарплата и облачные кредиты',outcomes:[
         {requires:['payroll_offer_compute_only','payroll_priority_machines','cloud_credits_resolved'],label:'Приняли кредиты → оставили AI работать'},
         {requires:['payroll_offer_ordinary_compute','payroll_priority_machines','cloud_credits_resolved'],label:'Потребовали зарплату → оставили AI работать'},
@@ -848,7 +849,7 @@
     var schedulerType=n.scheduler&&n.scheduler.role;
     if((schedulerType==='seed'||schedulerType==='reaction')||(n.kind==='pressure'&&!n.callbackOnly))icons.push(['🎲','может появиться случайно']);
     if(schedulerType==='callback'||n.callbackOnly)icons.push(['↩','возвращает прошлое решение']);
-    if(arr(n.stateEffects).length)icons.push(['↩','применяет последствия прошлых решений']);
+    if(arr(n.stateEffects).length)icons.push(['🧠','учитывает прошлые решения']);
     if(protectedPairs.some(function(pair){return pair[0]===n.id||pair[1]===n.id;}))icons.push(['⛓','входит в неразрывную пару']);
     if(n.id==='MOM_INVESTOR_SEED'||n.id==='COMA_SEED')icons.push(['⊘','исключает другую мини-историю']);
     if(n.id==='PADEL_01')icons.push(['🔒','дальше без случайных вставок']);
@@ -969,9 +970,9 @@
       html+='</section>';
     });
     root.querySelector('#ms-groups').innerHTML=html;
-    root.querySelectorAll('[data-node]').forEach(function(btn){btn.addEventListener('click',function(){selectedId=btn.getAttribute('data-node');renderMap();renderDetail();});});
+    root.querySelectorAll('[data-node]').forEach(function(btn){btn.addEventListener('click',function(){selectedId=btn.getAttribute('data-node');selectedWindow=null;selectedPair=null;renderMap();renderDetail();});});
     root.querySelectorAll('[data-pair-toggle]').forEach(function(btn){btn.addEventListener('click',function(){var id=btn.getAttribute('data-pair-toggle');selectedPair=selectedPair===id?null:id;renderMap();});});
-    root.querySelectorAll('[data-window]').forEach(function(btn){btn.addEventListener('click',function(){var id=btn.getAttribute('data-window');selectedWindow=selectedWindow===id?null:id;selectedPair=null;renderMap();});});
+    root.querySelectorAll('[data-window]').forEach(function(btn){btn.addEventListener('click',function(){selectedWindow=btn.getAttribute('data-window');selectedId=null;selectedPair=null;renderMap();});});
     renderDetail();
   }
   function effectsText(e){
@@ -1018,6 +1019,11 @@
   }
   function renderDetail(){
     var box=root.querySelector('#ms-detail');
+    var windowItem=activeWindow();
+    if(windowItem&&!selectedId){
+      box.innerHTML='<div><span class="viz-badge">Окно вариативной вставки</span> <strong>'+esc(windowItem.label)+'</strong></div><div>'+esc(windowItem.explain)+'</div><div><b>Возможные карточки</b><div class="ms-tags">'+windowItem.candidates.map(function(id){return '<span class="viz-badge">'+esc(id)+'</span>';}).join('')+'</div></div>';
+      return;
+    }
     var n=allNodes.find(function(x){return x.id===selectedId;})||allNodes[0];
     if(n.kind==='crisis'){
       var s=deck.sources[n.source]||{};
@@ -1033,7 +1039,7 @@
     if(protectedPairs.some(function(p){return p[0]===n.id||p[1]===n.id;}))flags.push('⛓ соседние события нельзя разрывать');
     if(n.id==='PADEL_01')flags.push('🔒 после согласия на встречу случайных вставок больше нет');
     if(n.id==='MOM_INVESTOR_SEED'||n.id==='COMA_SEED')flags.push('⊘ эта мини-история исключает другую историю о здоровье фаундера');
-    if(n.scheduler&&n.scheduler.role==='callback')flags.push('↺ последствие прошлого решения');
+    if(n.scheduler&&n.scheduler.role==='callback')flags.push('↩ отдельная карточка-последствие');
     var leftNext=arr(n.choices.left.next),rightNext=arr(n.choices.right.next);
     if(leftNext.length===1&&rightNext.length===1&&leftNext[0]===rightNext[0])flags.push('▬ обе кнопки ведут к одной следующей карточке → '+leftNext[0]);
     box.innerHTML='<div><span class="viz-badge">'+esc(role(n))+'</span> <strong>'+esc(n.id)+'</strong> · '+esc(sourceName(n))+'</div><div class="ms-message">'+esc(n.text)+'</div><div class="ms-choice-grid">'+choiceHtml(n.choices.left,'left')+choiceHtml(n.choices.right,'right')+'</div><div class="ms-facts"><div><b>Когда может появиться</b><br><span class="text-small">'+esc(conditionText(n))+'</span></div><div><b>Как работает эта карточка</b><br><span class="text-small">'+esc(mechanicsText(n))+'</span></div></div>'+memoryHtml(n)+(flags.length?'<div class="ms-tags">'+flags.map(function(x){return '<span class="viz-badge">'+esc(x)+'</span>';}).join('')+'</div>':'');
@@ -1286,6 +1292,7 @@
     root.querySelector('#ms-sim').hidden=mode!=='sim';
     root.querySelectorAll('[data-mode]').forEach(function(b){var active=b.getAttribute('data-mode')===mode;b.setAttribute('aria-pressed',String(active));b.classList.toggle('btn-primary',active);});
     if(mode==='sim')renderSim();else{
+      selectedWindow=null;selectedPair=null;
       if(state.activeCrisisId)selectedId='crisis:'+state.activeCrisisId;
       else if(state.gameOver&&state.endingId)selectedId='ending:'+state.endingId;
       else if(state.currentCardId)selectedId=state.currentCardId;
@@ -1294,7 +1301,7 @@
   }
   root.querySelectorAll('[data-mode]').forEach(function(b){b.addEventListener('click',function(){setMode(b.getAttribute('data-mode'));});});
   root.querySelectorAll('[data-scope]').forEach(function(b){b.addEventListener('click',function(){scope=b.getAttribute('data-scope');root.querySelectorAll('[data-scope]').forEach(function(x){var a=x===b;x.setAttribute('aria-pressed',String(a));x.classList.toggle('btn-primary',a);});renderMap();});});
-  root.querySelector('#ms-variable').addEventListener('change',function(e){showVariable=e.target.checked;renderMap();});
+  root.querySelector('#ms-variable').addEventListener('change',function(e){showVariable=e.target.checked;if(!showVariable&&selectedWindow){selectedWindow=null;selectedId=state.currentCardId||'OPEN_01';}renderMap();});
   root.querySelector('#ms-terminals').addEventListener('change',function(e){showTerminals=e.target.checked;renderMap();});
   root.querySelector('#ms-restart').onclick=restart;
   root.querySelector('#ms-undo').onclick=undoTurn;

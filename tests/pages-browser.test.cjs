@@ -64,14 +64,30 @@ test('published game and map remain interactive from desktop to mobile', async (
 
       if (width === 736) {
         assert.equal(await map.locator('[data-window]').count(), 4, 'opening and Agents insertion windows are missing');
-        await map.locator('[data-window="opening_shared_seed"]').click();
+        assert.match(await map.locator('.ms-legend').textContent(), /↩ отдельная карточка-последствие/);
+        assert.match(await map.locator('.ms-legend').textContent(), /🧠 учитывает прошлое решение/);
+        assert.equal(await map.locator('[data-node="OPEN_01"]').getAttribute('aria-pressed'), 'true');
+        await map.locator('[data-window="opening_shared_seed"]').press('Enter');
+        assert.equal(await map.locator('[data-window="opening_shared_seed"]').getAttribute('aria-pressed'), 'true');
+        assert.equal(await map.locator('[data-node="OPEN_01"]').getAttribute('aria-pressed'), 'false');
+        assert.match(await map.locator('#ms-detail').textContent(), /Окно вариативной вставки/);
+        assert.match(await map.locator('#ms-detail').textContent(), /MOM_INVESTOR_SEED/);
         assert.equal(await map.locator('[data-node="MOM_INVESTOR_SEED"]').getAttribute('data-window-match'), 'true');
         assert.equal(await map.locator('[data-node="COMA_SEED"]').getAttribute('data-window-match'), 'true');
         assert.equal(await map.locator('[data-node="MOM_FLYERS"]').getAttribute('data-window-match'), 'false');
+        if (process.env.PAGES_SCREENSHOT_DIR) {
+          await map.screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, 'window-selection.png') });
+        }
+        await map.locator('[data-node="OPEN_02"]').press('Enter');
+        assert.equal(await map.locator('[data-window="opening_shared_seed"]').getAttribute('aria-pressed'), 'false');
+        assert.equal(await map.locator('[data-node="OPEN_02"]').getAttribute('aria-pressed'), 'true');
 
         for (const id of ['OPEN_06', 'AGENT_01', 'AGENT_04_LEAD']) {
-          assert.match(await map.locator(`[data-node="${id}"]`).textContent(), /↩/, `${id} has no memory-reader icon`);
+          assert.match(await map.locator(`[data-node="${id}"]`).textContent(), /🧠/, `${id} has no memory-reader icon`);
         }
+        assert.doesNotMatch(await map.locator('[data-node="OPEN_06"]').textContent(), /↩/);
+        assert.match(await map.locator('[data-node="MOM_INVESTOR_CALLBACK"]').textContent(), /↩/);
+        assert.doesNotMatch(await map.locator('[data-node="MOM_INVESTOR_CALLBACK"]').textContent(), /🧠/);
 
         await map.locator('[data-node="OPEN_06"]').click();
         const open06Detail = await map.locator('#ms-detail').textContent();
