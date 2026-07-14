@@ -40,11 +40,18 @@ test('builds the current game and interactive map from canonical cards.json', ()
   assert.match(map, /id="ms-detail"[\s\S]*id="ms-groups"/);
 
   const ids = new Set(sourceDeck.cards.map((card) => card.id));
+  const approvedPackageA = new Set([
+    'PAYROLL_RESTRICTED_AI_SEED', 'PAYROLL_RESTRICTED_AI_CALLBACK',
+    'DEV_HOSTAGE_SEED', 'DEV_HOSTAGE_CALLBACK',
+    'MOM_INVESTOR_SEED', 'MOM_INVESTOR_CALLBACK',
+    'COMA_SEED', 'COMA_CALLBACK_AUTHORIZED', 'COMA_CALLBACK_BLOCKED', 'MOM_FLYERS',
+  ]);
   assert.deepEqual(Object.keys(translations.cards).sort(), [...ids].sort(), 'translations must cover every production card exactly once');
   for (const card of sourceDeck.cards) {
     const translated = translations.cards[card.id];
     assert.ok(translated, `missing translation for ${card.id}`);
     assert.equal(typeof translated.approved, 'boolean', `${card.id} has no translation approval state`);
+    if (approvedPackageA.has(card.id)) assert.equal(translated.approved, true, `${card.id} must use its approved Russian copy`);
     assert.equal(translated.sourceText, card.text, `${card.id} English message drifted from the translation catalog`);
     assert.ok(translated.text.trim(), `${card.id} has an empty Russian message`);
     for (const side of ['left', 'right']) {

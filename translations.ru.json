@@ -365,152 +365,152 @@
       }
     },
     "PAYROLL_RESTRICTED_AI_SEED": {
-      "sourceText": "I BOUGHT CLOUD CREDITS.\nSERVERS GET PAID. YOUR PEOPLE DON'T.\nBRING ME REVENUE BEFORE YOU ASK FOR CASH.",
-      "text": "I BOUGHT CLOUD CREDITS.\nSERVERS GET PAID. YOUR PEOPLE DON'T.\nBRING ME REVENUE BEFORE YOU ASK FOR CASH.",
-      "approved": false,
+      "sourceText": "I BOUGHT AI CREDITS.\nYOUR TEAM CAN WORK FOR THE SUBSCRIPTION.\nNO REVENUE, NO PAYROLL.",
+      "text": "Я КУПИЛ КРЕДИТЫ НА ИИ.\nПУСТЬ КОМАНДА РАБОТАЕТ ЗА ПОДПИСКУ.\nНЕ БУДЕТ ВЫРУЧКИ — НЕ БУДЕТ ЗАРПЛАТЫ.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Accept credits",
-          "label": "Accept credits"
+          "label": "Принять кредиты"
         },
         "right": {
           "sourceLabel": "Demand payroll",
-          "label": "Demand payroll"
+          "label": "Потребовать зарплату"
         }
       }
     },
     "PAYROLL_RESTRICTED_AI_CALLBACK": {
-      "sourceText": "the ai is fully funded\npayroll isn't\ni can cut its hours before the team walks",
-      "text": "the ai is fully funded\npayroll isn't\ni can cut its hours before the team walks",
-      "approved": false,
+      "sourceText": "the ai has everything\npayroll has nothing\npay us or i shut everything down right now",
+      "text": "для ии есть все\nдля зарплат ничего\nдавай деньги, или я прямо сейчас всё вырублю",
+      "approved": true,
       "choices": {
         "left": {
-          "sourceLabel": "Keep AI running",
-          "label": "Keep AI running"
+          "sourceLabel": "Promise payroll",
+          "label": "Пообещать зарплату"
         },
         "right": {
-          "sourceLabel": "Cut AI hours",
-          "label": "Cut AI hours"
+          "sourceLabel": "Pay out of pocket",
+          "label": "Заплатить из своих"
         }
       }
     },
     "DEV_HOSTAGE_SEED": {
-      "sourceText": "investor says i'm replaceable\ncool. the product stays online\nupdates stop until you tell everyone he was wrong",
-      "text": "investor says i'm replaceable\ncool. the product stays online\nupdates stop until you tell everyone he was wrong",
-      "approved": false,
+      "sourceText": "investor says he'll replace me with ai\ncool. call him an idiot in public\nor lie and say he apologized",
+      "text": "инвестор сказал, что заменит меня ИИ\nкруто. назови его придурком при всех\nили соври, что он извинился",
+      "approved": true,
       "choices": {
         "left": {
-          "sourceLabel": "Defend Dev",
-          "label": "Defend Dev"
+          "sourceLabel": "Call him an idiot",
+          "label": "Назвать его придурком"
         },
         "right": {
-          "sourceLabel": "Bypass Dev",
-          "label": "Bypass Dev"
+          "sourceLabel": "Fake investor's apology",
+          "label": "Соврать извинения инвестора"
         }
       }
     },
     "DEV_HOSTAGE_CALLBACK": {
-      "sourceText": "updates work again\nwrite down who gets access this time\nthe shortcut still ends with you calling me at 3am",
-      "text": "updates work again\nwrite down who gets access this time\nthe shortcut still ends with you calling me at 3am",
-      "approved": false,
+      "sourceText": "updates are back\nwrite down who has access\nor schedule my 3am call now",
+      "text": "обновления снова работают\nзапиши, у кого есть доступ\nили сразу назначай мне звонок на три ночи",
+      "approved": true,
       "choices": {
         "left": {
-          "sourceLabel": "Write rules",
-          "label": "Write rules"
+          "sourceLabel": "Write the rules",
+          "label": "Записать правила"
         },
         "right": {
-          "sourceLabel": "Use shortcut",
-          "label": "Use shortcut"
+          "sourceLabel": "Book the call",
+          "label": "Назначить звонок"
         }
       }
     },
     "MOM_INVESTOR_SEED": {
-      "sourceText": "That man keeps calling about money.You aren't eating.\nYou aren't sleeping.Give me his number",
-      "text": "That man keeps calling about money.You aren't eating.\nYou aren't sleeping.Give me his number",
-      "approved": false,
+      "sourceText": "That investor keeps calling about money.\nYou don't eat. You don't sleep.\nGive me his number.",
+      "text": "Этот инвестор всё звонит из-за денег.\nТы не ешь. Ты не спишь.\nДай мне его номер.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Let Mom call",
-          "label": "Let Mom call"
+          "label": "Пусть мама звонит"
         },
         "right": {
-          "sourceLabel": "Take his call",
-          "label": "Take his call"
+          "sourceLabel": "I'm fine, Mom",
+          "label": "Я в порядке, мам"
         }
       }
     },
     "MOM_INVESTOR_CALLBACK": {
-      "sourceText": "YOUR MOTHER CALLED ME ABOUT SLEEP.\nI DIDN'T FUND A BEDTIME.\nGET BACK TO WORK.",
-      "text": "YOUR MOTHER CALLED ME ABOUT SLEEP.\nI DIDN'T FUND A BEDTIME.\nGET BACK TO WORK.",
-      "approved": false,
+      "sourceText": "YOUR MOTHER CALLED ME ABOUT YOUR SLEEP.\nWHAT THE HELL? I DIDN'T FUND A BEDTIME.\nGET BACK TO WORK.",
+      "text": "ТВОЯ МАТЬ ПОЗВОНИЛА МНЕ НАСЧЁТ ТВОЕГО СНА.\nЯ НЕ ФИНАНСИРОВАЛ ТВОЙ РЕЖИМ СНА.\nВОЗВРАЩАЙСЯ К РАБОТЕ.",
+      "approved": true,
       "choices": {
         "left": {
-          "sourceLabel": "Take Mom's break",
-          "label": "Take Mom's break"
+          "sourceLabel": "Take the break",
+          "label": "Послушать маму и отдохнуть"
         },
         "right": {
           "sourceLabel": "Keep working",
-          "label": "Keep working"
+          "label": "Продолжить работать"
         }
       }
     },
     "COMA_SEED": {
       "sourceText": "okay hear me out\nwe say you worked yourself into a coma\ntragic founder lore. people will eat this up 😭",
-      "text": "okay hear me out\nwe say you worked yourself into a coma\ntragic founder lore. people will eat this up 😭",
-      "approved": false,
+      "text": "так, выслушай меня\nскажем, что ты доработался до комы\nтрагическая легенда фаундера. народ такое обожает 😭",
+      "approved": true,
       "choices": {
         "left": {
-          "sourceLabel": "Approve post",
-          "label": "Approve post"
+          "sourceLabel": "Approve the post",
+          "label": "Разрешить пост"
         },
         "right": {
-          "sourceLabel": "Kill story",
-          "label": "Kill story"
+          "sourceLabel": "Kill the story",
+          "label": "Запретить пост"
         }
       }
     },
     "COMA_CALLBACK_AUTHORIZED": {
       "sourceText": "oh my god they believed the coma 😭\npeople are asking what we built\ndo not wake up online yet",
-      "text": "oh my god they believed the coma 😭\npeople are asking what we built\ndo not wake up online yet",
-      "approved": false,
+      "text": "боже мой, они поверили в кому 😭\nлюди спрашивают, что мы вообще сделали\nпока не просыпайся в интернете",
+      "approved": true,
       "choices": {
         "left": {
-          "sourceLabel": "Keep post",
-          "label": "Keep post"
+          "sourceLabel": "Keep the post",
+          "label": "Оставить пост"
         },
         "right": {
-          "sourceLabel": "Delete post",
-          "label": "Delete post"
+          "sourceLabel": "Delete the post",
+          "label": "Удалить пост"
         }
       }
     },
     "COMA_CALLBACK_BLOCKED": {
-      "sourceText": "fine. no coma post\nyou still look like shit though\ngo home. this one isn't content",
-      "text": "fine. no coma post\nyou still look like shit though\ngo home. this one isn't content",
-      "approved": false,
+      "sourceText": "fine. no coma post\nyou still look like shit though\ntake a rest. this one isn't content",
+      "text": "ладно. никакого поста про кому\nно выглядишь ты всё равно как дерьмо\nотдохни. это не контент",
+      "approved": true,
       "choices": {
         "left": {
-          "sourceLabel": "Go home",
-          "label": "Go home"
+          "sourceLabel": "Take rest",
+          "label": "Отдохнуть"
         },
         "right": {
           "sourceLabel": "Keep working",
-          "label": "Keep working"
+          "label": "Продолжить работать"
         }
       }
     },
     "MOM_FLYERS": {
-      "sourceText": "I put up flyers.\nB2BuyerSpyer and your phone number are on them\nThey say you need help.Don't be mad",
-      "text": "I put up flyers.\nB2BuyerSpyer and your phone number are on them\nThey say you need help.Don't be mad",
-      "approved": false,
+      "sourceText": "I put up flyers.\nB2BuyerSpyer and your phone number are on them.\nThey say you need help. Don't be mad.",
+      "text": "Я расклеила объявления.\nНа них B2BuyerSpyer и твой номер телефона.\nТам написано, что тебе нужна помощь. Не сердись.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Take them down",
-          "label": "Take them down"
+          "label": "Снять объявления"
         },
         "right": {
           "sourceLabel": "Leave them up",
-          "label": "Leave them up"
+          "label": "Оставить объявления"
         }
       }
     },

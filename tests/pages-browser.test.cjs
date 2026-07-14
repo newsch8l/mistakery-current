@@ -134,6 +134,13 @@ test('published game and map remain interactive from desktop to mobile', async (
         const agent01Detail = await map.locator('#ms-detail').textContent();
         assert.match(agent01Detail, /Приняли облачные кредиты/);
         assert.doesNotMatch(agent01Detail, /payroll_offer_compute_only/);
+
+        await map.locator('[data-node="PAYROLL_RESTRICTED_AI_CALLBACK"]').click();
+        const payrollCallbackDetail = await map.locator('#ms-detail').textContent();
+        assert.match(payrollCallbackDetail, /pay us or i shut everything down right now/);
+        assert.match(payrollCallbackDetail, /давай деньги, или я прямо сейчас всё вырублю/);
+        assert.match(payrollCallbackDetail, /Promise payroll/);
+        assert.match(payrollCallbackDetail, /Pay out of pocket/);
       }
 
       await map.locator('[data-node="OPEN_02"]').click();

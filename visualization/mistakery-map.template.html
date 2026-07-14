@@ -1500,13 +1500,13 @@ html&gt;body{padding:0}&lt;/style&gt;
       {title:&#x27;👩 Мама против инвестора&#x27;,outcomes:[
         {requires:[&#x27;control_seed_mom&#x27;,&#x27;route_control_mom_boundary&#x27;,&#x27;mom_investor_clash_resolved&#x27;],label:&#x27;Позволили маме позвонить → затем выбрали отдых&#x27;},
         {requires:[&#x27;control_seed_mom&#x27;,&#x27;route_control_investor_directive&#x27;,&#x27;mom_investor_clash_resolved&#x27;],label:&#x27;Позволили маме позвонить → продолжили работать&#x27;},
-        {requires:[&#x27;control_seed_investor&#x27;,&#x27;route_control_mom_boundary&#x27;,&#x27;mom_investor_clash_resolved&#x27;],label:&#x27;Сами ответили инвестору → затем выбрали отдых&#x27;},
-        {requires:[&#x27;control_seed_investor&#x27;,&#x27;route_control_investor_directive&#x27;,&#x27;mom_investor_clash_resolved&#x27;],label:&#x27;Сами ответили инвестору → продолжили работать&#x27;}
+        {requires:[&#x27;control_seed_investor&#x27;,&#x27;route_control_mom_boundary&#x27;,&#x27;mom_investor_clash_resolved&#x27;],label:&#x27;Сказали маме, что всё хорошо → затем выбрали отдых&#x27;},
+        {requires:[&#x27;control_seed_investor&#x27;,&#x27;route_control_investor_directive&#x27;,&#x27;mom_investor_clash_resolved&#x27;],label:&#x27;Сказали маме, что всё хорошо → продолжили работать&#x27;}
       ]},
       {title:&#x27;😴 История о коме&#x27;,outcomes:[
         {requires:[&#x27;coma_campaign_authorized&#x27;,&#x27;coma_callback_public&#x27;],label:&#x27;Разрешили пост → оставили его&#x27;},
         {requires:[&#x27;coma_campaign_authorized&#x27;,&#x27;coma_callback_retracted&#x27;],label:&#x27;Разрешили пост → удалили его&#x27;},
-        {requires:[&#x27;coma_campaign_blocked&#x27;,&#x27;coma_callback_rest&#x27;],label:&#x27;Запретили пост → ушли отдыхать&#x27;},
+        {requires:[&#x27;coma_campaign_blocked&#x27;,&#x27;coma_callback_rest&#x27;],label:&#x27;Запретили пост → отдохнули&#x27;},
         {requires:[&#x27;coma_campaign_blocked&#x27;,&#x27;coma_callback_denied&#x27;],label:&#x27;Запретили пост → продолжили работать&#x27;}
       ]},
       {title:&#x27;📄 Мамины листовки&#x27;,outcomes:[
@@ -1521,16 +1521,16 @@ html&gt;body{padding:0}&lt;/style&gt;
     ]},
     AGENT_04_LEAD:{intro:&#x27;🧠 Здесь применяются результаты мини-историй, которые успели пройти раньше.&#x27;,groups:[
       {title:&#x27;☁️ Зарплата и облачные кредиты&#x27;,outcomes:[
-        {requires:[&#x27;payroll_offer_compute_only&#x27;,&#x27;payroll_priority_machines&#x27;,&#x27;cloud_credits_resolved&#x27;],label:&#x27;Приняли кредиты → оставили AI работать&#x27;},
-        {requires:[&#x27;payroll_offer_ordinary_compute&#x27;,&#x27;payroll_priority_machines&#x27;,&#x27;cloud_credits_resolved&#x27;],label:&#x27;Потребовали зарплату → оставили AI работать&#x27;},
-        {requires:[&#x27;payroll_offer_compute_only&#x27;,&#x27;payroll_priority_people&#x27;,&#x27;cloud_credits_resolved&#x27;],label:&#x27;Приняли кредиты → сократили часы AI&#x27;},
-        {requires:[&#x27;payroll_offer_ordinary_compute&#x27;,&#x27;payroll_priority_people&#x27;,&#x27;cloud_credits_resolved&#x27;],label:&#x27;Потребовали зарплату → сократили часы AI&#x27;}
+        {requires:[&#x27;payroll_offer_compute_only&#x27;,&#x27;payroll_priority_machines&#x27;,&#x27;cloud_credits_resolved&#x27;],label:&#x27;Приняли кредиты → пообещали зарплату&#x27;},
+        {requires:[&#x27;payroll_offer_ordinary_compute&#x27;,&#x27;payroll_priority_machines&#x27;,&#x27;cloud_credits_resolved&#x27;],label:&#x27;Потребовали зарплату → снова её пообещали&#x27;},
+        {requires:[&#x27;payroll_offer_compute_only&#x27;,&#x27;payroll_priority_people&#x27;,&#x27;cloud_credits_resolved&#x27;],label:&#x27;Приняли кредиты → заплатили из своих&#x27;},
+        {requires:[&#x27;payroll_offer_ordinary_compute&#x27;,&#x27;payroll_priority_people&#x27;,&#x27;cloud_credits_resolved&#x27;],label:&#x27;Потребовали зарплату → заплатили из своих&#x27;}
       ]},
       {title:&#x27;💻 Конфликт с разработчиком&#x27;,outcomes:[
-        {requires:[&#x27;dev_conflict_public&#x27;,&#x27;dev_access_protected&#x27;,&#x27;dev_updates_restored&#x27;],label:&#x27;Защитили разработчика → ввели правила доступа&#x27;},
-        {requires:[&#x27;dev_conflict_public&#x27;,&#x27;dev_access_contested&#x27;,&#x27;dev_updates_restored&#x27;],label:&#x27;Защитили разработчика → выбрали короткий путь&#x27;},
-        {requires:[&#x27;dev_conflict_bypassed&#x27;,&#x27;dev_access_protected&#x27;,&#x27;dev_updates_restored&#x27;],label:&#x27;Обошли разработчика → ввели правила доступа&#x27;},
-        {requires:[&#x27;dev_conflict_bypassed&#x27;,&#x27;dev_access_contested&#x27;,&#x27;dev_updates_restored&#x27;],label:&#x27;Обошли разработчика → снова выбрали короткий путь&#x27;}
+        {requires:[&#x27;dev_conflict_public&#x27;,&#x27;dev_access_protected&#x27;,&#x27;dev_updates_restored&#x27;],label:&#x27;Назвали инвестора придурком → записали правила&#x27;},
+        {requires:[&#x27;dev_conflict_public&#x27;,&#x27;dev_access_contested&#x27;,&#x27;dev_updates_restored&#x27;],label:&#x27;Назвали инвестора придурком → назначили звонок&#x27;},
+        {requires:[&#x27;dev_conflict_bypassed&#x27;,&#x27;dev_access_protected&#x27;,&#x27;dev_updates_restored&#x27;],label:&#x27;Соврали про извинения → записали правила&#x27;},
+        {requires:[&#x27;dev_conflict_bypassed&#x27;,&#x27;dev_access_contested&#x27;,&#x27;dev_updates_restored&#x27;],label:&#x27;Соврали про извинения → назначили звонок&#x27;}
       ]},
       {title:&#x27;📨 Навязчивые продажи&#x27;,outcomes:[
         {requires:[&#x27;b3_free_optout_granted&#x27;],label:&#x27;Отказались брать плату за отписку&#x27;}

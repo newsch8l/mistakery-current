@@ -750,13 +750,13 @@
       {title:'👩 Мама против инвестора',outcomes:[
         {requires:['control_seed_mom','route_control_mom_boundary','mom_investor_clash_resolved'],label:'Позволили маме позвонить → затем выбрали отдых'},
         {requires:['control_seed_mom','route_control_investor_directive','mom_investor_clash_resolved'],label:'Позволили маме позвонить → продолжили работать'},
-        {requires:['control_seed_investor','route_control_mom_boundary','mom_investor_clash_resolved'],label:'Сами ответили инвестору → затем выбрали отдых'},
-        {requires:['control_seed_investor','route_control_investor_directive','mom_investor_clash_resolved'],label:'Сами ответили инвестору → продолжили работать'}
+        {requires:['control_seed_investor','route_control_mom_boundary','mom_investor_clash_resolved'],label:'Сказали маме, что всё хорошо → затем выбрали отдых'},
+        {requires:['control_seed_investor','route_control_investor_directive','mom_investor_clash_resolved'],label:'Сказали маме, что всё хорошо → продолжили работать'}
       ]},
       {title:'😴 История о коме',outcomes:[
         {requires:['coma_campaign_authorized','coma_callback_public'],label:'Разрешили пост → оставили его'},
         {requires:['coma_campaign_authorized','coma_callback_retracted'],label:'Разрешили пост → удалили его'},
-        {requires:['coma_campaign_blocked','coma_callback_rest'],label:'Запретили пост → ушли отдыхать'},
+        {requires:['coma_campaign_blocked','coma_callback_rest'],label:'Запретили пост → отдохнули'},
         {requires:['coma_campaign_blocked','coma_callback_denied'],label:'Запретили пост → продолжили работать'}
       ]},
       {title:'📄 Мамины листовки',outcomes:[
@@ -771,16 +771,16 @@
     ]},
     AGENT_04_LEAD:{intro:'🧠 Здесь применяются результаты мини-историй, которые успели пройти раньше.',groups:[
       {title:'☁️ Зарплата и облачные кредиты',outcomes:[
-        {requires:['payroll_offer_compute_only','payroll_priority_machines','cloud_credits_resolved'],label:'Приняли кредиты → оставили AI работать'},
-        {requires:['payroll_offer_ordinary_compute','payroll_priority_machines','cloud_credits_resolved'],label:'Потребовали зарплату → оставили AI работать'},
-        {requires:['payroll_offer_compute_only','payroll_priority_people','cloud_credits_resolved'],label:'Приняли кредиты → сократили часы AI'},
-        {requires:['payroll_offer_ordinary_compute','payroll_priority_people','cloud_credits_resolved'],label:'Потребовали зарплату → сократили часы AI'}
+        {requires:['payroll_offer_compute_only','payroll_priority_machines','cloud_credits_resolved'],label:'Приняли кредиты → пообещали зарплату'},
+        {requires:['payroll_offer_ordinary_compute','payroll_priority_machines','cloud_credits_resolved'],label:'Потребовали зарплату → снова её пообещали'},
+        {requires:['payroll_offer_compute_only','payroll_priority_people','cloud_credits_resolved'],label:'Приняли кредиты → заплатили из своих'},
+        {requires:['payroll_offer_ordinary_compute','payroll_priority_people','cloud_credits_resolved'],label:'Потребовали зарплату → заплатили из своих'}
       ]},
       {title:'💻 Конфликт с разработчиком',outcomes:[
-        {requires:['dev_conflict_public','dev_access_protected','dev_updates_restored'],label:'Защитили разработчика → ввели правила доступа'},
-        {requires:['dev_conflict_public','dev_access_contested','dev_updates_restored'],label:'Защитили разработчика → выбрали короткий путь'},
-        {requires:['dev_conflict_bypassed','dev_access_protected','dev_updates_restored'],label:'Обошли разработчика → ввели правила доступа'},
-        {requires:['dev_conflict_bypassed','dev_access_contested','dev_updates_restored'],label:'Обошли разработчика → снова выбрали короткий путь'}
+        {requires:['dev_conflict_public','dev_access_protected','dev_updates_restored'],label:'Назвали инвестора придурком → записали правила'},
+        {requires:['dev_conflict_public','dev_access_contested','dev_updates_restored'],label:'Назвали инвестора придурком → назначили звонок'},
+        {requires:['dev_conflict_bypassed','dev_access_protected','dev_updates_restored'],label:'Соврали про извинения → записали правила'},
+        {requires:['dev_conflict_bypassed','dev_access_contested','dev_updates_restored'],label:'Соврали про извинения → назначили звонок'}
       ]},
       {title:'📨 Навязчивые продажи',outcomes:[
         {requires:['b3_free_optout_granted'],label:'Отказались брать плату за отписку'}
