@@ -76,8 +76,14 @@ test('builds the current game and interactive map from canonical cards.json', ()
     'MOM_INVESTOR_SEED', 'MOM_INVESTOR_CALLBACK',
     'COMA_SEED', 'COMA_CALLBACK_AUTHORIZED', 'COMA_CALLBACK_BLOCKED', 'MOM_FLYERS',
   ]);
-  assert.equal(translations.cards.SADBOT_06_LEGAL.approved, false, 'SADBOT copy has no approved Russian translation yet');
-  assert.equal(translations.cards.SADBOT_06_LEGAL.text, translations.cards.SADBOT_06_LEGAL.sourceText, 'unapproved SADBOT cards must keep the exact English text');
+  const sadbotIds = sourceDeck.cards.filter((card) => card.id.startsWith('SADBOT')).map((card) => card.id);
+  assert.equal(sadbotIds.length, 13, 'unexpected SADBOT translation scope');
+  for (const id of sadbotIds) {
+    const translated = translations.cards[id];
+    assert.equal(translated.approved, true, `${id} Russian copy is not enabled`);
+    assert.match(translated.text, /[А-Яа-яЁё]/, `${id} has no Russian message`);
+    assert.notEqual(translated.text, translated.sourceText, `${id} still duplicates its English message`);
+  }
   assert.deepEqual(Object.keys(translations.cards).sort(), [...ids].sort(), 'translations must cover every production card exactly once');
   for (const card of sourceDeck.cards) {
     const translated = translations.cards[card.id];

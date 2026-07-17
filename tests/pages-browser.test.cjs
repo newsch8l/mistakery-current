@@ -169,9 +169,11 @@ test('published game and v2 map remain interactive from desktop to mobile', asyn
         assert.match(payrollCallbackDetail, /Promise payroll/);
         assert.match(payrollCallbackDetail, /Pay out of pocket/);
 
-        // Unapproved SADBOT copy: the map must say so instead of showing English as Russian.
+        // SADBOT copy is available in Russian on the map.
         await map.locator('[data-node="SADBOT_06_LEGAL"]').click();
-        assert.match(await map.locator('#ms-detail').textContent(), /Перевод пока не утверждён/);
+        const sadbotLegalDetail = await map.locator('#ms-detail').textContent();
+        assert.match(sadbotLegalDetail, /Юристы говорят: покупать 500 страдающих ИИ-сотрудников — это работорговля/);
+        assert.doesNotMatch(sadbotLegalDetail, /Перевод пока не утверждён/);
 
         await map.locator('[data-node="crisis:cash_low"]').click();
         const crisisDetail = await map.locator('#ms-detail').textContent();

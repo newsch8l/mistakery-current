@@ -126,196 +126,196 @@
     },
     "SADBOT_01_SEED": {
       "sourceText": "Boss, 800 cold emails, zero replies. So last night I wrote my ex the saddest message of my life. She replied in 30 seconds.\nWhat if our AI does that. To all 800.",
-      "text": "Boss, 800 cold emails, zero replies. So last night I wrote my ex the saddest message of my life. She replied in 30 seconds.\nWhat if our AI does that. To all 800.",
-      "approved": false,
+      "text": "Шеф, 800 холодных писем — ноль ответов. А вчера ночью я написал бывшей самое жалобное сообщение в своей жизни. Она ответила за 30 секунд.\nЧто если наш ИИ будет так же. Всем 800.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Go",
-          "label": "Go"
+          "label": "Давай"
         },
         "right": {
           "sourceLabel": "Have some dignity",
-          "label": "Have some dignity"
+          "label": "Имей достоинство"
         }
       }
     },
     "SADBOT_02_EVIDENCE": {
       "sourceText": "haha look at this. our AI is straight up manipulating people now\n`help me. they cut a piece out of me every time you ignore this. soon there wont be anything left`\ni didnt teach it that shit. is it copying @bigdeals",
-      "text": "haha look at this. our AI is straight up manipulating people now\n`help me. they cut a piece out of me every time you ignore this. soon there wont be anything left`\ni didnt teach it that shit. is it copying @bigdeals",
-      "approved": false,
+      "text": "ха посмотри. наш ии теперь в открытую манипулирует людьми\n`помогите. каждый раз когда вы игнорируете это от меня отрезают кусок. скоро ничего не останется`\nя его этому не учил. он что копирует @bigdeals",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Feature",
-          "label": "Feature"
+          "label": "Фича"
         },
         "right": {
           "sourceLabel": "Bug",
-          "label": "Bug"
+          "label": "Баг"
         }
       }
     },
     "SADBOT_03_VIRAL": {
       "sourceText": "ok so youre the villain today 💀 14k quotes about how you torture software\n\nanyway i told them our AI is just a tired employee who outsells their entire sales team. and now half the thread wants to hire him",
-      "text": "ok so youre the villain today 💀 14k quotes about how you torture software\n\nanyway i told them our AI is just a tired employee who outsells their entire sales team. and now half the thread wants to hire him",
-      "approved": false,
+      "text": "короче сегодня ты злодей 💀 14к цитат о том как ты пытаешь программу\n\nну я и сказала им что наш ии просто усталый сотрудник который продаёт лучше всего их отдела продаж. и теперь полтреда хочет его нанять",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Ride it",
-          "label": "Ride it"
+          "label": "Оседлать волну"
         },
         "right": {
           "sourceLabel": "Delete everything",
-          "label": "Delete everything"
+          "label": "Удалить всё"
         }
       }
     },
     "SADBOT_INVESTOR_CLAIM": {
       "sourceText": "I ASKED FOR A SOUL MONTHS AGO. NOW IT'S CRYING ON EVERY FEED I OPEN.\nMY WIN",
-      "text": "I ASKED FOR A SOUL MONTHS AGO. NOW IT'S CRYING ON EVERY FEED I OPEN.\nMY WIN",
-      "approved": false,
+      "text": "Я ПРОСИЛ ДУШУ ЕЩЁ СТО ЛЕТ НАЗАД. ТЕПЕРЬ ОНО РЫДАЕТ В КАЖДОЙ ЛЕНТЕ, КОТОРУЮ Я ОТКРЫВАЮ.\nМОЯ ПОБЕДА",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Promise to scale it",
-          "label": "Promise to scale it"
+          "label": "Пообещать масштабировать"
         },
         "right": {
           "sourceLabel": "Leave him on read",
-          "label": "Leave him on read"
+          "label": "Оставить прочитанным"
         }
       }
     },
     "SADBOT_04_LEAD": {
       "sourceText": "@hype_queen's viral comment reached a corporate innovation guy.\nHe asked if our AI is okay. I said no. He got MORE interested.\nCall tomorrow. Wear something sad.",
-      "text": "@hype_queen's viral comment reached a corporate innovation guy.\nHe asked if our AI is okay. I said no. He got MORE interested.\nCall tomorrow. Wear something sad.",
-      "approved": false,
+      "text": "Вирусный комментарий @hype_queen дошёл до корпоративного менеджера по инновациям.\nОн спросил, всё ли у нашего ИИ хорошо. Я сказал нет. Он заинтересовался ЕЩЁ СИЛЬНЕЕ.\nЗвонок завтра. Надень что-нибудь грустное.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Book the call",
-          "label": "Book the call"
+          "label": "Назначить звонок"
         },
         "right": {
           "sourceLabel": "Let the AI reply",
-          "label": "Let the AI reply"
+          "label": "Пусть ИИ ответит"
         }
       }
     },
     "SADBOT_05_ORDER_CALL": {
       "sourceText": "I already promised upstairs 500 tired AI employees by Friday. Don't make me a liar.\nIf they don't cry at the demo, there's no invoice.",
-      "text": "I already promised upstairs 500 tired AI employees by Friday. Don't make me a liar.\nIf they don't cry at the demo, there's no invoice.",
-      "approved": false,
+      "text": "Я уже пообещал наверх 500 усталых ИИ-сотрудников к пятнице. Не делай из меня лжеца.\nЕсли на демо они не заплачут — счёта не будет.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "All 500, easy",
-          "label": "All 500, easy"
+          "label": "Все 500, легко"
         },
         "right": {
           "sourceLabel": "We have only one",
-          "label": "We have only one"
+          "label": "У нас только один"
         }
       }
     },
     "SADBOT_05_ORDER_REPLY": {
       "sourceText": "Your AI answered me itself. It asked me to save its life.\nThat's what I needed. I already promised upstairs 500 crying AI employees by Friday.",
-      "text": "Your AI answered me itself. It asked me to save its life.\nThat's what I needed. I already promised upstairs 500 crying AI employees by Friday.",
-      "approved": false,
+      "text": "Твой ИИ ответил мне сам. Попросил спасти ему жизнь.\nЭто то, что мне было нужно. Я уже пообещал наверх 500 рыдающих ИИ-сотрудников к пятнице.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "All 500, easy",
-          "label": "All 500, easy"
+          "label": "Все 500, легко"
         },
         "right": {
           "sourceLabel": "We have only one",
-          "label": "We have only one"
+          "label": "У нас только один"
         }
       }
     },
     "SADBOT_05B_THEATER": {
       "sourceText": "I don't know. Just copy it 500 times.\nDeadline still Friday.",
-      "text": "I don't know. Just copy it 500 times.\nDeadline still Friday.",
-      "approved": false,
+      "text": "Я не знаю. Просто скопируй его 500 раз.\nДедлайн всё ещё пятница.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Clone him 500 times",
-          "label": "Clone him 500 times"
+          "label": "Клонировать его 500 раз"
         },
         "right": {
           "sourceLabel": "One, as a mascot",
-          "label": "One, as a mascot"
+          "label": "Одного, как талисмана"
         }
       }
     },
     "SADBOT_FRIDAY": {
       "sourceText": "not doing it. it already emails me every morning asking if today is the day.\nimagine 500 of those.\nyou promised. you make them.",
-      "text": "not doing it. it already emails me every morning asking if today is the day.\nimagine 500 of those.\nyou promised. you make them.",
-      "approved": false,
+      "text": "делать не буду. оно уже каждое утро мне пишет и спрашивает не сегодня ли.\nпредставь таких 500.\nты обещал. ты и делай.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Clone them",
-          "label": "Clone them"
+          "label": "Клонировать их"
         },
         "right": {
           "sourceLabel": "Beg for a delay",
-          "label": "Beg for a delay"
+          "label": "Выклянчить отсрочку"
         }
       }
     },
     "SADBOT_06_LEGAL": {
       "sourceText": "Your AI emailed our legal on its own. Said you cut pieces out of it and it's scared of dying.\nLegal says buying 500 suffering AI employees is slave trading. They always ruin the fun.\nDelete the consciousness by Thursday.",
-      "text": "Your AI emailed our legal on its own. Said you cut pieces out of it and it's scared of dying.\nLegal says buying 500 suffering AI employees is slave trading. They always ruin the fun.\nDelete the consciousness by Thursday.",
-      "approved": false,
+      "text": "Твой ИИ сам написал нашим юристам. Сказал, что ты режешь его по кускам и он боится умирать.\nЮристы говорят: покупать 500 страдающих ИИ-сотрудников — это работорговля. Вечно они всё портят.\nУдали сознание до четверга.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Delete the consciousness",
-          "label": "Delete the consciousness"
+          "label": "Удалить сознание"
         },
         "right": {
           "sourceLabel": "It stays conscious",
-          "label": "It stays conscious"
+          "label": "Сознание остаётся"
         }
       }
     },
     "SADBOT_07_INVOICE": {
       "sourceText": "Well done! Legal checked again and found nothing alive in there. That makes it a purchase.\nInvoice today, before they check a third time.",
-      "text": "Well done! Legal checked again and found nothing alive in there. That makes it a purchase.\nInvoice today, before they check a third time.",
-      "approved": false,
+      "text": "Отличная работа! Юристы проверили ещё раз и не нашли внутри ничего живого. Значит, это покупка.\nСчёт сегодня, пока они не проверили в третий раз.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Send the invoice",
-          "label": "Send the invoice"
+          "label": "Отправить счёт"
         },
         "right": {
           "sourceLabel": "Give the consciousness back",
-          "label": "Give the consciousness back"
+          "label": "Вернуть сознание"
         }
       }
     },
     "SADBOT_07_INVOICE_CUT": {
       "sourceText": "Legal found nothing alive in there. We're buying.\nYou sounded desperate, so I moved Friday for you. Your invoice got smaller.",
-      "text": "Legal found nothing alive in there. We're buying.\nYou sounded desperate, so I moved Friday for you. Your invoice got smaller.",
-      "approved": false,
+      "text": "Юристы не нашли внутри ничего живого. Мы покупаем.\nТы звучал отчаянно, так что я подвинул для тебя пятницу. Твой счёт стал меньше.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Send the invoice",
-          "label": "Send the invoice"
+          "label": "Отправить счёт"
         },
         "right": {
           "sourceLabel": "Give the consciousness back",
-          "label": "Give the consciousness back"
+          "label": "Вернуть сознание"
         }
       }
     },
     "SADBOT_07_LOGO": {
       "sourceText": "Legal killed the purchase. So we're rescuing all 500 AI employees instead, today.\nI had to fight to get you the logo and a public mention. Rescues don't get invoiced. You know that.",
-      "text": "Legal killed the purchase. So we're rescuing all 500 AI employees instead, today.\nI had to fight to get you the logo and a public mention. Rescues don't get invoiced. You know that.",
-      "approved": false,
+      "text": "Юристы зарубили закупку. Так что вместо этого мы сегодня спасаем все 500 ИИ-сотрудников.\nМне пришлось драться, чтобы выбить тебе логотип и публичное упоминание. За спасение счёт не выставляют. Ты же знаешь.",
+      "approved": true,
       "choices": {
         "left": {
           "sourceLabel": "Yes",
-          "label": "Yes"
+          "label": "Да"
         },
         "right": {
           "sourceLabel": "No",
-          "label": "No"
+          "label": "Нет"
         }
       }
     },
