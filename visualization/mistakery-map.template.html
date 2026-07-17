@@ -749,6 +749,12 @@ html&gt;body{padding:0}&lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;div id=&quot;mistakery-structure-v1&quot;&gt;
+  &lt;div class=&quot;viz-controls&quot; aria-label=&quot;Версии карты&quot;&gt;
+    &lt;button class=&quot;btn btn-primary&quot; type=&quot;button&quot; aria-pressed=&quot;true&quot;&gt;2.0 — сторилеты&lt;/button&gt;
+    &lt;a class=&quot;btn&quot; href=&quot;v1/&quot;&gt;1.0 — рельса (архив 14.07)&lt;/a&gt;
+    &lt;a class=&quot;btn btn-ghost&quot; href=&quot;../&quot;&gt;← Играть в Mistakery&lt;/a&gt;
+    &lt;a class=&quot;btn btn-ghost&quot; href=&quot;../story/&quot;&gt;Об игре простыми словами&lt;/a&gt;
+  &lt;/div&gt;
   &lt;div class=&quot;viz-controls&quot; aria-label=&quot;Режим визуализации&quot;&gt;
     &lt;button class=&quot;btn btn-primary&quot; type=&quot;button&quot; data-mode=&quot;map&quot; aria-pressed=&quot;true&quot;&gt;&lt;i data-lucide=&quot;git-branch&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; Карта игры&lt;/button&gt;
     &lt;button class=&quot;btn&quot; type=&quot;button&quot; data-mode=&quot;sim&quot; aria-pressed=&quot;false&quot;&gt;&lt;i data-lucide=&quot;play&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; Симулятор&lt;/button&gt;
@@ -757,15 +763,15 @@ html&gt;body{padding:0}&lt;/style&gt;
 
   &lt;section id=&quot;ms-map&quot; aria-label=&quot;Карта игры&quot;&gt;
     &lt;div id=&quot;ms-overview&quot; class=&quot;card ms-summary&quot;&gt;
-      &lt;div&gt;&lt;span class=&quot;text-muted&quot;&gt;Что уже есть в игре&lt;/span&gt;&lt;strong&gt;43 карточки с выбором · 9 кризисов · 20 финалов&lt;/strong&gt;&lt;/div&gt;
-      &lt;div class=&quot;text-small&quot;&gt;Вступление 7 · основные сюжетные ветки 17 · мини-истории 12 · случайные проблемы 7&lt;/div&gt;
-      &lt;div class=&quot;text-small&quot;&gt;&lt;strong&gt;В 8 карточках обе кнопки приводят к одному продолжению, и игра не помнит разницу.&lt;/strong&gt; На пути AI-агентов порядок иногда меняют случайные мини-истории. После согласия на встречу с CEO путь Падела почти полностью линейный.&lt;/div&gt;
+      &lt;div&gt;&lt;span class=&quot;text-muted&quot;&gt;Что уже есть в игре&lt;/span&gt;&lt;strong&gt;57 карточки с выбором · 8 кризисов · 18 финалов&lt;/strong&gt;&lt;/div&gt;
+      &lt;div class=&quot;text-small&quot;&gt;Вступление 7 · основные сюжетные ветки 23 · мини-истории 15 · случайные проблемы 12&lt;/div&gt;
+      &lt;div class=&quot;text-small&quot;&gt;&lt;strong&gt;Версия 2.0: вместо рельсы AI-агентов — ветка первого клиента SADBOT, собранная из сторилетов.&lt;/strong&gt; Первые карты ветки лежат в общем пуле: между ними падают случайные проблемы и побочные мини-истории. С появлением заказа начинается неразрывный коридор до финала сделки. Путь Падела остался прежним: после согласия на встречу с CEO он почти полностью линейный.&lt;/div&gt;
     &lt;/div&gt;
 
     &lt;div class=&quot;viz-controls ms-filters&quot; aria-label=&quot;Фильтры карты&quot;&gt;
       &lt;button class=&quot;btn btn-primary&quot; type=&quot;button&quot; data-scope=&quot;all&quot; aria-pressed=&quot;true&quot;&gt;Вся игра&lt;/button&gt;
       &lt;button class=&quot;btn&quot; type=&quot;button&quot; data-scope=&quot;opening&quot; aria-pressed=&quot;false&quot;&gt;Вступление&lt;/button&gt;
-      &lt;button class=&quot;btn&quot; type=&quot;button&quot; data-scope=&quot;agents&quot; aria-pressed=&quot;false&quot;&gt;AI-агенты&lt;/button&gt;
+      &lt;button class=&quot;btn&quot; type=&quot;button&quot; data-scope=&quot;sadbot&quot; aria-pressed=&quot;false&quot;&gt;SADBOT — первый клиент&lt;/button&gt;
       &lt;button class=&quot;btn&quot; type=&quot;button&quot; data-scope=&quot;padel&quot; aria-pressed=&quot;false&quot;&gt;Падел&lt;/button&gt;
       &lt;label class=&quot;form-check form-switch&quot;&gt;&lt;input class=&quot;form-check-input&quot; id=&quot;ms-variable&quot; type=&quot;checkbox&quot; checked&gt;&lt;span class=&quot;form-check-label&quot;&gt;Случайные истории&lt;/span&gt;&lt;/label&gt;
       &lt;label class=&quot;form-check form-switch&quot;&gt;&lt;input class=&quot;form-check-input&quot; id=&quot;ms-terminals&quot; type=&quot;checkbox&quot; checked&gt;&lt;span class=&quot;form-check-label&quot;&gt;Кризисы и финалы&lt;/span&gt;&lt;/label&gt;
@@ -885,6 +891,7 @@ html&gt;body{padding:0}&lt;/style&gt;
 }
 &lt;/style&gt;
 
+&lt;script id=&quot;ms-engine&quot;&gt;/* build:inject-engine */&lt;/script&gt;
 &lt;script&gt;
 (function(){
   var root=document.getElementById(&#x27;mistakery-structure-v1&#x27;);
@@ -1483,17 +1490,17 @@ html&gt;body{padding:0}&lt;/style&gt;
   var packageA=[&#x27;PAYROLL_RESTRICTED_AI_SEED&#x27;,&#x27;PAYROLL_RESTRICTED_AI_CALLBACK&#x27;,&#x27;DEV_HOSTAGE_SEED&#x27;,&#x27;DEV_HOSTAGE_CALLBACK&#x27;,&#x27;MOM_INVESTOR_SEED&#x27;,&#x27;MOM_INVESTOR_CALLBACK&#x27;,&#x27;COMA_SEED&#x27;,&#x27;COMA_CALLBACK_AUTHORIZED&#x27;,&#x27;COMA_CALLBACK_BLOCKED&#x27;,&#x27;MOM_FLYERS&#x27;];
   var b3=[&#x27;B3_SALES_PRESSURE_SEED&#x27;,&#x27;B3_PAID_OPTOUT_CALLBACK&#x27;];
   var modulePairs=[
-    {id:&#x27;payroll&#x27;,group:&#x27;packageA&#x27;,seed:&#x27;PAYROLL_RESTRICTED_AI_SEED&#x27;,callbacks:[&#x27;PAYROLL_RESTRICTED_AI_CALLBACK&#x27;],steps:[&#x27;AGENT_01&#x27;,&#x27;AGENT_02_DEV&#x27;,&#x27;AGENT_03_HYPE&#x27;]},
-    {id:&#x27;dev_hostage&#x27;,group:&#x27;packageA&#x27;,seed:&#x27;DEV_HOSTAGE_SEED&#x27;,callbacks:[&#x27;DEV_HOSTAGE_CALLBACK&#x27;],steps:[&#x27;AGENT_01&#x27;,&#x27;AGENT_02_DEV&#x27;,&#x27;AGENT_03_HYPE&#x27;]},
+    {id:&#x27;payroll&#x27;,group:&#x27;packageA&#x27;,seed:&#x27;PAYROLL_RESTRICTED_AI_SEED&#x27;,callbacks:[&#x27;PAYROLL_RESTRICTED_AI_CALLBACK&#x27;],steps:[],condition:&#x27;Начаться может только до вирусного скандала SADBOT. Последствие вернётся через 3 основных решения; отголосок обоих выборов читается на SADBOT_04_LEAD.&#x27;},
+    {id:&#x27;dev_hostage&#x27;,group:&#x27;packageA&#x27;,seed:&#x27;DEV_HOSTAGE_SEED&#x27;,callbacks:[&#x27;DEV_HOSTAGE_CALLBACK&#x27;],steps:[],condition:&#x27;Начаться может только до вирусного скандала SADBOT. Последствие вернётся через 3 основных решения; отголосок обоих выборов читается на SADBOT_04_LEAD.&#x27;},
     {id:&#x27;mom_investor&#x27;,group:&#x27;packageA&#x27;,seed:&#x27;MOM_INVESTOR_SEED&#x27;,callbacks:[&#x27;MOM_INVESTOR_CALLBACK&#x27;],steps:[&#x27;OPEN_05&#x27;]},
     {id:&#x27;fake_coma&#x27;,group:&#x27;packageA&#x27;,seed:&#x27;COMA_SEED&#x27;,callbacks:[&#x27;COMA_CALLBACK_AUTHORIZED&#x27;,&#x27;COMA_CALLBACK_BLOCKED&#x27;],steps:[&#x27;OPEN_05&#x27;],condition:&#x27;Вторая карточка зависит от ответа в первой.&#x27;},
-    {id:&#x27;b3&#x27;,group:&#x27;b3&#x27;,seed:&#x27;B3_SALES_PRESSURE_SEED&#x27;,callbacks:[&#x27;B3_PAID_OPTOUT_CALLBACK&#x27;],steps:[&#x27;AGENT_01&#x27;,&#x27;AGENT_02_DEV&#x27;,&#x27;AGENT_03_HYPE&#x27;],condition:&#x27;Последствие появится только после выбора «Send three more».&#x27;}
+    {id:&#x27;b3&#x27;,group:&#x27;b3&#x27;,seed:&#x27;B3_SALES_PRESSURE_SEED&#x27;,callbacks:[&#x27;B3_PAID_OPTOUT_CALLBACK&#x27;],steps:[],condition:&#x27;Начаться может только до вирусного скандала SADBOT. Последствие появится только после выбора «Send three more» — через 3 основных решения.&#x27;}
   ];
   var insertionWindows=[
     {id:&#x27;opening_shared_seed&#x27;,group:&#x27;opening&#x27;,label:&#x27;🎲 OPEN_04 → одна из 2 мини-историй → OPEN_05&#x27;,explain:&#x27;После OPEN_04 игра может вставить начало одной из двух мини-историй. Затем обязательный сюжет возвращается к OPEN_05.&#x27;,candidates:[&#x27;MOM_INVESTOR_SEED&#x27;,&#x27;COMA_SEED&#x27;]},
     {id:&#x27;opening_health_resolution&#x27;,group:&#x27;opening&#x27;,label:&#x27;↩ OPEN_05 → результат истории → OPEN_06&#x27;,explain:&#x27;После OPEN_05 возвращается последствие выбранной мини-истории. Если такая история не началась, могут появиться мамины листовки.&#x27;,candidates:[&#x27;MOM_INVESTOR_CALLBACK&#x27;,&#x27;COMA_CALLBACK_AUTHORIZED&#x27;,&#x27;COMA_CALLBACK_BLOCKED&#x27;,&#x27;MOM_FLYERS&#x27;]},
-    {id:&#x27;agents_entry_seed&#x27;,group:&#x27;agents&#x27;,label:&#x27;🎲 Перед AGENT_01 → одна из 3 мини-историй&#x27;,explain:&#x27;Перед первой карточкой пути AI-агентов игра может вставить начало одной из трёх мини-историй.&#x27;,candidates:[&#x27;PAYROLL_RESTRICTED_AI_SEED&#x27;,&#x27;DEV_HOSTAGE_SEED&#x27;,&#x27;B3_SALES_PRESSURE_SEED&#x27;]},
-    {id:&#x27;agents_pre_serious_lead&#x27;,group:&#x27;agents&#x27;,label:&#x27;↩ AGENT_03_HYPE → результат истории → AGENT_04_LEAD&#x27;,explain:&#x27;Между AGENT_03_HYPE и AGENT_04_LEAD может вернуться отдельная карточка-последствие ранее начатой мини-истории.&#x27;,candidates:[&#x27;PAYROLL_RESTRICTED_AI_CALLBACK&#x27;,&#x27;DEV_HOSTAGE_CALLBACK&#x27;,&#x27;B3_PAID_OPTOUT_CALLBACK&#x27;]}
+    {id:&#x27;sadbot_sidestory_window&#x27;,group:&#x27;sadbot&#x27;,label:&#x27;🎲 До вируса — окно побочек&#x27;,explain:&#x27;Пока скандал SADBOT не стал вирусным (SADBOT_03_VIRAL), в паузах между сторилетами могут начаться побочные мини-истории. После вируса им сеяться поздно; отголосок их решений читается на SADBOT_04_LEAD.&#x27;,candidates:[&#x27;PAYROLL_RESTRICTED_AI_SEED&#x27;,&#x27;DEV_HOSTAGE_SEED&#x27;,&#x27;B3_SALES_PRESSURE_SEED&#x27;]},
+    {id:&#x27;sadbot_investor_window&#x27;,group:&#x27;sadbot&#x27;,label:&#x27;🎲 Между вирусом и заказом — окно инвестора&#x27;,explain:&#x27;Опциональная карта: инвестор присваивает вирусный результат себе. Требует вирусного скандала и его старого приказа «добавь душу» (AGENT_01); исчезает после удаления сознания. Одна на прогон, ничего не гейтит.&#x27;,candidates:[&#x27;SADBOT_INVESTOR_CLAIM&#x27;,&#x27;AGENT_01&#x27;]}
   ];
   var memoryReaders={
     OPEN_06:{intro:&#x27;🧠 Здесь применяется один результат одной вступительной мини-истории.&#x27;,groups:[
@@ -1519,7 +1526,22 @@ html&gt;body{padding:0}&lt;/style&gt;
         {requires:[&#x27;payroll_offer_compute_only&#x27;],label:&#x27;Приняли облачные кредиты&#x27;}
       ]}
     ]},
-    AGENT_04_LEAD:{intro:&#x27;🧠 Здесь применяются результаты мини-историй, которые успели пройти раньше.&#x27;,groups:[
+    SADBOT_03_VIRAL:{intro:&#x27;🧠 Здесь стреляет решение с карты-улики.&#x27;,compact:true,groups:[
+      {title:&#x27;🤖 Шантаж оставлен как фича&#x27;,outcomes:[
+        {requires:[&#x27;sadbot_blackmail&#x27;],label:&#x27;Оставили выдумку про вырезанную память (Feature) → скандал жирнее&#x27;}
+      ]}
+    ]},
+    SADBOT_07_INVOICE:{intro:&#x27;🧠 Размер счёта зависит от прошлого решения.&#x27;,compact:true,groups:[
+      {title:&#x27;🎭 Один талисман вместо 500 клонов&#x27;,outcomes:[
+        {requires:[&#x27;mascot_pitch&#x27;],label:&#x27;Продали одного, как талисмана (5Б) → счёт скромнее&#x27;}
+      ]}
+    ]},
+    SADBOT_07_INVOICE_CUT:{intro:&#x27;🧠 Размер счёта зависит от прошлого решения.&#x27;,compact:true,groups:[
+      {title:&#x27;🎭 Один талисман вместо 500 клонов&#x27;,outcomes:[
+        {requires:[&#x27;mascot_pitch&#x27;],label:&#x27;Продали одного, как талисмана (5Б) → урезанный счёт ещё меньше&#x27;}
+      ]}
+    ]},
+    SADBOT_04_LEAD:{intro:&#x27;🧠 Здесь применяются результаты мини-историй, которые успели пройти раньше.&#x27;,groups:[
       {title:&#x27;☁️ Зарплата и облачные кредиты&#x27;,outcomes:[
         {requires:[&#x27;payroll_offer_compute_only&#x27;,&#x27;payroll_priority_machines&#x27;,&#x27;cloud_credits_resolved&#x27;],label:&#x27;Приняли кредиты → пообещали зарплату&#x27;},
         {requires:[&#x27;payroll_offer_ordinary_compute&#x27;,&#x27;payroll_priority_machines&#x27;,&#x27;cloud_credits_resolved&#x27;],label:&#x27;Потребовали зарплату → снова её пообещали&#x27;},
@@ -1537,7 +1559,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       ]}
     ]}
   };
-  var convergence=[&#x27;OPEN_01&#x27;,&#x27;OPEN_03_AUDIT&#x27;,&#x27;OPEN_04&#x27;,&#x27;AGENT_01&#x27;,&#x27;AGENT_03_HYPE&#x27;,&#x27;AGENT_04_LEAD&#x27;,&#x27;AGENT_05_ORDER&#x27;,&#x27;PADEL_03_TEAM&#x27;];
+  var convergence=[&#x27;OPEN_01&#x27;,&#x27;OPEN_03_AUDIT&#x27;,&#x27;OPEN_04&#x27;,&#x27;AGENT_01&#x27;,&#x27;SADBOT_INVESTOR_CLAIM&#x27;,&#x27;PADEL_03_TEAM&#x27;];
   var protectedPairs=deck.meta.scheduler.protectedPairs;
   var scope=&#x27;all&#x27;,showVariable=true,showTerminals=true,showTranslation=false,selectedId=&#x27;OPEN_01&#x27;,selectedPair=null,selectedWindow=null;
   var mapCandidates=[];
@@ -1550,6 +1572,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     if(c.scheduler&amp;&amp;c.scheduler.role===&#x27;seed&#x27;)return &#x27;начало мини-истории&#x27;;
     if(c.scheduler&amp;&amp;c.scheduler.role===&#x27;reaction&#x27;)return &#x27;случайная реакция мира&#x27;;
     if(c.kind===&#x27;pressure&#x27;)return c.callbackOnly?&#x27;последствие прошлого решения&#x27;:&#x27;случайная проблема&#x27;;
+    if(c.storyletEntry)return &#x27;сторилет — приходит из общего пула&#x27;;
     if(c.continuation===&#x27;forced&#x27;)return &#x27;обязательная карточка&#x27;;
     if(c.continuation===&#x27;weighted&#x27;||c.opensPressureSlot)return &#x27;сюжет с возможной случайной вставкой&#x27;;
     return c.kind===&#x27;opening&#x27;?&#x27;вступление&#x27;:&#x27;сюжет&#x27;;
@@ -1561,8 +1584,8 @@ html&gt;body{padding:0}&lt;/style&gt;
     if(c.kind===&#x27;sideStory&#x27;)return &#x27;packageA&#x27;;
     if(c.kind===&#x27;pressure&#x27;)return &#x27;pressure&#x27;;
     if(c.kind===&#x27;opening&#x27;)return &#x27;opening&#x27;;
-    if(c.arc===&#x27;agents&#x27;)return &#x27;agents&#x27;;
     if(c.arc===&#x27;padel&#x27;)return &#x27;padel&#x27;;
+    if(c.kind===&#x27;story&#x27;&amp;&amp;!c.arc)return &#x27;sadbot&#x27;;
     return &#x27;other&#x27;;
   }
   function virtualNodes(){
@@ -1575,13 +1598,13 @@ html&gt;body{padding:0}&lt;/style&gt;
   function groupDefs(){
     return [
       {id:&#x27;opening&#x27;,name:&#x27;Вступление&#x27;,note:&#x27;7 карточек — знакомство с компанией и выбор пути&#x27;},
-      {id:&#x27;agents&#x27;,name:&#x27;AI-агенты&#x27;,note:&#x27;9 карточек — путь с AI-агентами; между важными событиями могут появляться случайные истории&#x27;},
-      {id:&#x27;padel&#x27;,name:&#x27;Падел&#x27;,note:&#x27;8 карточек — путь с CEO ClosedAI; после согласия на встречу сюжет идёт почти без случайных вставок&#x27;},
-      {id:&#x27;packageA&#x27;,name:&#x27;Дополнительные мини-истории&#x27;,note:&#x27;10 карточек — дополнительные мини-истории; решение может вернуться последствием позже&#x27;},
+      {id:&#x27;sadbot&#x27;,name:&#x27;SADBOT — первый клиент&#x27;,note:&#x27;14 карточек — сейлз учит AI клянчить, бот превышает заказ, и корпорация покупает «500 усталых AI-сотрудников»; первые карты — сторилеты в общем пуле&#x27;},
+      {id:&#x27;padel&#x27;,name:&#x27;Падел&#x27;,note:&#x27;9 карточек — путь с CEO ClosedAI; после согласия на встречу сюжет идёт почти без случайных вставок&#x27;},
+      {id:&#x27;packageA&#x27;,name:&#x27;Дополнительные мини-истории&#x27;,note:&#x27;13 карточек — дополнительные мини-истории; решение может вернуться последствием позже&#x27;},
       {id:&#x27;b3&#x27;,name:&#x27;Навязчивые продажи&#x27;,note:&#x27;2 карточки — история о компании, которая готова заплатить, лишь бы Sales больше ей не писал&#x27;},
-      {id:&#x27;pressure&#x27;,name:&#x27;Случайные проблемы стартапа&#x27;,note:&#x27;6 могут выпасть случайно · 1 возвращается только как последствие решения&#x27;},
-      {id:&#x27;crises&#x27;,name:&#x27;Кризисы&#x27;,note:&#x27;9 кризисов — возникают, когда один из ресурсов достигает опасной границы&#x27;},
-      {id:&#x27;endings&#x27;,name:&#x27;Финалы&#x27;,note:&#x27;20 финалов — разные победы и поражения&#x27;}
+      {id:&#x27;pressure&#x27;,name:&#x27;Случайные проблемы стартапа&#x27;,note:&#x27;12 могут выпасть случайно — каждая максимум один раз, не больше четырёх за прогон&#x27;},
+      {id:&#x27;crises&#x27;,name:&#x27;Кризисы&#x27;,note:&#x27;8 кризисов — возникают, когда один из ресурсов достигает опасной границы&#x27;},
+      {id:&#x27;endings&#x27;,name:&#x27;Финалы&#x27;,note:&#x27;18 финалов — разные победы и поражения&#x27;}
     ];
   }
   function nodeCategory(n){
@@ -1594,19 +1617,20 @@ html&gt;body{padding:0}&lt;/style&gt;
     if(!showVariable&amp;&amp;(g.id===&#x27;packageA&#x27;||g.id===&#x27;b3&#x27;))return false;
     if(scope===&#x27;all&#x27;)return true;
     if(scope===&#x27;opening&#x27;)return g.id===&#x27;opening&#x27;||(showVariable&amp;&amp;g.id===&#x27;packageA&#x27;);
-    if(scope===&#x27;agents&#x27;)return [&#x27;agents&#x27;,&#x27;packageA&#x27;,&#x27;b3&#x27;,&#x27;pressure&#x27;].indexOf(g.id)&gt;=0;
-    if(scope===&#x27;padel&#x27;)return [&#x27;padel&#x27;,&#x27;packageA&#x27;].indexOf(g.id)&gt;=0;
+    if(scope===&#x27;sadbot&#x27;)return [&#x27;sadbot&#x27;,&#x27;packageA&#x27;,&#x27;b3&#x27;,&#x27;pressure&#x27;].indexOf(g.id)&gt;=0;
+    if(scope===&#x27;padel&#x27;)return g.id===&#x27;padel&#x27;;
     return true;
   }
   function nodeIcons(n){
     if(!n||!n.choices)return &#x27;&#x27;;
     var icons=[];
     var schedulerType=n.scheduler&amp;&amp;n.scheduler.role;
-    if((schedulerType===&#x27;seed&#x27;||schedulerType===&#x27;reaction&#x27;)||(n.kind===&#x27;pressure&#x27;&amp;&amp;!n.callbackOnly))icons.push([&#x27;🎲&#x27;,&#x27;может появиться случайно&#x27;]);
+    if((schedulerType===&#x27;seed&#x27;||schedulerType===&#x27;reaction&#x27;)||(n.kind===&#x27;pressure&#x27;&amp;&amp;!n.callbackOnly)||n.storyletEntry)icons.push([&#x27;🎲&#x27;,&#x27;может появиться случайно&#x27;]);
     if(schedulerType===&#x27;callback&#x27;||n.callbackOnly)icons.push([&#x27;↩&#x27;,&#x27;возвращает прошлое решение&#x27;]);
     if(arr(n.stateEffects).length)icons.push([&#x27;🧠&#x27;,&#x27;учитывает прошлые решения&#x27;]);
     if(protectedPairs.some(function(pair){return pair[0]===n.id||pair[1]===n.id;}))icons.push([&#x27;⛓&#x27;,&#x27;входит в неразрывную пару&#x27;]);
     if(n.id===&#x27;MOM_INVESTOR_SEED&#x27;||n.id===&#x27;COMA_SEED&#x27;)icons.push([&#x27;⊘&#x27;,&#x27;исключает другую мини-историю&#x27;]);
+    if(n.id===&#x27;SADBOT_04_LEAD&#x27;)icons.push([&#x27;⊘&#x27;,&#x27;с этой карты другие клиенты в прогон не попадают&#x27;]);
     if(n.id===&#x27;PADEL_01&#x27;)icons.push([&#x27;🔒&#x27;,&#x27;дальше без случайных вставок&#x27;]);
     if(convergence.indexOf(n.id)&gt;=0)icons.push([&#x27;≈&#x27;,&#x27;обе кнопки ведут одинаково&#x27;]);
     if(!icons.length)return &#x27;&#x27;;
@@ -1625,7 +1649,8 @@ html&gt;body{padding:0}&lt;/style&gt;
   function pressureConditionShort(n){
     if(!n||n.kind!==&#x27;pressure&#x27;)return &#x27;&#x27;;
     if(n.callbackOnly)return &#x27;↩ Только после &#x27;+delayedChoiceLabel(n.id);
-    if(n.trigger&amp;&amp;arr(n.trigger.all).indexOf(&#x27;agents_public&#x27;)&gt;=0)return &#x27;🤖 После публикации AI-агентов&#x27;;
+    if(n.trigger&amp;&amp;arr(n.trigger.all).indexOf(&#x27;sadbot_hyped&#x27;)&gt;=0)return &#x27;🤖 После вирусного скандала SADBOT&#x27;;
+    if(arr(n.excludes).some(function(f){return f.indexOf(&#x27;sadbot_&#x27;)===0;}))return &#x27;⏳ Только до скандала SADBOT&#x27;;
     var resource=Object.keys(n.resourceRange||{})[0];
     if(!resource)return &#x27;🎲 Без дополнительного условия&#x27;;
     var range=n.resourceRange[resource],icon=resource===&#x27;cash&#x27;?&#x27;💰&#x27;:(resource===&#x27;founder&#x27;?&#x27;🧠&#x27;:&#x27;🎲&#x27;),resourceLabel=resource===&#x27;founder&#x27;?&#x27;Основатель&#x27;:ru[resource];
@@ -1634,9 +1659,9 @@ html&gt;body{padding:0}&lt;/style&gt;
     return icon+&#x27; &#x27;+resourceLabel+&#x27; ≤ &#x27;+range.max;
   }
   function pressureConditionDetail(n){
-    if(n.callbackOnly)return &#x27;Не выбирается случайно. Возвращается через два основных решения после выбора &#x27;+delayedChoiceLabel(n.id)+&#x27; на карточке AGENT_02_DEV.&#x27;;
+    if(n.callbackOnly)return &#x27;Не выбирается случайно. Возвращается отдельной карточкой-последствием после выбора &#x27;+delayedChoiceLabel(n.id)+&#x27;.&#x27;;
     var unique=&#x27;&#x27;;
-    if(n.trigger&amp;&amp;arr(n.trigger.all).indexOf(&#x27;agents_public&#x27;)&gt;=0)unique=&#x27;Может попасть в случайный выбор после публикации AI-агентов.&#x27;;
+    if(n.trigger&amp;&amp;arr(n.trigger.all).indexOf(&#x27;sadbot_hyped&#x27;)&gt;=0)unique=&#x27;Может попасть в случайный выбор только после вирусного скандала SADBOT.&#x27;;
     else{
       var resource=Object.keys(n.resourceRange||{})[0],range=n.resourceRange&amp;&amp;n.resourceRange[resource],resourceLabel=resource===&#x27;founder&#x27;?&#x27;Основатель&#x27;:ru[resource];
       if(resource&amp;&amp;range){
@@ -1645,6 +1670,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         else unique=&#x27;Может попасть в случайный выбор, если &#x27;+resourceLabel+&#x27; &#x27;+range.max+&#x27; или меньше.&#x27;;
       }else unique=&#x27;Может попасть в случайный выбор без дополнительного условия.&#x27;;
     }
+    if(arr(n.excludes).some(function(f){return f.indexOf(&#x27;sadbot_&#x27;)===0;}))unique+=&#x27; После скандала SADBOT эта карточка больше не появляется.&#x27;;
     return unique+&#x27; Игра проверяет это условие только между некоторыми основными событиями. Каждая проблема появляется максимум один раз; за прохождение — не более четырёх. Случайная проблема не появляется во время Падела.&#x27;;
   }
   function linkedTargets(){
@@ -1714,6 +1740,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       var windows=showVariable?insertionWindows.filter(function(windowItem){return windowItem.group===g.id;}):[];
       if(windows.length)html+=&#x27;&lt;div class=&quot;ms-window-list&quot; aria-label=&quot;Окна вариативных вставок&quot;&gt;&#x27;+windows.map(windowHtml).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
       if(g.id===&#x27;pressure&#x27;)html+=&#x27;&lt;div class=&quot;ms-pool-rule text-small&quot;&gt;Между некоторыми сюжетными карточками игра случайно выбирает одну подходящую проблему. Каждая появляется максимум один раз; за прохождение — не более четырёх. Случайные проблемы не появляются во время Падела.&lt;/div&gt;&#x27;;
+      if(g.id===&#x27;sadbot&#x27;)html+=&#x27;&lt;div class=&quot;ms-pool-rule text-small&quot;&gt;&lt;b&gt;Цепочка ветки:&lt;/b&gt; семя SADBOT_01 → улика SADBOT_02 → вирус SADBOT_03 → лид SADBOT_04 — сторилеты в общем пуле, между ними обычный хаос; каждая следующая карта требует решения предыдущей. С лида начинается неразрывный коридор: заказ SADBOT_05 (звонок или ответ бота — двойники) → &lt;b&gt;наврал про 500&lt;/b&gt; — ПЯТНИЦА, &lt;b&gt;признался&lt;/b&gt; — театр 5Б → юристы SADBOT_06 → финал сделки: счёт 7а (после сорванной пятницы — урезанный двойник) или логотип 7б.&lt;br&gt;&lt;b&gt;Выходы из ветки:&lt;/b&gt; «Have some dignity» на семени и «Delete everything» на вирусе — клиента не будет, прогон продолжается. AGENT_01 — старый приказ инвестора «добавь душу»: ветку не открывает, но на него опирается окно инвестора.&lt;/div&gt;&#x27;;
       var pairs=modulePairs.filter(function(pair){return pair.group===g.id;});
       if(pairs.length){
         html+=&#x27;&lt;div class=&quot;ms-pair-list&quot;&gt;&#x27;+pairs.map(function(pair){return pairHtml(pair,links);}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
@@ -1801,7 +1828,8 @@ html&gt;body{padding:0}&lt;/style&gt;
   function choiceHtml(c,side){
     var ch=c.choices[side];
     var next=arr(ch.next);
-    var direct=next.length?next.join(&#x27;, &#x27;):(ch.ending?&#x27;финал: &#x27;+ch.ending:(ch.crisis?&#x27;кризис: &#x27;+ch.crisis:&#x27;возврат к основной истории&#x27;));
+    var storylet=c.storyletEntry||c.continuation===&#x27;storylet&#x27;;
+    var direct=next.length?next.join(&#x27;, &#x27;)+(next.length&gt;1?&#x27; — двойники: в прогоне придёт одна из них, по флагу&#x27;:&#x27;&#x27;):(ch.ending?&#x27;финал: &#x27;+ch.ending:(ch.crisis?&#x27;кризис: &#x27;+ch.crisis:(storylet?&#x27;возврат в общий пул — следующая карта ветки придёт оттуда позже, если этот выбор оставил нужный флаг&#x27;:&#x27;возврат к основной истории&#x27;)));
     var state=arr(ch.setFlags);
     var cb=ch.reserveCallback?(&#x27;Вернётся карточка &#x27;+ch.reserveCallback.callbackId+&#x27; через &#x27;+ch.reserveCallback.spineSteps+&#x27; основных решений&#x27;):(ch.delay?(&#x27;Вернётся карточка &#x27;+ch.delay.card+&#x27; через &#x27;+ch.delay.storyDecisions+&#x27; основных решений&#x27;):&#x27;&#x27;);
     return &#x27;&lt;div class=&quot;ms-choice &#x27;+side+&#x27;&quot;&gt;&lt;strong&gt;&#x27;+(side===&#x27;left&#x27;?&#x27;Левая&#x27;:&#x27;Правая&#x27;)+&#x27;: &#x27;+esc(ch.label)+&#x27;&lt;/strong&gt;&#x27;+translationChoiceHtml(c,side,&#x27;ms-choice-translation&#x27;)+&#x27;&lt;p&gt;&#x27;+esc(effectsText(ch.effects))+&#x27;&lt;/p&gt;&lt;p class=&quot;text-small&quot;&gt;&lt;b&gt;Дальше:&lt;/b&gt; &#x27;+esc(direct)+&#x27;&lt;/p&gt;&#x27;+(state.length?&#x27;&lt;p class=&quot;text-small&quot;&gt;&lt;b&gt;Запоминает:&lt;/b&gt; &#x27;+esc(state.join(&#x27;, &#x27;))+&#x27;&lt;/p&gt;&#x27;:&#x27;&#x27;)+(cb?&#x27;&lt;p class=&quot;text-small&quot;&gt;&lt;b&gt;Будущее последствие:&lt;/b&gt; &#x27;+esc(cb)+&#x27;&lt;/p&gt;&#x27;:&#x27;&#x27;)+(ch.startArc||ch.switchArc?&#x27;&lt;p class=&quot;text-small&quot;&gt;&lt;b&gt;Выбранный путь:&lt;/b&gt; &#x27;+esc(ch.startArc||ch.switchArc)+&#x27;&lt;/p&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
@@ -1830,230 +1858,82 @@ html&gt;body{padding:0}&lt;/style&gt;
     if(protectedPairs.some(function(p){return p[0]===n.id||p[1]===n.id;}))flags.push(&#x27;⛓ соседние события нельзя разрывать&#x27;);
     if(n.id===&#x27;PADEL_01&#x27;)flags.push(&#x27;🔒 после согласия на встречу случайных вставок больше нет&#x27;);
     if(n.id===&#x27;MOM_INVESTOR_SEED&#x27;||n.id===&#x27;COMA_SEED&#x27;)flags.push(&#x27;⊘ эта мини-история исключает другую историю о здоровье фаундера&#x27;);
+    if(n.id===&#x27;SADBOT_04_LEAD&#x27;)flags.push(&#x27;⊘ с этой карты другие клиенты в прогон не попадают&#x27;);
     if(n.scheduler&amp;&amp;n.scheduler.role===&#x27;callback&#x27;)flags.push(&#x27;↩ отдельная карточка-последствие&#x27;);
     var leftNext=arr(n.choices.left.next),rightNext=arr(n.choices.right.next);
     if(leftNext.length===1&amp;&amp;rightNext.length===1&amp;&amp;leftNext[0]===rightNext[0])flags.push(&#x27;▬ обе кнопки ведут к одной следующей карточке → &#x27;+leftNext[0]);
     box.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(role(n))+&#x27;&lt;/span&gt; &lt;strong&gt;&#x27;+esc(n.id)+&#x27;&lt;/strong&gt; · &#x27;+esc(sourceName(n))+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(n.text)+&#x27;&lt;/div&gt;&#x27;+translationMessageHtml(n)+&#x27;&lt;div class=&quot;ms-choice-grid&quot;&gt;&#x27;+choiceHtml(n,&#x27;left&#x27;)+choiceHtml(n,&#x27;right&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-facts&quot;&gt;&lt;div&gt;&lt;b&gt;Когда может появиться&lt;/b&gt;&lt;br&gt;&lt;span class=&quot;text-small&quot;&gt;&#x27;+esc(conditionText(n))+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Как работает эта карточка&lt;/b&gt;&lt;br&gt;&lt;span class=&quot;text-small&quot;&gt;&#x27;+esc(mechanicsText(n))+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#x27;+memoryHtml(n)+(flags.length?&#x27;&lt;div class=&quot;ms-tags&quot;&gt;&#x27;+flags.map(function(x){return &#x27;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(x)+&#x27;&lt;/span&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;:&#x27;&#x27;);
   }
 
+  var Engine=window.MistakeryEngine;
   var rngState=24681357;
   function rng(){rngState=(rngState*1664525+1013904223)&gt;&gt;&gt;0;return rngState/4294967296;}
-  var state;
-  var undoStack=[];
+  var state=null,lastDeltas=null,undoStack=[];
   function saveUndo(){
-    undoStack.push({state:JSON.parse(JSON.stringify(state)),rngState:rngState,mapCandidates:mapCandidates.slice(),selectedId:selectedId});
+    undoStack.push({state:state,rngState:rngState,lastDeltas:lastDeltas,selectedId:selectedId});
   }
   function undoTurn(){
     if(!undoStack.length)return;
     var snapshot=undoStack.pop();
     state=snapshot.state;
     rngState=snapshot.rngState;
-    mapCandidates=snapshot.mapCandidates;
+    lastDeltas=snapshot.lastDeltas;
     selectedId=snapshot.selectedId;
     renderSim();
   }
-  function initialState(){
-    var res={};keys.forEach(function(k){res[k]=Number(deck.resources[k].initial);});
-    return {turn:1,resources:res,schedulerResources:Object.assign({},res),flags:[],shown:[],delayed:[],reservations:[],schedulerLocks:[],currentCardId:deck.meta.startCard,activeArc:null,queuedCardId:null,queuedCardIds:[],queuedBoundary:null,pressureCount:0,gameOver:false,endingId:null,activeCrisisId:null,pending:null,history:[],lastDeltas:null,lastCandidates:{forced:[&#x27;OPEN_01&#x27;],variable:[],chosen:&#x27;OPEN_01&#x27;,explain:&#x27;Стартовая карточка задана напрямую.&#x27;}};
-  }
-  function triggerMatches(c){
-    var t=c.trigger||{};
-    if(t.minTurn&amp;&amp;state.turn&lt;t.minTurn)return false;
-    if(t.maxTurn&amp;&amp;state.turn&gt;t.maxTurn)return false;
-    if(arr(t.all).some(function(f){return state.flags.indexOf(f)&lt;0;}))return false;
-    if(arr(t.none).some(function(f){return state.flags.indexOf(f)&gt;=0;}))return false;
-    if(arr(t.any).length&amp;&amp;!arr(t.any).some(function(f){return state.flags.indexOf(f)&gt;=0;}))return false;
-    return true;
-  }
-  function schedulerRole(c){return c&amp;&amp;c.scheduler?c.scheduler.role:null;}
-  function locked(){return state.schedulerLocks.indexOf(&#x27;PADEL_01&#x27;)&gt;=0;}
-  function rangeMatches(c){
-    var res=schedulerRole(c)?state.schedulerResources:state.resources;
-    return Object.keys(c.resourceRange||{}).every(function(k){var r=c.resourceRange[k],v=res[k];return (r.min==null||v&gt;=r.min)&amp;&amp;(r.max==null||v&lt;=r.max);});
-  }
-  function eligible(c,includeScheduled){
-    if(!c||!triggerMatches(c)||!rangeMatches(c))return false;
-    if(arr(c.activeArcs).length&amp;&amp;arr(c.activeArcs).indexOf(state.activeArc)&lt;0)return false;
-    if(arr(c.requires).some(function(f){return state.flags.indexOf(f)&lt;0;}))return false;
-    if(arr(c.excludes).some(function(f){return state.flags.indexOf(f)&gt;=0;}))return false;
-    if(locked()&amp;&amp;schedulerRole(c))return false;
-    if(schedulerRole(c)===&#x27;seed&#x27;&amp;&amp;state.reservations.length)return false;
-    if(!includeScheduled&amp;&amp;schedulerRole(c))return false;
-    if((c.oncePerRun===true||(c.oncePerRun==null&amp;&amp;c.kind===&#x27;pressure&#x27;))&amp;&amp;state.shown.indexOf(c.id)&gt;=0)return false;
-    return true;
-  }
-  function weighted(items){
-    if(!items.length)return null;
-    var total=items.reduce(function(s,x){return s+Number(x.weight||x.card&amp;&amp;x.card.weight||1);},0),t=rng()*total;
-    for(var i=0;i&lt;items.length;i++){t-=Number(items[i].weight||items[i].card&amp;&amp;items[i].card.weight||1);if(t&lt;=0)return items[i].card||items[i];}
-    return items[items.length-1].card||items[items.length-1];
-  }
-  function boundary(before,after){return deck.meta.scheduler.boundaries.find(function(b){return b.before===before&amp;&amp;b.after===after;})||null;}
-  function boundaryPool(b){
-    if(!b||locked())return [];
-    if(b.roles.indexOf(&#x27;callback&#x27;)&gt;=0){
-      var due=state.reservations.find(function(r){return r.callbackSlot===b.id&amp;&amp;r.remainingSpineSteps&lt;=0&amp;&amp;eligible(card(r.callbackId),true);});
-      if(due)return [{card:card(due.callbackId),weight:1,reservation:due}];
-    }
-    if(state.reservations.length)return [];
-    return deck.cards.filter(function(c){return schedulerRole(c)&amp;&amp;b.roles.indexOf(schedulerRole(c))&gt;=0&amp;&amp;c.scheduler.slot===b.id&amp;&amp;schedulerRole(c)!==&#x27;callback&#x27;&amp;&amp;eligible(c,true);}).map(function(c){return {card:c,weight:Number(c.weight||1)};});
-  }
-  function dueDelayed(){
-    var i=state.delayed.findIndex(function(d){return d.remainingStoryDecisions&lt;=0&amp;&amp;eligible(card(d.card),true);});
-    if(i&lt;0)return null;var d=state.delayed.splice(i,1)[0];return card(d.card);
-  }
-  function previousAmbient(){
-    var h=state.history[state.history.length-1];if(!h)return false;var c=card(h.cardId);return c&amp;&amp;c.kind===&#x27;pressure&#x27;;
-  }
-  function ambientPool(){
-    if(locked()||state.pressureCount&gt;=deck.meta.maxPressureCards||previousAmbient())return [];
-    return deck.cards.filter(function(c){return c.kind===&#x27;pressure&#x27;&amp;&amp;!c.callbackOnly&amp;&amp;eligible(c,false);});
-  }
-  function setNext(candidates,forced,chosen,explain){
-    state.lastCandidates={variable:candidates.slice(),forced:forced.slice(),chosen:chosen,explain:explain};
-    mapCandidates=candidates.filter(function(id){return id!==chosen;});
-  }
-  function queueDirect(before,nextId){
-    var b=boundary(before,nextId);
-    if(b){
-      var pool=boundaryPool(b);
-      if(pool.length){
-        var picked=weighted(pool),reservation=pool.find(function(x){return x.card.id===picked.id&amp;&amp;x.reservation;});
-        if(reservation)state.reservations=state.reservations.filter(function(x){return x!==reservation.reservation;});
-        state.queuedCardId=nextId;state.queuedCardIds=[nextId];state.queuedBoundary=b;
-        state.currentCardId=picked.id;
-        setNext(pool.map(function(x){return x.card.id;}),[nextId],picked.id,pool.length&gt;1?&#x27;Игра случайно выбрала одну из подходящих карточек. Основной сюжет продолжится после неё.&#x27;:&#x27;Здесь появляется единственное допустимое последствие прошлого решения, затем основной сюжет продолжится.&#x27;);
-        return;
-      }
-    }
-    state.currentCardId=nextId;
-    setNext([], [nextId], nextId, &#x27;Следующая сюжетная карточка обязательна.&#x27;);
-  }
-  function chooseTransition(c,nextIds,resume){
-    if(resume){
-      var preferred=resume.preferred;
-      state.currentCardId=preferred;
-      setNext([], [preferred], preferred, &#x27;После случайной вставки игра возвращается к основной истории.&#x27;);
-      return;
-    }
-    if(nextIds.length===1&amp;&amp;boundary(c.id,nextIds[0])){queueDirect(c.id,nextIds[0]);return;}
-    var mode=c.continuation||(c.kind===&#x27;pressure&#x27;?&#x27;ambient&#x27;:(c.opensPressureSlot?&#x27;weighted&#x27;:&#x27;forced&#x27;));
-    if(mode===&#x27;forced&#x27;){
-      if(nextIds.length){var n=nextIds[Math.floor(rng()*nextIds.length)];state.currentCardId=n;setNext([],nextIds,n,nextIds.length&gt;1?&#x27;Один из прямых story-переходов выбран случайно.&#x27;:&#x27;Прямое обязательное продолжение.&#x27;);}
-      else finishNoProof();
-      return;
-    }
-    if(mode===&#x27;weighted&#x27;){
-      var stories=nextIds.map(card).filter(function(x){return x&amp;&amp;eligible(x,false);});
-      var due=dueDelayed();
-      if(due){
-        var q=weighted(stories);state.queuedCardId=q.id;state.queuedCardIds=stories.map(function(x){return x.id;});state.currentCardId=due.id;state.pressureCount+=1;
-        setNext([due.id],stories.map(function(x){return x.id;}),due.id,&#x27;Обещанное последствие прошлого решения появляется раньше случайных событий.&#x27;);
-        return;
-      }
-      var amb=ambientPool();
-      var all=stories.concat(amb);
-      var pick=weighted(all);
-      if(!pick){finishNoProof();return;}
-      if(pick.kind===&#x27;pressure&#x27;){var story=weighted(stories);state.queuedCardId=story.id;state.queuedCardIds=stories.map(function(x){return x.id;});state.pressureCount+=1;}
-      state.currentCardId=pick.id;
-      setNext(amb.map(function(x){return x.id;}),stories.map(function(x){return x.id;}),pick.id,amb.length?&#x27;Основной сюжет обязателен, но перед ним может появиться одна подходящая случайная проблема.&#x27;:&#x27;Подходящих случайных карточек нет: основной сюжет продолжается сразу.&#x27;);
-      return;
-    }
-    if(nextIds.length){
-      var fixed=nextIds[0],p=dueDelayed()||weighted(ambientPool());
-      if(p){state.queuedCardId=fixed;state.queuedCardIds=[fixed];state.currentCardId=p.id;state.pressureCount+=1;setNext([p.id],[fixed],p.id,&#x27;Перед основной историей появляется случайная проблема или последствие прошлого решения.&#x27;);}
-      else{state.currentCardId=fixed;setNext([], [fixed], fixed, &#x27;Подходящих случайных карточек нет: обязательная история продолжается сразу.&#x27;);}
-    }else finishNoProof();
-  }
-  function applyChoiceFlags(ch){
-    arr(ch.setFlags).forEach(function(f){if(state.flags.indexOf(f)&lt;0)state.flags.push(f);});
-    arr(ch.clearFlags).forEach(function(f){state.flags=state.flags.filter(function(x){return x!==f;});});
-  }
-  function stateMatches(e){return arr(e.requires).every(function(f){return state.flags.indexOf(f)&gt;=0;})&amp;&amp;arr(e.excludes).every(function(f){return state.flags.indexOf(f)&lt;0;});}
-  function applyEffects(c,ch){
-    var before=Object.assign({},state.resources),remembered=arr(c.stateEffects).filter(stateMatches);
-    keys.forEach(function(k){
-      var base=k===&#x27;cash&#x27;?Number(deck.meta.baseCashBurn||0):0;
-      var value=Number((ch.effects||{})[k]||0)+remembered.reduce(function(s,e){return s+Number((e.effects||{})[k]||0);},0);
-      var cfg=deck.resources[k];state.resources[k]=Math.max(cfg.min,Math.min(cfg.max,state.resources[k]+base+value));
-      if(!schedulerRole(c))state.schedulerResources[k]=Math.max(cfg.min,Math.min(cfg.max,state.schedulerResources[k]+base+Number((ch.effects||{})[k]||0)));
-    });
-    var d={};keys.forEach(function(k){d[k]=state.resources[k]-before[k];});return d;
-  }
-  function advanceDelays(c){
-    if(c.kind!==&#x27;story&#x27;&amp;&amp;c.schedulerSpineStep!==true)return;
-    state.delayed.forEach(function(d){if(d.remainingStoryDecisions&gt;0)d.remainingStoryDecisions-=1;});
-    state.reservations.forEach(function(r){if(r.remainingSpineSteps&gt;0)r.remainingSpineSteps-=1;});
-  }
-  function boundaryCrisis(){
-    for(var i=0;i&lt;keys.length;i++){var k=keys[i],cfg=deck.resources[k];if(state.resources[k]&lt;=cfg.min)return k+&#x27;_low&#x27;;if(state.resources[k]&gt;=cfg.max)return k+&#x27;_high&#x27;;}
-    return null;
-  }
-  function finishEnding(id){state.gameOver=true;state.endingId=id;state.currentCardId=null;state.delayed=[];state.reservations=[];setNext([],[], &#x27;ending:&#x27;+id,&#x27;Run завершён.&#x27;);}
-  function finishNoProof(){finishEnding(&#x27;no_proof&#x27;);}
   function resolve(side){
-    if(state.gameOver||state.activeCrisisId)return;
+    if(!Engine||!state||state.gameOver||state.activeCrisisId)return;
     saveUndo();
-    var c=card(state.currentCardId),ch=c.choices[side];
-    var resume=([&#x27;pressure&#x27;,&#x27;sideStory&#x27;].indexOf(c.kind)&gt;=0||schedulerRole(c))&amp;&amp;state.queuedCardId?{preferred:state.queuedCardId}:null;
-    if(resume){state.queuedCardId=null;state.queuedCardIds=[];state.queuedBoundary=null;}
-    var deltas=applyEffects(c,ch);
-    applyChoiceFlags(ch);
-    if(ch.startArc)state.activeArc=ch.startArc;
-    if(ch.switchArc)state.activeArc=ch.switchArc;
-    if(c.id===&#x27;PADEL_01&#x27;&amp;&amp;!ch.switchArc&amp;&amp;state.activeArc===&#x27;padel&#x27;&amp;&amp;state.schedulerLocks.indexOf(&#x27;PADEL_01&#x27;)&lt;0)state.schedulerLocks.push(&#x27;PADEL_01&#x27;);
-    if(state.shown.indexOf(c.id)&lt;0)state.shown.push(c.id);
-    state.history.push({turn:state.turn,cardId:c.id,side:side,label:ch.label,deltas:deltas});
-    state.lastDeltas=deltas;
-    advanceDelays(c);
-    if(ch.delay)state.delayed.push({card:ch.delay.card,remainingStoryDecisions:Number(ch.delay.storyDecisions||0)});
-    if(ch.reserveCallback)state.reservations=[{callbackId:ch.reserveCallback.callbackId,callbackSlot:ch.reserveCallback.callbackSlot,remainingSpineSteps:Number(ch.reserveCallback.spineSteps||0),moduleId:c.scheduler&amp;&amp;c.scheduler.moduleId}];
-    state.turn+=1;
-    var crisis=boundaryCrisis()||(ch.crisis&amp;&amp;deck.crises[ch.crisis]?ch.crisis:null);
-    var outcome=ch.ending||(ch.paid&amp;&amp;ch.validationProof?&#x27;validation&#x27;:null);
-    if(outcome&amp;&amp;ch.terminalPriority){finishEnding(outcome);renderSim();return;}
-    if(crisis){state.activeCrisisId=crisis;state.pending={card:c,next:arr(ch.next),resume:resume,outcome:outcome};setNext([],[], &#x27;crisis:&#x27;+crisis,&#x27;Ресурс достиг границы: crisis имеет приоритет.&#x27;);renderSim();return;}
-    if(outcome){finishEnding(outcome);renderSim();return;}
-    if(state.turn&gt;deck.meta.maxTurns){finishNoProof();renderSim();return;}
-    chooseTransition(c,arr(ch.next),resume);
+    var result=Engine.resolveChoice(deck,state,side,{rng:rng});
+    state=result.state;
+    lastDeltas=result.deltas;
     renderSim();
   }
   function resolveCrisis(action){
+    if(!Engine||!state||!state.activeCrisisId)return;
     saveUndo();
-    var id=state.activeCrisisId,cr=deck.crises[id];
-    if(action===&#x27;giveup&#x27;||rng()&gt;=0.35){state.activeCrisisId=null;finishEnding(id);renderSim();return;}
-    var cfg=deck.resources[cr.resource];state.resources[cr.resource]=cr.rebound;
-    Object.keys(cr.damage||{}).forEach(function(k){state.resources[k]=Math.max(deck.resources[k].min,Math.min(deck.resources[k].max,state.resources[k]+cr.damage[k]));});
-    state.activeCrisisId=null;
-    var p=state.pending;state.pending=null;
-    var nextCrisis=boundaryCrisis();
-    if(nextCrisis){state.activeCrisisId=nextCrisis;renderSim();return;}
-    if(p.outcome){finishEnding(p.outcome);}else chooseTransition(p.card,p.next,p.resume);
+    var result=Engine.resolveCrisis(deck,state,action,{rng:rng});
+    state=result.state;
+    lastDeltas=result.deltas;
     renderSim();
+  }
+  function storyletPoolIds(){
+    if(!Engine||!state||state.gameOver||state.activeCrisisId)return [];
+    return Engine.eligibleStoryletPool(deck,state).map(function(entry){return entry.card.id;});
   }
   function resourceHtml(){
     return keys.map(function(k){var v=state.resources[k];return &#x27;&lt;div class=&quot;ms-resource&quot;&gt;&lt;div class=&quot;ms-resource-head&quot;&gt;&lt;span&gt;&#x27;+ru[k]+&#x27;&lt;/span&gt;&lt;strong&gt;&#x27;+v+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;ms-bar&quot; role=&quot;img&quot; aria-label=&quot;&#x27;+ru[k]+&#x27; &#x27;+v+&#x27; из 100&quot;&gt;&lt;span style=&quot;width:&#x27;+v+&#x27;%&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;}).join(&#x27;&#x27;);
   }
   function deltasHtml(){
-    if(!state.lastDeltas)return &#x27;&#x27;;
-    var p=keys.filter(function(k){return state.lastDeltas[k]!==0;}).map(function(k){var v=state.lastDeltas[k];return ru[k]+&#x27; &#x27;+(v&gt;0?&#x27;+&#x27;:&#x27;&#x27;)+v;});
+    if(!lastDeltas)return &#x27;&#x27;;
+    var p=keys.filter(function(k){return lastDeltas[k]!==0;}).map(function(k){var v=lastDeltas[k];return ru[k]+&#x27; &#x27;+(v&gt;0?&#x27;+&#x27;:&#x27;&#x27;)+v;});
     return p.length?&#x27;&lt;div class=&quot;text-small&quot;&gt;&lt;b&gt;Изменилось:&lt;/b&gt; &#x27;+esc(p.join(&#x27; · &#x27;))+&#x27;&lt;/div&gt;&#x27;:&#x27;&lt;div class=&quot;text-small&quot;&gt;&lt;b&gt;Изменилось:&lt;/b&gt; только скрытое состояние / очередь&lt;/div&gt;&#x27;;
   }
   function renderCandidates(){
-    var x=state.lastCandidates||{forced:[],variable:[]};
-    var forced=x.forced.length?x.forced.join(&#x27;, &#x27;):&#x27;нет&#x27;;
-    var variable=x.variable.length?x.variable.join(&#x27;, &#x27;):&#x27;нет подходящих карточек&#x27;;
-    return &#x27;&lt;div class=&quot;ms-next-row&quot;&gt;&lt;strong&gt;Обязательное продолжение:&lt;/strong&gt; &lt;span&gt;&#x27;+esc(forced)+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;ms-next-row&quot;&gt;&lt;strong&gt;Какие случайные карточки сейчас допустимы:&lt;/strong&gt; &lt;span&gt;&#x27;+esc(variable)+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;text-small&quot;&gt;&#x27;+esc(x.explain||&#x27;&#x27;)+(x.chosen?&#x27;&lt;br&gt;&lt;b&gt;Игра выбрала:&lt;/b&gt; &#x27;+esc(x.chosen):&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+    if(!state||state.gameOver||state.activeCrisisId)return &#x27;&#x27;;
+    var rows=&#x27;&#x27;;
+    if(state.queuedCardId)rows+=&#x27;&lt;div class=&quot;ms-next-row&quot;&gt;&lt;strong&gt;После этой карты игра вернётся к:&lt;/strong&gt; &lt;span&gt;&#x27;+esc(state.queuedCardId)+&#x27;&lt;/span&gt;&lt;/div&gt;&#x27;;
+    else if(state.queuedPool)rows+=&#x27;&lt;div class=&quot;ms-next-row&quot;&gt;&lt;strong&gt;После этой карты:&lt;/strong&gt; &lt;span&gt;возврат в &#x27;+(state.queuedPoolMode===&#x27;storylet&#x27;?&#x27;общий пул сторилетов&#x27;:&#x27;пул арки&#x27;)+&#x27;&lt;/span&gt;&lt;/div&gt;&#x27;;
+    var pool=storyletPoolIds();
+    rows+=&#x27;&lt;div class=&quot;ms-next-row&quot;&gt;&lt;strong&gt;Сторилеты, доступные из общего пула:&lt;/strong&gt; &lt;span&gt;&#x27;+esc(pool.length?pool.join(&#x27;, &#x27;):&#x27;сейчас ни одного&#x27;)+&#x27;&lt;/span&gt;&lt;/div&gt;&#x27;;
+    if((state.fillerCards||[]).indexOf(state.currentCardId)&gt;=0)rows+=&#x27;&lt;div class=&quot;text-small&quot;&gt;Текущая карта — фоновый филлер: сюжетного продолжения в пуле не нашлось, хвост прогона доживает на фоне.&lt;/div&gt;&#x27;;
+    var waiting=state.reservations&amp;&amp;state.reservations[0]?state.reservations[0].callbackId:(state.delayed&amp;&amp;state.delayed[0]?state.delayed[0].card:null);
+    if(waiting)rows+=&#x27;&lt;div class=&quot;ms-next-row&quot;&gt;&lt;strong&gt;Ожидающее последствие:&lt;/strong&gt; &lt;span&gt;&#x27;+esc(waiting)+&#x27;&lt;/span&gt;&lt;/div&gt;&#x27;;
+    return rows;
   }
   function renderHistory(){
     var h=root.querySelector(&#x27;#ms-history&#x27;);
-    h.innerHTML=&#x27;&lt;div class=&quot;ms-history-list&quot;&gt;&#x27;+(state.history.length?state.history.map(function(x){return &#x27;&lt;div class=&quot;ms-history-item&quot;&gt;&lt;strong&gt;&#x27;+x.turn+&#x27;. &#x27;+esc(x.cardId)+&#x27;&lt;/strong&gt; — &#x27;+esc(x.label)+&#x27;&lt;br&gt;&lt;span class=&quot;text-small&quot;&gt;&#x27;+esc(effectsText(x.deltas))+&#x27;&lt;/span&gt;&lt;/div&gt;&#x27;;}).join(&#x27;&#x27;):&#x27;&lt;span class=&quot;text-muted&quot;&gt;Решений пока нет.&lt;/span&gt;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+    h.innerHTML=&#x27;&lt;div class=&quot;ms-history-list&quot;&gt;&#x27;+(state&amp;&amp;state.history.length?state.history.map(function(x){
+      var historyCard=card(x.cardId);
+      var label=historyCard&amp;&amp;historyCard.choices&amp;&amp;historyCard.choices[x.side]?historyCard.choices[x.side].label:x.side;
+      return &#x27;&lt;div class=&quot;ms-history-item&quot;&gt;&lt;strong&gt;&#x27;+x.turn+&#x27;. &#x27;+esc(x.cardId)+&#x27;&lt;/strong&gt; — &#x27;+esc(label)+&#x27;&lt;br&gt;&lt;span class=&quot;text-small&quot;&gt;&#x27;+esc(effectsText(x.deltas))+&#x27;&lt;/span&gt;&lt;/div&gt;&#x27;;
+    }).join(&#x27;&#x27;):&#x27;&lt;span class=&quot;text-muted&quot;&gt;Решений пока нет.&lt;/span&gt;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
   }
   function renderSim(){
+    if(!Engine||!state)return;
     root.querySelector(&#x27;#ms-undo&#x27;).disabled=!undoStack.length;
     root.querySelector(&#x27;#ms-resources&#x27;).innerHTML=resourceHtml();
-    root.querySelector(&#x27;#ms-status&#x27;).innerHTML=&#x27;&lt;span&gt;&lt;b&gt;Ход:&lt;/b&gt; &#x27;+state.turn+&#x27;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Выбранный путь:&lt;/b&gt; &#x27;+esc(state.activeArc||&#x27;не выбрана&#x27;)+&#x27;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Открытая мини-история:&lt;/b&gt; &#x27;+esc(state.reservations[0]&amp;&amp;state.reservations[0].moduleId||&#x27;нет&#x27;)+&#x27;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Ожидающее последствие:&lt;/b&gt; &#x27;+esc(state.reservations[0]&amp;&amp;state.reservations[0].callbackId||state.delayed[0]&amp;&amp;state.delayed[0].card||&#x27;нет&#x27;)+&#x27;&lt;/span&gt;&#x27;;
+    root.querySelector(&#x27;#ms-status&#x27;).innerHTML=&#x27;&lt;span&gt;&lt;b&gt;Ход:&lt;/b&gt; &#x27;+state.turn+&#x27;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Выбранный путь:&lt;/b&gt; &#x27;+esc(state.activeArc||&#x27;не выбран&#x27;)+&#x27;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Сторилетов доступно из пула:&lt;/b&gt; &#x27;+storyletPoolIds().length+&#x27;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Фоновых филлеров было:&lt;/b&gt; &#x27;+((state.fillerCards||[]).length)+&#x27;&lt;/span&gt;&#x27;;
     var cur=root.querySelector(&#x27;#ms-current&#x27;);
     if(state.activeCrisisId){
       var cr=deck.crises[state.activeCrisisId],s=deck.sources[cr.source]||{};
@@ -2068,8 +1948,10 @@ html&gt;body{padding:0}&lt;/style&gt;
       root.querySelector(&#x27;#ms-again&#x27;).onclick=restart;
     }else{
       var c=card(state.currentCardId),s=deck.sources[c.source]||{};
+      var leftLabel=Engine.getChoiceLabel(c.choices.left,state.resources.founder);
+      var rightLabel=Engine.getChoiceLabel(c.choices.right,state.resources.founder);
       cur.className=&#x27;card ms-current&#x27;;
-      cur.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(role(c))+&#x27;&lt;/span&gt; &lt;strong&gt;&#x27;+esc(c.id)+&#x27;&lt;/strong&gt; · &#x27;+esc((s.role||&#x27;&#x27;)+&#x27; &#x27;+(s.name||&#x27;&#x27;))+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(c.text)+&#x27;&lt;/div&gt;&#x27;+translationMessageHtml(c)+deltasHtml()+&#x27;&lt;div class=&quot;ms-sim-actions&quot;&gt;&lt;button class=&quot;btn btn-primary&quot; id=&quot;ms-left&quot; type=&quot;button&quot;&gt;&lt;span class=&quot;ms-button-copy&quot;&gt;&lt;span data-language=&quot;en&quot;&gt;&#x27;+esc(c.choices.left.label)+&#x27;&lt;/span&gt;&#x27;+translationChoiceHtml(c,&#x27;left&#x27;,&#x27;ms-button-translation&#x27;)+&#x27;&lt;/span&gt;&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;ms-right&quot; type=&quot;button&quot;&gt;&lt;span class=&quot;ms-button-copy&quot;&gt;&lt;span data-language=&quot;en&quot;&gt;&#x27;+esc(c.choices.right.label)+&#x27;&lt;/span&gt;&#x27;+translationChoiceHtml(c,&#x27;right&#x27;,&#x27;ms-button-translation&#x27;)+&#x27;&lt;/span&gt;&lt;/button&gt;&lt;/div&gt;&#x27;;
+      cur.innerHTML=&#x27;&lt;div&gt;&lt;span class=&quot;viz-badge&quot;&gt;&#x27;+esc(role(c))+&#x27;&lt;/span&gt; &lt;strong&gt;&#x27;+esc(c.id)+&#x27;&lt;/strong&gt; · &#x27;+esc((s.role||&#x27;&#x27;)+&#x27; &#x27;+(s.name||&#x27;&#x27;))+&#x27;&lt;/div&gt;&lt;div class=&quot;ms-message&quot;&gt;&#x27;+esc(c.text)+&#x27;&lt;/div&gt;&#x27;+translationMessageHtml(c)+deltasHtml()+&#x27;&lt;div class=&quot;ms-sim-actions&quot;&gt;&lt;button class=&quot;btn btn-primary&quot; id=&quot;ms-left&quot; type=&quot;button&quot;&gt;&lt;span class=&quot;ms-button-copy&quot;&gt;&lt;span data-language=&quot;en&quot;&gt;&#x27;+esc(leftLabel)+&#x27;&lt;/span&gt;&#x27;+translationChoiceHtml(c,&#x27;left&#x27;,&#x27;ms-button-translation&#x27;)+&#x27;&lt;/span&gt;&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;ms-right&quot; type=&quot;button&quot;&gt;&lt;span class=&quot;ms-button-copy&quot;&gt;&lt;span data-language=&quot;en&quot;&gt;&#x27;+esc(rightLabel)+&#x27;&lt;/span&gt;&#x27;+translationChoiceHtml(c,&#x27;right&#x27;,&#x27;ms-button-translation&#x27;)+&#x27;&lt;/span&gt;&lt;/button&gt;&lt;/div&gt;&#x27;;
       root.querySelector(&#x27;#ms-left&#x27;).onclick=function(){resolve(&#x27;left&#x27;);};
       root.querySelector(&#x27;#ms-right&#x27;).onclick=function(){resolve(&#x27;right&#x27;);};
     }
@@ -2077,16 +1959,16 @@ html&gt;body{padding:0}&lt;/style&gt;
     renderHistory();
     if(typeof lucide!==&#x27;undefined&#x27;)lucide.createIcons({attrs:{width:16,height:16}});
   }
-  function restart(){rngState=24681357;state=initialState();undoStack=[];mapCandidates=[];renderSim();}
+  function restart(){rngState=24681357;undoStack=[];lastDeltas=null;state=Engine?Engine.startRun(deck):null;renderSim();}
   function setMode(mode){
     root.querySelector(&#x27;#ms-map&#x27;).hidden=mode!==&#x27;map&#x27;;
     root.querySelector(&#x27;#ms-sim&#x27;).hidden=mode!==&#x27;sim&#x27;;
     root.querySelectorAll(&#x27;[data-mode]&#x27;).forEach(function(b){var active=b.getAttribute(&#x27;data-mode&#x27;)===mode;b.setAttribute(&#x27;aria-pressed&#x27;,String(active));b.classList.toggle(&#x27;btn-primary&#x27;,active);});
     if(mode===&#x27;sim&#x27;)renderSim();else{
       selectedWindow=null;selectedPair=null;
-      if(state.activeCrisisId)selectedId=&#x27;crisis:&#x27;+state.activeCrisisId;
-      else if(state.gameOver&amp;&amp;state.endingId)selectedId=&#x27;ending:&#x27;+state.endingId;
-      else if(state.currentCardId)selectedId=state.currentCardId;
+      if(state&amp;&amp;state.activeCrisisId)selectedId=&#x27;crisis:&#x27;+state.activeCrisisId;
+      else if(state&amp;&amp;state.gameOver&amp;&amp;state.endingId)selectedId=&#x27;ending:&#x27;+state.endingId;
+      else if(state&amp;&amp;state.currentCardId)selectedId=state.currentCardId;
       renderMap();
     }
   }
@@ -2099,7 +1981,12 @@ html&gt;body{padding:0}&lt;/style&gt;
   root.querySelector(&#x27;#ms-undo&#x27;).onclick=undoTurn;
   root.querySelector(&#x27;#ms-back-map&#x27;).onclick=function(){setMode(&#x27;map&#x27;);};
   root.querySelector(&#x27;#ms-history-toggle&#x27;).onclick=function(){var h=root.querySelector(&#x27;#ms-history&#x27;),open=h.hidden;h.hidden=!open;this.setAttribute(&#x27;aria-expanded&#x27;,String(open));renderHistory();};
-  state=initialState();
+  if(Engine){
+    state=Engine.startRun(deck);
+  }else{
+    var simToggle=root.querySelector(&#x27;[data-mode=&quot;sim&quot;]&#x27;);
+    if(simToggle)simToggle.disabled=true;
+  }
   renderMap();
   renderSim();
 })();

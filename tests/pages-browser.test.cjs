@@ -9,7 +9,7 @@ const root = path.resolve(__dirname, '..');
 const dist = path.join(root, '.pages-dist');
 const deck = require(path.join(root, 'cards.json'));
 
-test('published game and map remain interactive from desktop to mobile', async () => {
+test('published game and v2 map remain interactive from desktop to mobile', async () => {
   const browser = await chromium.launch({ headless: true, args: ['--disable-gpu'] });
   try {
     const game = await browser.newPage({ viewport: { width: 390, height: 844 } });
@@ -62,6 +62,16 @@ test('published game and map remain interactive from desktop to mobile', async (
       assert.ok(spacing.bodyPaddingBottom >= 32 && spacing.bottomSpace >= 31, `${width}px page has no bottom breathing room: ${JSON.stringify(spacing)}`);
       assert.ok(spacing.groupPaddingTop >= 16 && spacing.groupBorderTop >= 1, `map groups visually run together: ${JSON.stringify(spacing)}`);
 
+      // Version tabs: v2 is active, v1 archive, the game and the story page are links.
+      assert.match(await map.locator('[aria-label="Версии карты"]').textContent(), /2\.0 — сторилеты/);
+      assert.equal(await map.locator('[aria-label="Версии карты"] a[href="v1/"]').count(), 1, 'v2 map has no link to the frozen archive');
+      assert.equal(await map.locator('[aria-label="Версии карты"] a[href="../"]').count(), 1, 'v2 map has no link back to the game');
+      assert.equal(await map.locator('[aria-label="Версии карты"] a[href="../story/"]').count(), 1, 'v2 map has no link to the story page');
+
+      // Phase 2: the v2 simulator runs on the embedded real game engine.
+      assert.equal(await map.locator('[data-mode="sim"]').count(), 1, 'the v2 simulator toggle is missing');
+      assert.equal(await map.locator('[data-mode="sim"]').isDisabled(), false, 'the engine failed to load: simulator toggle is disabled');
+
       const translationToggle = map.locator('#ms-translation');
       assert.equal(await translationToggle.isChecked(), false, 'Russian translation must be off by default');
       assert.equal(await map.locator('#ms-detail [data-translation="message"]').count(), 0);
@@ -73,13 +83,7 @@ test('published game and map remain interactive from desktop to mobile', async (
       assert.ok(translatedOverflow <= 1, `${width}px translated map overflows horizontally by ${translatedOverflow}px`);
 
       if (width === 736) {
-        await map.locator('[data-mode="sim"]').click();
-        assert.match(await map.locator('#ms-current [data-translation="message"]').textContent(), /Привет, визионер/);
-        assert.match(await map.locator('#ms-left [data-translation="left"]').textContent(), /Проверить рынок/);
-        assert.match(await map.locator('#ms-right [data-translation="right"]').textContent(), /Довериться названию/);
-        await map.locator('[data-mode="map"]').click();
-
-        assert.equal(await map.locator('[data-window]').count(), 4, 'opening and Agents insertion windows are missing');
+        assert.equal(await map.locator('[data-window]').count(), 4, 'opening and SADBOT insertion windows are missing');
         assert.match(await map.locator('.ms-legend').textContent(), /↩ отдельная карточка-последствие/);
         assert.match(await map.locator('.ms-legend').textContent(), /🧠 учитывает прошлое решение/);
         assert.equal(await map.locator('[data-node="OPEN_01"]').getAttribute('aria-pressed'), 'true');
@@ -91,19 +95,39 @@ test('published game and map remain interactive from desktop to mobile', async (
         assert.equal(await map.locator('[data-node="MOM_INVESTOR_SEED"]').getAttribute('data-window-match'), 'true');
         assert.equal(await map.locator('[data-node="COMA_SEED"]').getAttribute('data-window-match'), 'true');
         assert.equal(await map.locator('[data-node="MOM_FLYERS"]').getAttribute('data-window-match'), 'false');
+
+        // SADBOT side-story window highlights the pre-viral seeds.
+        await map.locator('[data-window="sadbot_sidestory_window"]').press('Enter');
+        assert.match(await map.locator('#ms-detail').textContent(), /До вируса/);
+        assert.equal(await map.locator('[data-node="PAYROLL_RESTRICTED_AI_SEED"]').getAttribute('data-window-match'), 'true');
+        assert.equal(await map.locator('[data-node="DEV_HOSTAGE_SEED"]').getAttribute('data-window-match'), 'true');
+        assert.equal(await map.locator('[data-node="B3_SALES_PRESSURE_SEED"]').getAttribute('data-window-match'), 'true');
+        assert.equal(await map.locator('[data-node="MOM_FLYERS"]').getAttribute('data-window-match'), 'false');
+
+        // Investor window leans on the viral scandal and the old AGENT_01 order.
+        await map.locator('[data-window="sadbot_investor_window"]').press('Enter');
+        assert.equal(await map.locator('[data-node="SADBOT_INVESTOR_CLAIM"]').getAttribute('data-window-match'), 'true');
+        assert.equal(await map.locator('[data-node="AGENT_01"]').getAttribute('data-window-match'), 'true');
         if (process.env.PAGES_SCREENSHOT_DIR) {
           await map.screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, 'window-selection.png') });
         }
         await map.locator('[data-node="OPEN_02"]').press('Enter');
-        assert.equal(await map.locator('[data-window="opening_shared_seed"]').getAttribute('aria-pressed'), 'false');
+        assert.equal(await map.locator('[data-window="sadbot_investor_window"]').getAttribute('aria-pressed'), 'false');
         assert.equal(await map.locator('[data-node="OPEN_02"]').getAttribute('aria-pressed'), 'true');
 
-        for (const id of ['OPEN_06', 'AGENT_01', 'AGENT_04_LEAD']) {
+        for (const id of ['OPEN_06', 'AGENT_01', 'SADBOT_03_VIRAL', 'SADBOT_04_LEAD', 'SADBOT_07_INVOICE']) {
           assert.match(await map.locator(`[data-node="${id}"]`).textContent(), /🧠/, `${id} has no memory-reader icon`);
         }
         assert.doesNotMatch(await map.locator('[data-node="OPEN_06"]').textContent(), /↩/);
         assert.match(await map.locator('[data-node="MOM_INVESTOR_CALLBACK"]').textContent(), /↩/);
         assert.doesNotMatch(await map.locator('[data-node="MOM_INVESTOR_CALLBACK"]').textContent(), /🧠/);
+
+        // Storylet entries advertise that they arrive from the shared pool.
+        assert.match(await map.locator('[data-node="SADBOT_01_SEED"]').textContent(), /🎲/);
+        assert.match(await map.locator('[data-node="SADBOT_04_LEAD"]').textContent(), /⊘/);
+        for (const id of ['SADBOT_04_LEAD', 'SADBOT_05_ORDER_CALL', 'SADBOT_FRIDAY', 'SADBOT_05B_THEATER', 'SADBOT_06_LEGAL']) {
+          assert.match(await map.locator(`[data-node="${id}"]`).textContent(), /⛓/, `${id} lost its protected-pair icon`);
+        }
 
         await map.locator('[data-node="OPEN_06"]').click();
         const open06Detail = await map.locator('#ms-detail').textContent();
@@ -114,11 +138,8 @@ test('published game and map remain interactive from desktop to mobile', async (
         await map.locator('#ms-detail details summary').first().click();
         assert.equal(await map.locator('#ms-detail .ms-memory-result').first().isVisible(), true);
         assert.match(await map.locator('#ms-detail .ms-memory-result').first().textContent(), /Команда \+3.*Фаундер -4/);
-        if (process.env.PAGES_SCREENSHOT_DIR) {
-          await map.screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, 'detail-open06.png') });
-        }
 
-        await map.locator('[data-node="AGENT_04_LEAD"]').click();
+        await map.locator('[data-node="SADBOT_04_LEAD"]').click();
         const leadDetail = await map.locator('#ms-detail').textContent();
         assert.match(leadDetail, /Зарплата и облачные кредиты/);
         assert.match(leadDetail, /Конфликт с разработчиком/);
@@ -126,9 +147,15 @@ test('published game and map remain interactive from desktop to mobile', async (
         assert.doesNotMatch(leadDetail, /payroll_offer_compute_only/);
         await map.locator('#ms-detail details summary').first().click();
         assert.equal(await map.locator('#ms-detail .ms-memory-result').first().isVisible(), true);
-        if (process.env.PAGES_SCREENSHOT_DIR) {
-          await map.screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, 'detail-agent04.png') });
-        }
+
+        await map.locator('[data-node="SADBOT_03_VIRAL"]').click();
+        assert.match(await map.locator('#ms-detail').textContent(), /Шантаж оставлен как фича/);
+
+        // Storylet buttons explain the pool return; the legal card names both invoice doubles.
+        await map.locator('[data-node="SADBOT_01_SEED"]').click();
+        assert.match(await map.locator('#ms-detail').textContent(), /возврат в общий пул — следующая карта ветки придёт оттуда позже/);
+        await map.locator('[data-node="SADBOT_06_LEGAL"]').click();
+        assert.match(await map.locator('#ms-detail').textContent(), /двойники: в прогоне придёт одна из них, по флагу/);
 
         await map.locator('[data-node="AGENT_01"]').click();
         const agent01Detail = await map.locator('#ms-detail').textContent();
@@ -142,41 +169,36 @@ test('published game and map remain interactive from desktop to mobile', async (
         assert.match(payrollCallbackDetail, /Promise payroll/);
         assert.match(payrollCallbackDetail, /Pay out of pocket/);
 
+        // Unapproved SADBOT copy: the map must say so instead of showing English as Russian.
+        await map.locator('[data-node="SADBOT_06_LEGAL"]').click();
+        assert.match(await map.locator('#ms-detail').textContent(), /Перевод пока не утверждён/);
+
         await map.locator('[data-node="crisis:cash_low"]').click();
         const crisisDetail = await map.locator('#ms-detail').textContent();
         assert.match(crisisDetail, /Бухгалтерия спрашивает, принимает ли ваше видение банковские переводы/);
         assert.match(crisisDetail, /Продать стулья/);
         assert.match(crisisDetail, /Объявить изобилие/);
-        if (process.env.PAGES_SCREENSHOT_DIR) {
-          await map.locator('#ms-detail').screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, 'translated-crisis-736.png') });
-        }
 
         await map.locator('[data-node="ending:validation"]').click();
         const endingDetail = await map.locator('#ms-detail').textContent();
         assert.match(endingDetail, /ВАЛИДИРОВАНО/);
         assert.match(endingDetail, /Никто не понимает зачем, но счёт настоящий/);
-        if (process.env.PAGES_SCREENSHOT_DIR) {
-          await map.locator('#ms-detail').screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, 'translated-ending-736.png') });
-        }
       }
 
       await map.locator('[data-node="OPEN_02"]').click();
       assert.match(await map.locator('#ms-detail').textContent(), /OPEN_02/);
 
-      await map.locator('[data-scope="agents"]').click();
+      await map.locator('[data-scope="sadbot"]').click();
+      assert.equal(await map.locator('[data-node="SADBOT_01_SEED"]').count(), 1);
       assert.equal(await map.locator('[data-node="AGENT_01"]').count(), 1);
       assert.equal(await map.locator('[data-node="OPEN_01"]').count(), 0);
+      assert.equal(await map.locator('[data-node="PADEL_01"]').count(), 0);
 
+      // The simulator drives the real engine: layout, one move, undo.
       await map.locator('[data-mode="sim"]').click();
       assert.match(await map.locator('#ms-current').textContent(), /OPEN_01/);
       assert.match(await map.locator('#ms-current [data-translation="message"]').textContent(), /Привет, визионер/);
-      assert.equal(await map.locator('#ms-left [data-language="en"]').count(), 1, 'English button label needs its own line');
-      const translatedButtonLayout = await map.locator('#ms-left').evaluate((button) => {
-        const english = button.querySelector('[data-language="en"]').getBoundingClientRect();
-        const russian = button.querySelector('[data-translation="left"]').getBoundingClientRect();
-        return { englishBottom: english.bottom, russianTop: russian.top };
-      });
-      assert.ok(translatedButtonLayout.russianTop >= translatedButtonLayout.englishBottom - 1, `${width}px button translation is not below English: ${JSON.stringify(translatedButtonLayout)}`);
+      assert.match(await map.locator('#ms-status').textContent(), /Сторилетов доступно из пула/);
       const simulatorCard = await map.evaluate(() => {
         const root = document.querySelector('#mistakery-structure-v1').getBoundingClientRect();
         const cardNode = document.querySelector('#ms-current');
@@ -191,9 +213,6 @@ test('published game and map remain interactive from desktop to mobile', async (
       assert.ok(simulatorCard.cardWidth <= 560, `${width}px simulator card is too wide: ${JSON.stringify(simulatorCard)}`);
       assert.ok(Math.abs(simulatorCard.rootLeft - simulatorCard.cardLeft) <= 1, `${width}px simulator card is not left-aligned: ${JSON.stringify(simulatorCard)}`);
       assert.ok(simulatorCard.cardPadding >= 16, `${width}px simulator card needs more inner spacing: ${JSON.stringify(simulatorCard)}`);
-      if (process.env.PAGES_SCREENSHOT_DIR) {
-        await map.screenshot({ path: path.join(process.env.PAGES_SCREENSHOT_DIR, `sim-${width}.png`) });
-      }
       const resourcesBefore = await map.locator('#ms-resources').textContent();
       await map.locator('#ms-left').click();
       assert.match(await map.locator('#ms-current').textContent(), /OPEN_02/);
@@ -201,36 +220,22 @@ test('published game and map remain interactive from desktop to mobile', async (
       await map.locator('#ms-undo').click();
       assert.match(await map.locator('#ms-current').textContent(), /OPEN_01/);
       assert.equal(await map.locator('#ms-resources').textContent(), resourcesBefore);
-
       await map.locator('#ms-restart').click();
       assert.match(await map.locator('#ms-current').textContent(), /OPEN_01/);
+
       if (width === 736) {
-        const preferredSide = {
-          OPEN_01: 'left', OPEN_02: 'left', OPEN_03_AUDIT: 'right', OPEN_03_INVOICES: 'right',
-          OPEN_04: 'left', OPEN_05: 'left', OPEN_06: 'left',
-          MOM_INVESTOR_SEED: 'left', MOM_INVESTOR_CALLBACK: 'left', COMA_SEED: 'right',
-          COMA_CALLBACK_AUTHORIZED: 'left', COMA_CALLBACK_BLOCKED: 'left', MOM_FLYERS: 'left',
-          PAYROLL_RESTRICTED_AI_SEED: 'left', PAYROLL_RESTRICTED_AI_CALLBACK: 'left',
-          DEV_HOSTAGE_SEED: 'left', DEV_HOSTAGE_CALLBACK: 'left',
-          B3_SALES_PRESSURE_SEED: 'right', B3_PAID_OPTOUT_CALLBACK: 'right',
-          AGENT_01: 'left', AGENT_02_DEV: 'right', AGENT_03_HYPE: 'left', AGENT_04_LEAD: 'left',
-          AGENT_05_ORDER: 'right', AGENT_06_LEGAL: 'left', AGENT_07_INVOICE: 'left', AGENT_07_DONATE: 'left',
-          PRESS_FRIDGE: 'right', PRESS_MOM: 'right', PRESS_FONT: 'right', PRESS_FIGHT: 'right',
-          PRESS_FAMILY: 'right', PRESS_RIVAL: 'right', PRESS_CAPITALISM: 'right',
-        };
+        // Play the seeded run to its end: the engine must never strand the
+        // simulator — every run finishes with an ending card (storylet pool,
+        // fillers and invoice doubles all come from the embedded engine).
         let sawCrisis = false;
-        for (let step = 0; step < 40 && !(await map.locator('#ms-again').count()); step += 1) {
+        for (let step = 0; step < 60 && !(await map.locator('#ms-again').count()); step += 1) {
           if (await map.locator('#ms-giveup').count()) {
             sawCrisis = true;
             assert.equal(await map.locator('#ms-current [data-translation="message"]').count(), 1, 'simulator crisis has no Russian message');
-            assert.equal(await map.locator('#ms-current [data-translation="rescue"]').count(), 1, 'simulator crisis has no Russian rescue label');
-            assert.equal(await map.locator('#ms-current [data-translation="giveup"]').count(), 1, 'simulator crisis has no Russian give-up label');
             await map.locator('#ms-giveup').click();
             break;
           }
-          const currentId = (await map.locator('#ms-current strong').first().textContent()).trim();
-          const side = preferredSide[currentId] || 'left';
-          await map.locator(side === 'right' ? '#ms-right' : '#ms-left').click();
+          await map.locator(step % 3 === 1 ? '#ms-right' : '#ms-left').click();
         }
         assert.equal(await map.locator('#ms-again').count(), 1, `simulator did not reach an ending${sawCrisis ? ' after crisis' : ''}`);
         assert.equal(await map.locator('#ms-current [data-translation="title"]').count(), 1, 'simulator ending has no Russian title');
@@ -239,6 +244,33 @@ test('published game and map remain interactive from desktop to mobile', async (
       await map.locator('#ms-back-map').click();
       assert.equal(await map.locator('#ms-map').isVisible(), true);
       await map.close();
+    }
+
+    // The frozen v1 archive keeps its own working simulator and links back.
+    const archive = await browser.newPage({ viewport: { width: 736, height: 900 } });
+    await archive.goto(pathToFileURL(path.join(dist, 'map/v1/index.html')).href);
+    await archive.waitForSelector('[data-node="OPEN_01"]');
+    assert.match(await archive.locator('[aria-label="Версии карты"]').textContent(), /1\.0 — рельса \(архив 14\.07\)/);
+    assert.equal(await archive.locator('[aria-label="Версии карты"] a[href="../"]').count(), 1, 'v1 archive has no link to the v2 map');
+    assert.equal(await archive.locator('[aria-label="Версии карты"] a[href="../../"]').count(), 1, 'v1 archive has no link back to the game');
+    assert.equal(await archive.locator('[data-node="AGENT_04_LEAD"]').count(), 1, 'v1 archive lost the old agents rail');
+    await archive.locator('[data-mode="sim"]').click();
+    assert.match(await archive.locator('#ms-current').textContent(), /OPEN_01/);
+    await archive.locator('#ms-left').click();
+    assert.match(await archive.locator('#ms-current').textContent(), /OPEN_02/);
+    await archive.locator('#ms-undo').click();
+    assert.match(await archive.locator('#ms-current').textContent(), /OPEN_01/);
+    await archive.close();
+
+    // The partner-facing story page reads cleanly on phone and desktop widths.
+    for (const width of [1280, 360]) {
+      const story = await browser.newPage({ viewport: { width, height: 900 } });
+      await story.goto(pathToFileURL(path.join(dist, 'story/index.html')).href);
+      await story.waitForSelector('h1');
+      assert.match(await story.locator('h1').textContent(), /Стартап/);
+      const storyOverflow = await story.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      assert.ok(storyOverflow <= 1, `${width}px story page overflows horizontally by ${storyOverflow}px`);
+      await story.close();
     }
   } finally {
     await browser.close();

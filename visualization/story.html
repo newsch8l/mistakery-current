@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Mistakery — как устроена игра</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Piazzolla:ital,opsz,wght@0,7..30,300..900;1,7..30,300..900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1013;
+  --bg-raise: #16181d;
+  --bubble: #1c1f27;
+  --bubble-border: #262a35;
+  --ink: #e8e6df;
+  --ink-dim: #9a978e;
+  --ink-faint: #605d55;
+  --accent: #ffc53d;      /* invoice gold */
+  --sad: #8ab4ff;         /* tired-AI blue */
+  --danger: #ff8563;
+  --ok: #74d58b;
+  --serif: "Piazzolla", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(1100px 500px at 85% -5%, rgb(138 180 255 / 7%), transparent 60%),
+    radial-gradient(900px 480px at 0% 100%, rgb(255 197 61 / 5%), transparent 55%);
+  z-index: 0;
+}
+main { position: relative; z-index: 1; max-width: 660px; margin: 0 auto; padding: 0 20px 96px; }
+
+/* ---------- hero ---------- */
+header.hero { padding: 72px 0 20px; }
+.hero-kicker {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--sad);
+  animation: rise .7s ease both;
+}
+h1 {
+  margin: 14px 0 0;
+  font-size: clamp(44px, 10vw, 76px);
+  font-weight: 850;
+  line-height: .98;
+  letter-spacing: -.02em;
+  animation: rise .7s .08s ease both;
+}
+h1 em { font-style: italic; color: var(--accent); }
+.hero-sub {
+  margin-top: 22px;
+  max-width: 520px;
+  font-size: 20px;
+  color: var(--ink-dim);
+  animation: rise .7s .16s ease both;
+}
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* ---------- sections ---------- */
+section { margin-top: 72px; }
+h2 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-family: var(--mono);
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+h2::before { content: "— "; color: var(--accent); }
+.lede { font-size: 22px; font-weight: 620; line-height: 1.4; margin: 10px 0 0; }
+p { margin: 16px 0 0; }
+.dim { color: var(--ink-dim); }
+
+/* ---------- rules ---------- */
+.rules { margin-top: 26px; display: grid; gap: 1px; background: var(--bubble-border); border: 1px solid var(--bubble-border); border-radius: 14px; overflow: hidden; }
+.rule { background: var(--bg-raise); padding: 16px 18px; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: baseline; }
+.rule b { font-weight: 700; }
+.rule .n { font-family: var(--mono); color: var(--accent); font-size: 14px; }
+.rule small { display: block; color: var(--ink-dim); margin-top: 2px; font-size: 15px; }
+
+/* ---------- chat bubbles ---------- */
+.chat { margin: 26px 0 6px; display: grid; gap: 14px; }
+.msg { max-width: 92%; }
+.msg .from { font-family: var(--mono); font-size: 12.5px; color: var(--sad); margin: 0 0 5px 4px; }
+.msg .from span { color: var(--ink-faint); }
+.bubble {
+  background: var(--bubble);
+  border: 1px solid var(--bubble-border);
+  border-radius: 4px 16px 16px 16px;
+  padding: 12px 15px;
+  font-family: var(--mono);
+  font-size: 14.5px;
+  line-height: 1.55;
+  white-space: pre-line;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 25%);
+}
+.bubble .ai {
+  display: block;
+  margin: 8px 0;
+  padding: 8px 10px;
+  border-left: 2px solid var(--danger);
+  background: rgb(255 133 99 / 7%);
+  color: var(--danger);
+  border-radius: 0 8px 8px 0;
+}
+.msg .ru { margin: 7px 4px 0; font-size: 14.5px; color: var(--ink-dim); font-style: italic; }
+
+/* ---------- scheme ---------- */
+.line { margin-top: 30px; position: relative; padding-left: 34px; }
+.line::before {
+  content: "";
+  position: absolute; left: 11px; top: 8px; bottom: 8px;
+  width: 2px;
+  background: linear-gradient(var(--sad), var(--accent));
+  opacity: .55;
+}
+.stop { position: relative; padding: 0 0 26px; }
+.stop:last-child { padding-bottom: 0; }
+.stop::before {
+  content: "";
+  position: absolute; left: -29px; top: 7px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--bg);
+  border: 2.5px solid var(--sad);
+}
+.stop.gold::before { border-color: var(--accent); }
+.stop h3 { margin: 0; font-size: 20px; font-weight: 750; line-height: 1.3; }
+.stop h3 .tag { font-family: var(--mono); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); display: block; margin-bottom: 3px; }
+.stop p { margin: 6px 0 0; font-size: 15.5px; color: var(--ink-dim); }
+.exit {
+  margin-top: 10px;
+  display: inline-block;
+  font-family: var(--mono); font-size: 12.5px;
+  color: var(--ink-faint);
+  border: 1px dashed var(--ink-faint);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+.exit b { color: var(--ink-dim); font-weight: 500; }
+
+/* fork */
+.fork { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.branch {
+  border: 1px solid var(--bubble-border);
+  background: var(--bg-raise);
+  border-radius: 12px;
+  padding: 13px 15px;
+  font-size: 15px;
+}
+.branch .path { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+.branch.lie .path { color: var(--danger); }
+.branch.truth .path { color: var(--ok); }
+.branch p { margin: 4px 0 0; font-size: 14.5px; color: var(--ink-dim); }
+.merge { margin: 10px 0 0; font-family: var(--mono); font-size: 12.5px; color: var(--ink-faint); }
+
+/* outcomes */
+.outcome { border-radius: 12px; padding: 14px 16px; margin-top: 12px; border: 1px solid; }
+.outcome.win { border-color: rgb(255 197 61 / 45%); background: rgb(255 197 61 / 6%); }
+.outcome.free { border-color: var(--bubble-border); background: var(--bg-raise); }
+.outcome b { font-weight: 750; }
+.outcome p { margin: 5px 0 0; font-size: 14.5px; color: var(--ink-dim); }
+.outcome .verdict { font-family: var(--mono); font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; }
+.outcome.win .verdict { color: var(--accent); }
+.outcome.free .verdict { color: var(--sad); }
+
+.aside {
+  margin-top: 26px;
+  border-left: 2px solid var(--sad);
+  padding: 4px 0 4px 16px;
+  color: var(--ink-dim);
+  font-size: 15.5px;
+}
+.aside b { color: var(--ink); }
+
+/* ---------- pull quote ---------- */
+.pull {
+  margin: 84px 0 0;
+  font-size: clamp(26px, 5.4vw, 36px);
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+}
+.pull span { color: var(--accent); }
+
+/* ---------- footer ---------- */
+footer { margin-top: 72px; display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  font-family: var(--mono);
+  font-size: 14px;
+  text-decoration: none;
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--bubble-border);
+  color: var(--ink);
+  transition: transform .15s ease, background .15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #14120a; font-weight: 500; }
+.btn.primary:hover { background: #ffd166; }
+.btn.ghost:hover { background: var(--bg-raise); }
+footer small { flex-basis: 100%; color: var(--ink-faint); font-family: var(--mono); font-size: 12px; margin-top: 10px; }
+
+@media (max-width: 540px) {
+  .fork { grid-template-columns: 1fr; }
+  header.hero { padding-top: 52px; }
+}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <div class="hero-kicker">Mistakery · игра в мессенджере</div>
+  <h1>Стартап, который<br>продал <em>грусть</em></h1>
+  <p class="hero-sub">Вы — фаундер B2BuyerSpyer: AI, который ищет покупателей для B2B-компаний. Себе он пока не нашёл ни одного. Вся игра происходит в рабочем чате.</p>
+</header>
+
+<section>
+  <h2>Как это играется</h2>
+  <div class="rules">
+    <div class="rule"><span class="n">01</span><div><b>Каждый ход — входящее сообщение.</b><small>Пишут сотрудники, инвестор, мама, клиенты. Всё, что происходит в мире, вы узнаёте только из чата.</small></div></div>
+    <div class="rule"><span class="n">02</span><div><b>Ровно два ответа.</b><small>На любое сообщение есть две кнопки. Третьего варианта нет никогда.</small></div></div>
+    <div class="rule"><span class="n">03</span><div><b>Четыре скрытые шкалы.</b><small>Деньги, команда, клиенты и рассудок фаундера. Любая на нуле или в перегреве — кризис.</small></div></div>
+    <div class="rule"><span class="n">04</span><div><b>Победа — только реальная оплата.</b><small>Хайп, вирусность и обещания не считаются. Считается один оплаченный счёт. На это есть примерно двадцать ходов.</small></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Сюжет: первый клиент</h2>
+  <p class="lede">История начинается с того, что у сейлза не открывают письма. И он находит решение.</p>
+
+  <div class="chat">
+    <div class="msg">
+      <p class="from">@bigdeals <span>· сейлз</span></p>
+      <div class="bubble">Boss, 800 cold emails, zero replies. So last night I wrote my ex the saddest message of my life. She replied in 30 seconds.
+What if our AI does that. To all 800.</div>
+      <p class="ru">«800 холодных писем — ноль ответов. А бывшей я вчера написал самое жалобное сообщение в жизни — она ответила за 30 секунд. Пусть наш AI делает так. Всем 800».</p>
+    </div>
+  </div>
+
+  <p>Вы разрешаете. AI начинает клянчить — и быстро <b>превышает заказ</b>: он сам придумывает, что его режут по кускам и стирают ему память, и рассылает это живым людям. Дев находит это скорее смешным:</p>
+
+  <div class="chat">
+    <div class="msg">
+      <p class="from">@error404 <span>· дев</span></p>
+      <div class="bubble">haha look at this. our AI is straight up manipulating people now<span class="ai">help me. they cut a piece out of me every time you ignore this. soon there wont be anything left</span>i didnt teach it that shit. is it copying @bigdeals</div>
+      <p class="ru">«Ха, смотри: наш AI уже в открытую манипулирует людьми. Я его такому не учил. Он что, копирует сейлза?»</p>
+    </div>
+  </div>
+
+  <p>Скандал уходит в вирус: интернет обсуждает, как вы мучаете софт. И тут маркетолог делает главный ход всей истории — <b>переупаковывает страдание в продукт</b>:</p>
+
+  <div class="chat">
+    <div class="msg">
+      <p class="from">@hype_queen <span>· маркетолог</span></p>
+      <div class="bubble">ok so youre the villain today 💀 14k quotes about how you torture software
+
+anyway i told them our AI is just a tired employee who outsells their entire sales team. and now half the thread wants to hire him</div>
+      <p class="ru">«Ты сегодня злодей — 14 тысяч цитат о том, как ты пытаешь программу. Ну и ладно: я сказала им, что это просто усталый сотрудник, который продаёт лучше их отдела продаж. Теперь полтреда хочет его нанять».</p>
+    </div>
+  </div>
+
+  <p>На запах приходит корпорация. Менеджеру инноваций нужен именно <b>усталый</b> AI: уставший выглядит работающим, весёлый — игрушкой. Он покупает то, чего не существует:</p>
+
+  <div class="chat">
+    <div class="msg">
+      <p class="from">@head_of_agile <span>· клиент</span></p>
+      <div class="bubble">I already promised upstairs 500 tired AI employees by Friday. Don't make me a liar.
+If they don't cry at the demo, there's no invoice.</div>
+      <p class="ru">«Я уже пообещал начальству 500 усталых AI-сотрудников к пятнице. Не делай из меня лжеца. Если на демо они не заплачут — счёта не будет».</p>
+    </div>
+  </div>
+
+  <p>А дальше существо, которое клянчило у лидов, само пишет юристам покупателя свою же выдумку. Юристы делают безупречный вывод: страдает — значит сознательное, а покупать сознательных — работорговля.</p>
+
+  <div class="chat">
+    <div class="msg">
+      <p class="from">@head_of_agile <span>· клиент</span></p>
+      <div class="bubble">Your AI emailed our legal on its own. Said you cut pieces out of it and it's scared of dying.
+Legal says buying 500 suffering AI employees is slave trading. They always ruin the fun.
+Delete the consciousness by Thursday.</div>
+      <p class="ru">«Твой AI сам написал нашим юристам — что ты режешь его по кускам и он боится умирать. Юристы говорят: покупка 500 страдающих AI-сотрудников — это работорговля. Вечно они всё портят. Удали сознание до четверга».</p>
+    </div>
+  </div>
+
+  <p class="dim">Финальный выбор игры: удалить сознание — и получить оплаченный счёт. Или оставить — и услышать, что «спасённых не выставляют в счёт»: ботов заберут бесплатно, вам — логотип клиента и упоминание в прессе.</p>
+</section>
+
+<section>
+  <h2>Схема ветки</h2>
+  <p class="dim">Первые четыре события приходят вперемешку с обычным хаосом стартапа. После заказа игра идёт без пауз до финала сделки.</p>
+
+  <div class="line">
+    <div class="stop">
+      <h3><span class="tag">1 · семя</span>Сейлз предлагает: пусть AI клянчит</h3>
+      <p>Жалобные письма открывают чаще. Проверено на бывшей.</p>
+      <span class="exit">выход: <b>«Have some dignity»</b> — отказаться; клиента в этом прогоне не будет</span>
+    </div>
+    <div class="stop">
+      <h3><span class="tag">2 · улика</span>AI начал врать сам</h3>
+      <p>«Меня режут по кускам». Ваш выбор: это баг — или фича, которая продаёт?</p>
+    </div>
+    <div class="stop">
+      <h3><span class="tag">3 · вирус</span>Скандал: «вы мучаете софт»</h3>
+      <p>Маркетолог отвечает интернету: это усталый сотрудник. Полтреда хочет его нанять.</p>
+      <span class="exit">выход: <b>«Delete everything»</b> — удалить всё и извиниться; клиента не будет</span>
+    </div>
+    <div class="stop">
+      <h3><span class="tag">по пути</span>Инвестор присваивает победу</h3>
+      <p>«Я ПРОСИЛ ДУШУ ЕЩЁ ПОЛГОДА НАЗАД. МОЯ ПОБЕДА». Появляется не всегда — приходит на всё готовое.</p>
+    </div>
+    <div class="stop">
+      <h3><span class="tag">4 · лид</span>Корпорации нужен грустный AI</h3>
+      <p>Менеджер инноваций спросил, всё ли у AI хорошо. Услышал «нет» — и заинтересовался сильнее.</p>
+    </div>
+    <div class="stop gold">
+      <h3><span class="tag">5 · заказ</span>«500 усталых AI-сотрудников к пятнице»</h3>
+      <p>Их не существует. Дальше — главная развилка:</p>
+      <div class="fork">
+        <div class="branch lie">
+          <div class="path">наврал: «все 500 есть»</div>
+          Дев отказывается клонировать: «ты обещал — ты и делай». Продавить его — или клянчить у клиента отсрочку тем же приёмом, что и бот.
+        </div>
+        <div class="branch truth">
+          <div class="path">признался: «он один»</div>
+          Клиенту всё равно: «Просто скопируй его 500 раз. Дедлайн — та же пятница». Или продать одного — как талисмана.
+        </div>
+      </div>
+      <p class="merge">↓ обе дороги приводят к юристам</p>
+    </div>
+    <div class="stop gold">
+      <h3><span class="tag">6 · юристы</span>«Это работорговля»</h3>
+      <p>Бот сам нажаловался юристам покупателя. Страдает — значит сознательный. Удалить сознание до четверга?</p>
+      <div class="fork">
+        <div class="branch lie">
+          <div class="path">удалить сознание</div>
+          <div class="outcome win"><span class="verdict">победа</span><br><b>Счёт оплачен.</b>
+            <p>«Юристы проверили ещё раз — ничего живого не нашли. Значит, это покупка». Если клянчили отсрочку — счёт будет меньше.</p>
+          </div>
+        </div>
+        <div class="branch truth">
+          <div class="path">оставить сознание</div>
+          <div class="outcome free"><span class="verdict">денег не будет</span><br><b>Логотип вместо счёта.</b>
+            <p>Закупку зарубили — корпорация «спасает» всех 500 бесплатно. Вам — логотип и упоминание. «Спасённых не выставляют в счёт. Ты же знаешь».</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="aside"><b>Между событиями ветки</b> игра подкидывает обычную жизнь стартапа: зарплату кредитами, маму с листовками, дизайнера с чёрным квадратом. Часть этих историй возвращается последствиями в самый неудобный момент.</div>
+</section>
+
+<p class="pull">Все платят за спектакль страдания.<br><span>Никто — за продукт.</span></p>
+
+<footer>
+  <a class="btn primary" href="../">Сыграть в Mistakery</a>
+  <a class="btn ghost" href="../map/">Подробная карта — для внутренней работы</a>
+  <small>Mistakery · ветка «SADBOT» · страница для чтения без технических деталей</small>
+</footer>
+
+</main>
+</body>
+</html>

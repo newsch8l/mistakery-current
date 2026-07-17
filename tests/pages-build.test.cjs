@@ -14,9 +14,24 @@ test('builds the current game and interactive map from canonical cards.json', ()
   });
   assert.equal(result.status, 0, result.stderr || result.stdout);
 
-  for (const relative of ['index.html', 'app.js', 'game.js', 'style.css', 'cards.bundle.js', 'map/index.html', '.nojekyll']) {
+  for (const relative of ['index.html', 'app.js', 'game.js', 'style.css', 'cards.bundle.js', 'map/index.html', 'map/v1/index.html', 'story/index.html', '.nojekyll']) {
     assert.equal(fs.existsSync(path.join(dist, relative)), true, `missing ${relative}`);
   }
+
+  const story = fs.readFileSync(path.join(dist, 'story/index.html'), 'utf8');
+  assert.equal(story, fs.readFileSync(path.join(root, 'visualization/story.html'), 'utf8'), 'story page must be published verbatim');
+  assert.match(story, /Как это играется/);
+  assert.match(story, /href="\.\.\/"/, 'story page does not link to the game');
+  assert.match(story, /href="\.\.\/map\/"/, 'story page does not link to the map');
+  assert.equal(/SADBOT_\d|AGENT_\d|OPEN_\d|PADEL_\d/.test(story), false, 'the partner-facing story page must not leak internal card ids');
+
+  const frozen = fs.readFileSync(path.join(root, 'visualization/map-v1-frozen.html'), 'utf8');
+  const publishedV1 = fs.readFileSync(path.join(dist, 'map/v1/index.html'), 'utf8');
+  assert.equal(publishedV1, frozen, 'archived v1 map must be published byte-for-byte from the frozen artifact');
+  assert.match(publishedV1, /43 карточки с выбором · 9 кризисов · 20 финалов/, 'frozen v1 map lost its 14.07 data');
+  assert.match(publishedV1, /1\.0 — рельса \(архив 14\.07\)/, 'frozen v1 map has no version tabs');
+  assert.match(publishedV1, /href="\.\.\/"/, 'frozen v1 map does not link back to the v2 map');
+  assert.match(publishedV1, /data-mode="sim"/, 'frozen v1 map must keep its working simulator');
 
   const translationsPath = path.join(root, 'translations.ru.json');
   assert.equal(fs.existsSync(translationsPath), true, 'missing translations.ru.json');
@@ -36,8 +51,23 @@ test('builds the current game and interactive map from canonical cards.json', ()
   assert.deepEqual(JSON.parse(embeddedTranslations[1]), translations);
   assert.equal(map.includes('<iframe'), false, 'published map must not use a nested scrolling iframe');
   assert.match(map, /data-mode="sim"/);
+  assert.match(map, /MistakeryEngine/, 'the v2 simulator must embed the real game engine');
   assert.match(map, /id="ms-undo"/);
+  assert.match(map, /2\.0 — сторилеты/);
+  assert.match(map, /href="v1\/"/, 'v2 map does not link to the frozen v1 archive');
+  assert.match(map, /data-scope="sadbot"/);
   assert.match(map, /id="ms-detail"[\s\S]*id="ms-groups"/);
+  assert.match(map, /57 карточки с выбором · 8 кризисов · 18 финалов/);
+  assert.match(map, /Вступление 7 · основные сюжетные ветки 23 · мини-истории 15 · случайные проблемы 12/);
+  assert.match(map, /\{id:'sadbot',name:'SADBOT — первый клиент',note:'14 /);
+  assert.match(map, /\{id:'padel',name:'Падел',note:'9 /);
+  assert.match(map, /\{id:'packageA'[^\n]*note:'13 /);
+  assert.match(map, /\{id:'pressure'[^\n]*note:'12 /);
+  assert.match(map, /\{id:'crises'[^\n]*note:'8 /);
+  assert.match(map, /\{id:'endings'[^\n]*note:'18 /);
+  assert.equal(map.includes("id:'agents'"), false, 'the v2 map must not keep the old agents rail group');
+  assert.match(map, /sadbot_sidestory_window/);
+  assert.match(map, /sadbot_investor_window/);
 
   const ids = new Set(sourceDeck.cards.map((card) => card.id));
   const approvedPackageA = new Set([
@@ -46,10 +76,8 @@ test('builds the current game and interactive map from canonical cards.json', ()
     'MOM_INVESTOR_SEED', 'MOM_INVESTOR_CALLBACK',
     'COMA_SEED', 'COMA_CALLBACK_AUTHORIZED', 'COMA_CALLBACK_BLOCKED', 'MOM_FLYERS',
   ]);
-  assert.equal(
-    translations.cards.AGENT_06_LEGAL.text,
-    'Наши юристы увидели в вашей презентации «разумных сотрудников».\nПокупать их — это работорговля.',
-  );
+  assert.equal(translations.cards.SADBOT_06_LEGAL.approved, false, 'SADBOT copy has no approved Russian translation yet');
+  assert.equal(translations.cards.SADBOT_06_LEGAL.text, translations.cards.SADBOT_06_LEGAL.sourceText, 'unapproved SADBOT cards must keep the exact English text');
   assert.deepEqual(Object.keys(translations.cards).sort(), [...ids].sort(), 'translations must cover every production card exactly once');
   for (const card of sourceDeck.cards) {
     const translated = translations.cards[card.id];
@@ -86,7 +114,6 @@ test('builds the current game and interactive map from canonical cards.json', ()
     assert.ok(translated.title.trim() && translated.text.trim(), `${id} ending translation is incomplete`);
   }
 
-  assert.equal(translations.crises.freedom_sale.text, 'ТЫ ВЫСТАВИЛ СВОБОДУ В СЧЁТЕ.\nКЛИЕНТ ЗАПЛАТИЛ. ИНТЕРНЕТ НАЗЫВАЕТ ТЕБЯ РАБОТОРГОВЦЕМ.');
   assert.equal(translations.endings.founder_high.title, 'РЕЖИМ МЕССИИ');
   assert.equal(translations.endings.founder_high.text, 'Ты удалил продукт и объявил, что задизраптил саму идею покупки.');
 });
