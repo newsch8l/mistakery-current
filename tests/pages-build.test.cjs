@@ -14,7 +14,7 @@ test('builds the current game and interactive map from canonical cards.json', ()
   });
   assert.equal(result.status, 0, result.stderr || result.stdout);
 
-  for (const relative of ['index.html', 'app.js', 'game.js', 'style.css', 'cards.bundle.js', 'map/index.html', 'map/v1/index.html', 'story/index.html', '.nojekyll']) {
+  for (const relative of ['index.html', 'app.js', 'game.js', 'style.css', 'cards.bundle.js', 'map/index.html', 'map/v1/index.html', 'story/index.html', 'story/full/index.html', '.nojekyll']) {
     assert.equal(fs.existsSync(path.join(dist, relative)), true, `missing ${relative}`);
   }
 
@@ -23,7 +23,18 @@ test('builds the current game and interactive map from canonical cards.json', ()
   assert.match(story, /Как это играется/);
   assert.match(story, /href="\.\.\/"/, 'story page does not link to the game');
   assert.match(story, /href="\.\.\/map\/"/, 'story page does not link to the map');
+  assert.match(story, /href="full\/"/, 'short story page does not link to the full version');
   assert.equal(/SADBOT_\d|AGENT_\d|OPEN_\d|PADEL_\d/.test(story), false, 'the partner-facing story page must not leak internal card ids');
+
+  const storyFull = fs.readFileSync(path.join(dist, 'story/full/index.html'), 'utf8');
+  assert.equal(storyFull, fs.readFileSync(path.join(root, 'visualization/story-full.html'), 'utf8'), 'full story page must be published verbatim');
+  assert.match(storyFull, /Первый клиент/);
+  assert.match(storyFull, /Фоновый хаос/);
+  assert.equal(/<section id="padel">/.test(storyFull), false, 'the padel path is hidden for now and must not render as a section');
+  assert.match(storyFull, /href="\.\.\/\.\.\/"/, 'full story page does not link to the game');
+  assert.match(storyFull, /href="\.\.\/\.\.\/map\/"/, 'full story page does not link to the map');
+  assert.match(storyFull, /href="\.\.\/"/, 'full story page does not link back to the short version');
+  assert.equal(/SADBOT_\d|AGENT_\d|OPEN_\d|PADEL_\d/.test(storyFull), false, 'the full story page must not leak internal card ids');
 
   const frozen = fs.readFileSync(path.join(root, 'visualization/map-v1-frozen.html'), 'utf8');
   const publishedV1 = fs.readFileSync(path.join(dist, 'map/v1/index.html'), 'utf8');

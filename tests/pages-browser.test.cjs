@@ -264,15 +264,17 @@ test('published game and v2 map remain interactive from desktop to mobile', asyn
     assert.match(await archive.locator('#ms-current').textContent(), /OPEN_01/);
     await archive.close();
 
-    // The partner-facing story page reads cleanly on phone and desktop widths.
-    for (const width of [1280, 360]) {
-      const story = await browser.newPage({ viewport: { width, height: 900 } });
-      await story.goto(pathToFileURL(path.join(dist, 'story/index.html')).href);
-      await story.waitForSelector('h1');
-      assert.match(await story.locator('h1').textContent(), /Стартап/);
-      const storyOverflow = await story.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-      assert.ok(storyOverflow <= 1, `${width}px story page overflows horizontally by ${storyOverflow}px`);
-      await story.close();
+    // Both partner-facing story pages read cleanly on phone and desktop widths.
+    for (const [file, headline] of [['story/index.html', /Стартап/], ['story/full/index.html', /Вся игра/]]) {
+      for (const width of [1280, 360]) {
+        const story = await browser.newPage({ viewport: { width, height: 900 } });
+        await story.goto(pathToFileURL(path.join(dist, file)).href);
+        await story.waitForSelector('h1');
+        assert.match(await story.locator('h1').textContent(), headline);
+        const storyOverflow = await story.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+        assert.ok(storyOverflow <= 1, `${width}px ${file} overflows horizontally by ${storyOverflow}px`);
+        await story.close();
+      }
     }
   } finally {
     await browser.close();

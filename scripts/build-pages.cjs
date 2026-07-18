@@ -91,6 +91,8 @@ fs.writeFileSync(path.join(dist, 'cards.bundle.js'), bundleDeck(deck));
 fs.writeFileSync(path.join(dist, 'map/index.html'), buildMap());
 fs.copyFileSync(path.join(root, 'visualization/map-v1-frozen.html'), path.join(dist, 'map/v1/index.html'));
 fs.copyFileSync(path.join(root, 'visualization/story.html'), path.join(dist, 'story/index.html'));
+fs.mkdirSync(path.join(dist, 'story/full'), { recursive: true });
+fs.copyFileSync(path.join(root, 'visualization/story-full.html'), path.join(dist, 'story/full/index.html'));
 fs.writeFileSync(path.join(dist, '.nojekyll'), '');
 
 console.log(`Built Pages: ${deck.cards.length} cards, ${Object.keys(deck.crises || {}).length} crises, ${Object.keys(deck.endings || {}).length} endings.`);
